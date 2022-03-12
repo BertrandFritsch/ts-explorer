@@ -1,3 +1,4 @@
+import { SourceFile } from "ts-morph";
 
 export interface DependencyGraphImport {
   isExternalLibraryImport?: boolean;
@@ -13,6 +14,12 @@ export interface DependencyGraphImport {
   >;
 }
 
+interface DependencyGraphVisitorArgs {
+  filename: string;
+  sourceFile: SourceFile;
+  declarations: DependencyGraphImport;
+}
+
 export interface DependencyGraphVisitor extends Function {
-  (module: string, node: DependencyGraphImport): boolean;
+  (node: DependencyGraphVisitorArgs): boolean;
 }

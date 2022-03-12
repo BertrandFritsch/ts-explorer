@@ -12,13 +12,13 @@ function getModuleDependencies(filename: string) {
   
   walkModuleDependencies(
     filename, 
-    (module, node) => {
-      let imports = modules.get(module);
+    ({ filename, declarations }) => {
+      let imports = modules.get(filename);
       if (!imports) {
-        modules.set(module, imports = [])
+        modules.set(filename, imports = [])
       }
 
-      imports.push(node);
+      imports.push(declarations);
       return true;
     }
   );

@@ -23,13 +23,15 @@ export function walkModuleDependencies(filename: string, visitor: DependencyGrap
     console.warn(`Handling: ${ getRelativePath(module.resolvedFileName) }...`);
     modules.add(getRelativePath(module.resolvedFileName));
 
-    for (const importDeclaration of project.addSourceFileAtPath(module.resolvedFileName).getImportDeclarations()) {
+    const sourceFile = project.addSourceFileAtPath(module.resolvedFileName);
+    for (const importDeclaration of sourceFile.getImportDeclarations()) {
       const md = ts.resolveModuleName(importDeclaration.getModuleSpecifier().getLiteralValue(), module.resolvedFileName, options, project.getModuleResolutionHost(), moduleResolutionCache);
       const params = md.resolvedModule ? [ md.resolvedModule.isExternalLibraryImport, md.resolvedModule, getRelativePath(md.resolvedModule.resolvedFileName) ] as const : undefined;
       const structure = importDeclaration.getStructure();
-      visitor(
-        getRelativePath(module.resolvedFileName),
-        {
+      visitor({
+        filename: getRelativePath(module.resolvedFileName),
+        sourceFile,
+        declarations: {
           isExternalLibraryImport: params && params[ 0 ],
           resolvedFileName: params && params[ 2 ],
           moduleSpecifier: structure.moduleSpecifier,
@@ -53,47 +55,48 @@ export function walkModuleDependencies(filename: string, visitor: DependencyGrap
             return [];
           })()
         }
-      );
+      });
 
       if (params && params[ 0 ] === false && !modules.has(params[2])) {
         resolveImports(params[1]);
       }
     }
 
-    for (const exportDeclaration of project.addSourceFileAtPath(module.resolvedFileName).getExportDeclarations()) {
+    for (const exportDeclaration of sourceFile.getExportDeclarations()) {
       const moduleSpecifier = exportDeclaration.getModuleSpecifier();
       if (moduleSpecifier) {
         const md = ts.resolveModuleName(moduleSpecifier.getLiteralValue(), module.resolvedFileName, options, project.getModuleResolutionHost(), moduleResolutionCache);
         const params = md.resolvedModule ? [ md.resolvedModule.isExternalLibraryImport, md.resolvedModule, getRelativePath(md.resolvedModule.resolvedFileName) ] as const : undefined;
         const structure = exportDeclaration.getStructure();
 
-        visitor(
-          module.resolvedFileName,
-          {
-            isExternalLibraryImport: params && params[ 0 ],
-            resolvedFileName: params && params[ 2 ],
+        visitor({
+          filename: getRelativePath(module.resolvedFileName),
+          sourceFile,
+          declarations: {
+            isExternalLibraryImport: params && params[0],
+            resolvedFileName: params && params[2],
             moduleSpecifier: NNU(structure.moduleSpecifier),
             isTypeOnly: exportDeclaration.isTypeOnly(),
             defaultImport: structure.namespaceExport,
             namedImports: (() => {
               if (structure.namedExports) {
                 asserts(Array.isArray(structure.namedExports), 'Unhandled import declaration!');
-  
+
                 return structure.namedExports.map(
                   imp => {
                     asserts(typeof imp !== 'function', 'Unhandled import declaration!');
-  
+
                     return typeof imp === 'string'
                       ? { name: imp }
                       : { name: imp.name, alias: imp.alias };
                   }
                 );
               }
-  
+
               return [];
             })()
           }
-        );
+        });
   
         if (params && params[ 0 ] === false && !modules.has(params[2])) {
           resolveImports(params[1]);
