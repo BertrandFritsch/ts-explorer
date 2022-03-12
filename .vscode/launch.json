@@ -1,0 +1,34 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "pwa-node",
+      "request": "launch",
+      "name": "Get symbols dependency",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "program": "${workspaceFolder}/src/get-symbols-graph.ts",
+      // "preLaunchTask": "tsc: build - tsconfig.json",
+      "outFiles": [
+        "${workspaceFolder}/dist/**/*.js"
+      ],
+      "runtimeArgs": [ "--experimental-specifier-resolution=node" ],
+      "args": [ "../pelico_front/app/test.ts" ]
+    },
+    {
+      "type": "pwa-node",
+      "request": "launch",
+      "name": "Get dependency graph",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "program": "${workspaceFolder}/src/get-dependency-graph.ts",
+      "runtimeArgs": [ "--experimental-specifier-resolution=node" ],
+      "args": [ "../pelico_front/app/app.tsx" ]
+    }
+  ]
+}
