@@ -1,10 +1,12 @@
 import { SourceFile } from "ts-morph";
 
 export interface DependencyGraphImport {
+  isExportedImport: boolean;
   isExternalLibraryImport?: boolean;
   resolvedFileName?: string ;
   moduleSpecifier: string;
   isTypeOnly: boolean;
+  namespaceImport?: string;
   defaultImport?: string;
   namedImports: Array<
     {

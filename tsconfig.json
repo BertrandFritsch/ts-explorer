@@ -15,9 +15,8 @@
     "skipLibCheck": true
   },
   "files": [
-    "./src/get-dependency-graph.ts",
-    "tmp/get-symbols-graph.ts",
-    "./src/generate-dependency-graph.ts"
+    "./src/clean-unused-dependencies.ts",
+    "./src/get-dependency-graph.ts"
   ],
   "ts-node": {
     "files": true,

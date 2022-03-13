@@ -45,3 +45,7 @@ export function getRootDirectory() {
 export function getRelativePath(path: string) {
   return pathModule.relative(getRootDirectory(), path).replaceAll(/\\/g, '/');
 }
+
+export function startsWithUppercaseLetter(word: string){
+  return /^\p{Lu}/u.test(word);
+}

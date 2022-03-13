@@ -32,10 +32,12 @@ export function walkModuleDependencies(filename: string, visitor: DependencyGrap
         filename: getRelativePath(module.resolvedFileName),
         sourceFile,
         declarations: {
+          isExportedImport: false,
           isExternalLibraryImport: params && params[ 0 ],
           resolvedFileName: params && params[ 2 ],
           moduleSpecifier: structure.moduleSpecifier,
           isTypeOnly: importDeclaration.isTypeOnly(),
+          namespaceImport: structure.namespaceImport,
           defaultImport: structure.defaultImport,
           namedImports: (() => {
             if (structure.namedImports) {
@@ -73,11 +75,12 @@ export function walkModuleDependencies(filename: string, visitor: DependencyGrap
           filename: getRelativePath(module.resolvedFileName),
           sourceFile,
           declarations: {
+            isExportedImport: true,
             isExternalLibraryImport: params && params[0],
             resolvedFileName: params && params[2],
             moduleSpecifier: NNU(structure.moduleSpecifier),
             isTypeOnly: exportDeclaration.isTypeOnly(),
-            defaultImport: structure.namespaceExport,
+            namespaceImport: structure.namespaceExport,
             namedImports: (() => {
               if (structure.namedExports) {
                 asserts(Array.isArray(structure.namedExports), 'Unhandled import declaration!');
