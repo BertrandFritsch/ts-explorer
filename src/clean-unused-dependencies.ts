@@ -19,7 +19,7 @@ function getModuleDependencies(filename: string) {
           asserts(ts.isIdentifier(id.compilerNode));
           const parent = id.getParent();
           if (!ts.isImportClause(parent.compilerNode) && !ts.isImportSpecifier(parent.compilerNode) && !ts.isNamespaceImport(parent.compilerNode)
-            && startsWithUppercaseLetter(id.getText()) || (!ts.isJsxOpeningElement(parent.compilerNode) && !ts.isJsxClosingElement(parent.compilerNode) && !ts.isJsxSelfClosingElement(parent.compilerNode))) {
+            && (startsWithUppercaseLetter(id.getText()) || (!ts.isJsxOpeningElement(parent.compilerNode) && !ts.isJsxClosingElement(parent.compilerNode) && !ts.isJsxSelfClosingElement(parent.compilerNode)))) {
             const idx = importIdentifiers.indexOf(id.getText());
             if (idx > -1) {
               importIdentifiers.splice(idx, 1);

@@ -28,7 +28,18 @@
       ],
       "program": "${workspaceFolder}/src/clean-unused-dependencies.ts",
       "runtimeArgs": [ "--experimental-specifier-resolution=node" ],
-      "args": [ "../pelico_front/app/app.tsx" ]
+      "args": [ "../pelico_front/app/pages/supply/portfolio/index.tsx" ]
+    },
+    {
+      "type": "pwa-node",
+      "request": "launch",
+      "name": "Get external imports",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "program": "${workspaceFolder}/src/get-external-imports.ts",
+      "runtimeArgs": [ "--experimental-specifier-resolution=node" ],
+      "args": [ "../pelico_front/app/pages/supply/portfolio/index.tsx" ]
     }
   ]
 }
