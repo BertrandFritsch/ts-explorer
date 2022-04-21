@@ -8,19 +8,15 @@ console.log(JSON.stringify(Array.from(getModuleDependencies(process.argv[2]).ent
 
 function getModuleDependencies(filename: string) {
   const modules = new Map<string, DependencyGraphImport[]>();
-  
-  walkModuleDependencies(
-    filename, 
-    ({ filename, declarations }) => {
-      let imports = modules.get(filename);
-      if (!imports) {
-        modules.set(filename, imports = [])
-      }
 
-      imports.push(declarations);
-      return true;
+  for (const { sourceFile, declarations } of walkModuleDependencies(filename)) {
+    let imports = modules.get(filename);
+    if (!imports) {
+      modules.set(filename, imports = [])
     }
-  );
+
+    imports.push(declarations);
+  }
 
   return modules;
 }

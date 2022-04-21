@@ -8,15 +8,11 @@ console.log(JSON.stringify(getExternalDependencyImports(process.argv[2]), null, 
 function getExternalDependencyImports(filename: string) {
   const modules = new Set<string>();
   
-  walkModuleDependencies(
-    filename, 
-    ({ declarations }) => {
-      if (declarations.isExternalLibraryImport !== false) {
-        modules.add(declarations.moduleSpecifier.replace(/((?:^@[\w-\.]+\/)?[\w-\.]+).*/, '$1'));
-      }
-      return true;
+  for (const { declarations } of walkModuleDependencies(filename)) {
+    if (declarations.isExternalLibraryImport !== false) {
+      modules.add(declarations.moduleSpecifier.replace(/((?:^@[\w-\.]+\/)?[\w-\.]+).*/, '$1'));
     }
-  );
+  }
 
   const list = Array.from(modules.values());
   list.sort((a, b) => a.localeCompare(b));
