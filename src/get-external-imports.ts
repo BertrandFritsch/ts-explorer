@@ -7,7 +7,7 @@ import { Command } from 'commander';
 const program = new Command();
 
 program.name('get-external-imports')
-  .description('Clean unused dependency of a set of typescript files')
+  .description('Get external imports of a set of typescript files')
   .version('0.0.2');
 
 program.option('-r, --recursive', 'whether the internal dependencies have to be processed recursively', false)
@@ -22,12 +22,12 @@ initializeRootDirectory(sourceFiles[0]);
 
 console.log(JSON.stringify(getExternalDependencyImports(), null, 2));
 
-function getExternalDependencyImports() {
+async function getExternalDependencyImports() {
   const modules = new Set<string>();
-  
-  for (const { declarations } of walkModuleDependencies(sourceFiles, program.opts().recursive)) {
+
+  for await (const { declarations } of walkModuleDependencies(sourceFiles, program.opts().recursive)) {
     if (declarations.isExternalLibraryImport !== false) {
-      modules.add(declarations.moduleSpecifier.replace(/((?:^@[\w-\.]+\/)?[\w-\.]+).*/, '$1'));
+      modules.add(declarations.moduleSpecifier.replace(/((?:^@[\w-.]+\/)?[\w-.]+).*/, '$1'));
     }
   }
 

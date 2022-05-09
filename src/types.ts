@@ -16,12 +16,8 @@ export interface DependencyGraphImport {
   >;
 }
 
-interface DependencyGraphVisitorArgs {
+export interface DependencyGraphItem {
   filename: string;
   sourceFile: SourceFile;
   declarations: DependencyGraphImport;
-}
-
-export interface DependencyGraphVisitor extends Function {
-  (node: DependencyGraphVisitorArgs): boolean;
 }

@@ -1,10 +1,11 @@
 import pathModule from 'path';
-import { Project, ts } from 'ts-morph';
+import { Project, SyntaxKind, ts } from 'ts-morph';
 import { ResolvedModuleFull } from 'typescript';
+import fg from 'fast-glob';
 import { ANNU, asserts, getRelativePath, getRootDirectory, NNU } from '../helpers';
-import { DependencyGraphVisitor } from '../types';
+import { DependencyGraphItem } from '../types';
 
-export function* walkModuleDependencies(filenames: string | string[], walkThroughImports = true) {
+export async function* walkModuleDependencies(filenames: string | string[], walkThroughImports = true) {
   const project = new Project({
     tsConfigFilePath: pathModule.join(getRootDirectory(), 'tsconfig.json'),
     skipAddingFilesFromTsConfig: true,
@@ -19,7 +20,7 @@ export function* walkModuleDependencies(filenames: string | string[], walkThroug
     const rootModule = ts.resolveModuleName(`./${ pathModule.parse(filename).name }`, filename, options, project.getModuleResolutionHost(), moduleResolutionCache);
     ANNU(rootModule.resolvedModule, 'The module for the root filename could not be found!');
 
-    yield* (function* resolveImports(module: ResolvedModuleFull) {
+    yield* (async function* resolveImports(module: ResolvedModuleFull): AsyncGenerator<DependencyGraphItem> {
       console.warn(`Handling: ${ getRelativePath(module.resolvedFileName) }...`);
       modules.add(getRelativePath(module.resolvedFileName));
 
@@ -61,7 +62,7 @@ export function* walkModuleDependencies(filenames: string | string[], walkThroug
         };
 
         if (walkThroughImports && params && params[ 0 ] === false && !modules.has(params[ 2 ])) {
-          resolveImports(params[ 1 ]);
+          yield* resolveImports(params[ 1 ]);
         }
       }
 
@@ -101,14 +102,51 @@ export function* walkModuleDependencies(filenames: string | string[], walkThroug
               })()
             }
           };
-    
+
           if (walkThroughImports && params && params[ 0 ] === false && !modules.has(params[ 2 ])) {
-            resolveImports(params[ 1 ]);
+            yield* resolveImports(params[ 1 ]);
+          }
+        }
+      }
+
+      // support `import.meta.globEager` imported files
+      for (const callExpression of sourceFile.getDescendantsOfKind(SyntaxKind.CallExpression)) {
+        asserts(ts.isCallExpression(callExpression.compilerNode));
+
+        const propertyAccessExpression = callExpression.getExpression();
+        if (ts.isPropertyAccessExpression(propertyAccessExpression.compilerNode)) {
+          if (propertyAccessExpression.compilerNode.name.getText() === 'globEager') {
+            const cwd = pathModule.dirname(pathModule.resolve(module.resolvedFileName));
+            const p = callExpression.compilerNode.arguments[ 0 ];
+            asserts(ts.isStringLiteral(p));
+
+            for (const filename of await fg(p.text, { cwd })) {
+              const f = pathModule.parse(filename);
+              const moduleSpecifier = `${ f.dir }/${ f.name }`;
+              const md = ts.resolveModuleName(moduleSpecifier, module.resolvedFileName, options, project.getModuleResolutionHost(), moduleResolutionCache);
+              const params = md.resolvedModule ? [ md.resolvedModule.isExternalLibraryImport, md.resolvedModule, getRelativePath(md.resolvedModule.resolvedFileName) ] as const : undefined;
+
+              yield {
+                filename: getRelativePath(module.resolvedFileName),
+                sourceFile,
+                declarations: {
+                  isExportedImport: false,
+                  isExternalLibraryImport: params && params[ 0 ],
+                  resolvedFileName: params && params[ 2 ],
+                  moduleSpecifier,
+                  isTypeOnly: false,
+                  defaultImport: '-',
+                  namedImports: []
+                }
+              };
+
+              if (walkThroughImports && params && params[ 0 ] === false && !modules.has(params[ 2 ])) {
+                yield* resolveImports(params[ 1 ]);
+              }
+            }
           }
         }
       }
     })(rootModule.resolvedModule);
   }
-
-  return modules;
 }

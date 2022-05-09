@@ -21,7 +21,7 @@ const sourceFiles = path.extname(program.args[ 0 ]) === '.json'
 
 initializeRootDirectory(sourceFiles[ 0 ]);
 
-for (const { sourceFile, declarations } of walkModuleDependencies(sourceFiles, program.opts().recursive)) {
+for await (const { sourceFile, declarations } of walkModuleDependencies(sourceFiles, program.opts().recursive)) {
   if (!declarations.isExportedImport && (declarations.namespaceImport || declarations.defaultImport || declarations.namedImports.length > 0)) {
     let importIdentifiers = [
       ...(declarations.namespaceImport && declarations.namespaceImport !== 'React' ? [declarations.namespaceImport] : []),

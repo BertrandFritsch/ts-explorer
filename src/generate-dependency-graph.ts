@@ -1,4 +1,4 @@
-import dependenciesData from '../tmp/dependencies2.json';
+import dependenciesData from '../tmp/graph-dependencies.json';
 import { DependencyGraphImport } from './types';
 
 const dependencies = dependenciesData as Record<string, DependencyGraphImport[]>;
