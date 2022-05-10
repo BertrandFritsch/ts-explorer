@@ -21,12 +21,12 @@ const sourceFiles = path.extname(program.args[0]) === '.json'
 
 initializeRootDirectory(sourceFiles[0]);
 
-console.log(JSON.stringify(Array.from((await getModuleDependencies(program.args[0])).entries()).reduce((acc, [ key, value ]) => ({ ...acc, [ key ]: value }), {}), null, 2));
+console.log(JSON.stringify(Array.from((await getModuleDependencies()).entries()).reduce((acc, [ key, value ]) => ({ ...acc, [ key ]: value }), {}), null, 2));
 
-async function getModuleDependencies(filename: string) {
+async function getModuleDependencies() {
   const modules = new Map<string, DependencyGraphImport[]>();
 
-  for await (const { declarations } of walkModuleDependencies(sourceFiles, program.opts().recursive)) {
+  for await (const { filename, declarations } of walkModuleDependencies(sourceFiles, program.opts().recursive)) {
     let imports = modules.get(filename);
     if (!imports) {
       modules.set(filename, imports = [])
