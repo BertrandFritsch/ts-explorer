@@ -2,8 +2,8 @@ import pathModule from 'path';
 import { Project, SyntaxKind, ts } from 'ts-morph';
 import { ResolvedModuleFull } from 'typescript';
 import fg from 'fast-glob';
-import { ANNU, asserts, getRelativePath, getRootDirectory, NNU } from '../helpers';
-import { DependencyGraphItem } from '../types';
+import { ANNU, asserts, getRelativePath, getRootDirectory, NNU } from './helpers';
+import { DependencyGraphItem } from './types';
 
 export async function* walkModuleDependencies(filenames: string | string[], walkThroughImports = true) {
   const project = new Project({
@@ -34,7 +34,6 @@ export async function* walkModuleDependencies(filenames: string | string[], walk
           filename: getRelativePath(module.resolvedFileName),
           sourceFile,
           declarations: {
-            isExportedImport: false,
             isExternalLibraryImport: params && params[ 0 ],
             resolvedFileName: params && params[ 2 ],
             moduleSpecifier: structure.moduleSpecifier,
@@ -130,11 +129,9 @@ export async function* walkModuleDependencies(filenames: string | string[], walk
                 filename: getRelativePath(module.resolvedFileName),
                 sourceFile,
                 declarations: {
-                  isExportedImport: false,
                   isExternalLibraryImport: params && params[ 0 ],
                   resolvedFileName: params && params[ 2 ],
                   moduleSpecifier,
-                  isTypeOnly: false,
                   defaultImport: '-',
                   namedImports: []
                 }

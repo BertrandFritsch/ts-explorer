@@ -14,13 +14,7 @@
     "useDefineForClassFields": true,
     "skipLibCheck": true
   },
-  "files": [
-    "./src/clean-unused-dependencies.ts",
-    "./src/get-dependency-graph.ts",
-    "./src/get-external-imports.ts"
-  ],
-  "ts-node": {
-    "files": true,
-    "transpileOnly": true
-  }
+  "include": [
+    "src/*.ts"
+  ]
 }

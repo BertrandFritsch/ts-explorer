@@ -1,6 +1,6 @@
 import path from 'path';
 import fs from 'fs';
-import { initializeRootDirectory } from './helpers';
+import { initializeRootDirectory } from './lib/helpers';
 import { walkModuleDependencies } from './lib/walkModuleDependencies';
 import { Command } from 'commander';
 

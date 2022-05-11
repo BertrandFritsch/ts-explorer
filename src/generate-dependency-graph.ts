@@ -1,7 +1,17 @@
-import dependenciesData from '../tmp/graph-dependencies.json';
-import { DependencyGraphImport } from './types';
+import fs from 'fs';
+import { Command } from 'commander';
+import { DependencyGraphImport } from './lib/types';
 
-const dependencies = dependenciesData as Record<string, DependencyGraphImport[]>;
+const program = new Command();
+
+program.name('generate-dependency-graph')
+       .description('Generate a dependency graph')
+       .version('0.0.2');
+
+program.argument('<dependency graph imports>');
+program.parse();
+
+const dependencies = JSON.parse(fs.readFileSync(program.args[ 0 ], 'utf-8')) as Record<string, DependencyGraphImport[]>;
 
 export interface RelatedEntity {
   id: string;
@@ -14,7 +24,7 @@ const data = {
   customer: {
     id: Object.keys(dependencies)[ 0 ],
     name: Object.keys(dependencies)[ 0 ],
-    type: 'entity',
+    type: 'module',
     typeName: Object.keys(dependencies)[ 0 ],
     iconClassname: null,
     shareholding: null,
@@ -43,7 +53,7 @@ const data = {
     ([ module, moduleData ]) => ({
       id: module,
       name: module,
-      type: 'entity',
+      type: 'module',
       typeName: module,
       iconClassname: null,
       ownCustomerFolderId: null,

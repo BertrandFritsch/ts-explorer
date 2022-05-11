@@ -1,7 +1,7 @@
 import path from 'path';
 import fs from 'fs';
-import { initializeRootDirectory } from './helpers';
-import { DependencyGraphImport } from './types';
+import { initializeRootDirectory } from './lib/helpers';
+import { DependencyGraphImport } from './lib/types';
 import { walkModuleDependencies } from './lib/walkModuleDependencies';
 import { Command } from 'commander';
 

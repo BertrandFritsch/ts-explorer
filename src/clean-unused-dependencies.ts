@@ -1,4 +1,4 @@
-import { asserts, initializeRootDirectory, NNU, startsWithUppercaseLetter } from './helpers';
+import { asserts, initializeRootDirectory, NNU, startsWithUppercaseLetter } from './lib/helpers';
 import path from 'path';
 import fs from 'fs';
 import { walkModuleDependencies } from './lib/walkModuleDependencies';
