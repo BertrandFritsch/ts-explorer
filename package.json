@@ -1,5 +1,40 @@
 {
   "scripts": {
-    
+
+  },
+  "pnpm": {
+    "peerDependencyRules": {
+      "allowedVersions": {
+        "react": "18",
+        "react-dom": "18"
+      },
+      "ignoreMissing": [
+        "@babel/core",
+        "webpack",
+        "babel-loader",
+        "@storybook/core-common",
+        "@storybook/node-logger"
+      ]
+    },
+    "overrides": {
+      "jest-mock": "^28"
+    },
+    "packageExtensions": {
+      "@storybook/addon-interactions": {
+        "dependencies": {
+          "core-js": "*"
+        }
+      },
+      "@storybook/instrumenter": {
+        "dependencies": {
+          "core-js": "*"
+        }
+      },
+      "@ts-explorer/sb": {
+        "dependencies": {
+          "global": "*"
+        }
+      }
+    }
   }
 }
