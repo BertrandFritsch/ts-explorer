@@ -20,7 +20,7 @@ export async function* walkModuleDependencies(filenames: string | string[], walk
     const rootModule = ts.resolveModuleName(`./${ pathModule.parse(filename).name }`, filename, options, project.getModuleResolutionHost(), moduleResolutionCache);
     ANNU(rootModule.resolvedModule, 'The module for the root filename could not be found!');
 
-    yield* (async function* resolveImports(module: ResolvedModuleFull): AsyncGenerator<DependencyGraphItem> {
+    yield* (async function* resolveImports(module: ResolvedModuleFull, depth: number): AsyncGenerator<DependencyGraphItem> {
       console.warn(`Handling: ${ getRelativePath(module.resolvedFileName) }...`);
       modules.add(getRelativePath(module.resolvedFileName));
 
@@ -33,6 +33,7 @@ export async function* walkModuleDependencies(filenames: string | string[], walk
         yield {
           filename: getRelativePath(module.resolvedFileName),
           sourceFile,
+          depth,
           declarations: {
             isExternalLibraryImport: params && params[ 0 ],
             resolvedFileName: params && params[ 2 ],
@@ -61,7 +62,7 @@ export async function* walkModuleDependencies(filenames: string | string[], walk
         };
 
         if (walkThroughImports && params && params[ 0 ] === false && !modules.has(params[ 2 ])) {
-          yield* resolveImports(params[ 1 ]);
+          yield* resolveImports(params[ 1 ], depth + 1);
         }
       }
 
@@ -75,6 +76,7 @@ export async function* walkModuleDependencies(filenames: string | string[], walk
           yield {
             filename: getRelativePath(module.resolvedFileName),
             sourceFile,
+            depth,
             declarations: {
               isExportedImport: true,
               isExternalLibraryImport: params && params[0],
@@ -103,7 +105,7 @@ export async function* walkModuleDependencies(filenames: string | string[], walk
           };
 
           if (walkThroughImports && params && params[ 0 ] === false && !modules.has(params[ 2 ])) {
-            yield* resolveImports(params[ 1 ]);
+            yield* resolveImports(params[ 1 ], depth + 1);
           }
         }
       }
@@ -128,6 +130,7 @@ export async function* walkModuleDependencies(filenames: string | string[], walk
               yield {
                 filename: getRelativePath(module.resolvedFileName),
                 sourceFile,
+                depth,
                 declarations: {
                   isExternalLibraryImport: params && params[ 0 ],
                   resolvedFileName: params && params[ 2 ],
@@ -138,12 +141,12 @@ export async function* walkModuleDependencies(filenames: string | string[], walk
               };
 
               if (walkThroughImports && params && params[ 0 ] === false && !modules.has(params[ 2 ])) {
-                yield* resolveImports(params[ 1 ]);
+                yield* resolveImports(params[ 1 ], depth + 1);
               }
             }
           }
         }
       }
-    })(rootModule.resolvedModule);
+    })(rootModule.resolvedModule, 0);
   }
 }

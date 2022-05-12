@@ -19,5 +19,6 @@ export interface DependencyGraphImport {
 export interface DependencyGraphItem {
   filename: string;
   sourceFile: SourceFile;
+  depth: number;
   declarations: DependencyGraphImport;
 }
