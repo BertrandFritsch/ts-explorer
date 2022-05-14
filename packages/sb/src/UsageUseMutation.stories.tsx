@@ -1,12 +1,17 @@
 import React from 'react';
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 import CytoscapeView from './CytoscapeView';
-import elements from '../../../tmp/useMutationUsages.json';
+import useMutationElements from '../../../tmp/useMutationUsages.json';
+import useIbisApolloMutationElements from '../../../tmp/useIbisApolloMutationUsages.json';
+import useQueryElements from '../../../tmp/useQueryUsages.json';
+import useIbisApolloQueryElements from '../../../tmp/useIbisApolloQueryUsages.json';
+import useMatomoElements from '../../../tmp/useMatomoUsages.json';
+import axiosElements from '../../../tmp/axiosUsages.json';
 import { Button } from './stories/Button';
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
-  title: 'Usages/useMutation',
+  title: 'Usages',
   component: CytoscapeView,
   parameters: {
     layout: 'fullscreen'
@@ -20,8 +25,33 @@ export default {
 // More on component templates: https://storybook.js.org/docs/react/writing-stories/introduction#using-args
 const Template: ComponentStory<typeof CytoscapeView> = args => <CytoscapeView {...args} />;
 
-export const Primary = Template.bind({});
+export const useMutation = Template.bind({});
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
-Primary.args = {
-  elements
+useMutation.args = {
+  elements: useMutationElements
+};
+
+export const useIbisApolloMutation = Template.bind({});
+useIbisApolloMutation.args = {
+  elements: useIbisApolloMutationElements
+};
+
+export const useQuery = Template.bind({});
+useQuery.args = {
+  elements: useQueryElements
+};
+
+export const useIbisApolloQuery = Template.bind({});
+useIbisApolloQuery.args = {
+  elements: useIbisApolloQueryElements
+};
+
+export const useMatomo = Template.bind({});
+useMatomo.args = {
+  elements: useMatomoElements
+};
+
+export const useAxios = Template.bind({});
+useAxios.args = {
+  elements: axiosElements
 };

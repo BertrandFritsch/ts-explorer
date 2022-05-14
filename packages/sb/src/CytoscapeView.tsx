@@ -1,7 +1,10 @@
 import React from 'react';
 import cytoscape, { ElementDefinition } from 'cytoscape';
+import klay from 'cytoscape-klay';
 import { createUseStyles } from 'react-jss';
 import { asserts } from '../../ts/src/lib/helpers';
+
+cytoscape.use(klay);
 
 interface Props {
   elements: ElementDefinition[];
@@ -24,13 +27,29 @@ export default function CytoscapeView({ elements }: Props) {
         container: containerRef.current,
         elements,
         layout: {
-          name: 'breadthfirst'
+          name: 'klay',
+          nodeDimensionsIncludeLabels: true,
+          klay: {
+            direction: 'UP'
+          }
         },
         style: [
           {
             selector: 'node',
             style: {
-              label: 'data(name)'
+              label: 'data(name)',
+              'font-size': '10px'
+            }
+          },
+          {
+            selector: 'edge',
+            style: {
+              'curve-style': 'bezier',
+              'target-arrow-shape': 'triangle',
+              'line-color': '#dd4de2',
+              'target-arrow-color': '#dd4de2',
+              'opacity': 0.5,
+              width: '1px'
             }
           }
         ]
