@@ -21,7 +21,7 @@ export async function* walkModuleDependencies(filenames: string | string[], walk
     ANNU(rootModule.resolvedModule, 'The module for the root filename could not be found!');
 
     yield* (async function* resolveImports(module: ResolvedModuleFull, depth: number): AsyncGenerator<DependencyGraphItem> {
-      console.warn(`Handling: ${ getRelativePath(module.resolvedFileName) }...`);
+      // console.warn(`Handling: ${ getRelativePath(module.resolvedFileName) }...`);
       modules.add(getRelativePath(module.resolvedFileName));
 
       const sourceFile = project.addSourceFileAtPath(module.resolvedFileName);

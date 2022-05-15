@@ -5,8 +5,10 @@ import useMutationElements from '../../../tmp/useMutationUsages.json';
 import useIbisApolloMutationElements from '../../../tmp/useIbisApolloMutationUsages.json';
 import useQueryElements from '../../../tmp/useQueryUsages.json';
 import useIbisApolloQueryElements from '../../../tmp/useIbisApolloQueryUsages.json';
+import apolloClientElements from '../../../tmp/apolloClientUsages.json';
 import useMatomoElements from '../../../tmp/useMatomoUsages.json';
 import axiosElements from '../../../tmp/axiosUsages.json';
+import RESTCallsElements from '../../../tmp/RESTCallsUsages.json';
 import { Button } from './stories/Button';
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
@@ -46,6 +48,11 @@ useIbisApolloQuery.args = {
   elements: useIbisApolloQueryElements
 };
 
+export const apolloClient = Template.bind({});
+apolloClient.args = {
+  elements: apolloClientElements
+};
+
 export const useMatomo = Template.bind({});
 useMatomo.args = {
   elements: useMatomoElements
@@ -54,4 +61,9 @@ useMatomo.args = {
 export const useAxios = Template.bind({});
 useAxios.args = {
   elements: axiosElements
+};
+
+export const RESTCalls = Template.bind({});
+RESTCalls.args = {
+  elements: RESTCallsElements
 };

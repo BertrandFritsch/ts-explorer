@@ -30,7 +30,9 @@ export default function CytoscapeView({ elements }: Props) {
           name: 'klay',
           nodeDimensionsIncludeLabels: true,
           klay: {
-            direction: 'UP'
+            direction: 'UP',
+            nodeLayering: 'LONGEST_PATH',
+            nodePlacement: 'LINEAR_SEGMENTS'
           }
         },
         style: [
@@ -42,14 +44,27 @@ export default function CytoscapeView({ elements }: Props) {
             }
           },
           {
+            selector: 'node[?highlight]',
+            style: {
+              label: 'data(name)',
+              'font-size': '10px',
+              'background-color': '#c71919'
+            }
+          },
+          {
             selector: 'edge',
             style: {
               'curve-style': 'bezier',
               'target-arrow-shape': 'triangle',
-              'line-color': '#dd4de2',
-              'target-arrow-color': '#dd4de2',
-              'opacity': 0.5,
               width: '1px'
+            }
+          },
+          {
+            selector: 'edge[?highlight]',
+            style: {
+              'line-color': '#c71919',
+              'target-arrow-color': '#c71919',
+              width: '2px'
             }
           }
         ]

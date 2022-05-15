@@ -16,6 +16,12 @@ export interface DependencyGraphImport {
   >;
 }
 
+export function assertDependencyGraphImportResolved(dependency: DependencyGraphImport): asserts dependency is DependencyGraphImport & { resolvedFileName: string } {
+  if (dependency.resolvedFileName === undefined) {
+    throw new Error('Expect the dependency graph import to be resolved!')
+  }
+}
+
 export interface DependencyGraphItem {
   filename: string;
   sourceFile: SourceFile;
