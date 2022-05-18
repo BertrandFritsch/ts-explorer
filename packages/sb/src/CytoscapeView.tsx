@@ -40,14 +40,14 @@ export default function CytoscapeView({ elements }: Props) {
             selector: 'node',
             style: {
               label: 'data(name)',
-              'font-size': '10px'
+              'font-size': '10px',
+              'background-color': '#767676'
             }
           },
           {
             selector: 'node[?highlight]',
             style: {
               label: 'data(name)',
-              'font-size': '10px',
               'background-color': '#c71919'
             }
           },
@@ -56,6 +56,8 @@ export default function CytoscapeView({ elements }: Props) {
             style: {
               'curve-style': 'bezier',
               'target-arrow-shape': 'triangle',
+              'line-color': '#767676',
+              'target-arrow-color': '#767676',
               width: '1px'
             }
           },
