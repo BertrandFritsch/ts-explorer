@@ -21,8 +21,8 @@ const sourceFiles = path.extname(program.args[ 0 ]) === '.json'
 
 initializeRootDirectory(sourceFiles[ 0 ]);
 
-for await (const { sourceFile, declarations } of walkModuleDependencies(sourceFiles, program.opts().recursive)) {
-  if (!declarations.isExportedImport && (declarations.namespaceImport || declarations.defaultImport || declarations.namedImports.length > 0)) {
+for await (const { filename, sourceFile, declarations } of walkModuleDependencies(sourceFiles, program.opts().recursive)) {
+  if (!declarations.isMetaImport && !declarations.isExportedImport && (declarations.namespaceImport || declarations.defaultImport || declarations.namedImports.length > 0)) {
     let importIdentifiers = [
       ...(declarations.namespaceImport && declarations.namespaceImport !== 'React' ? [declarations.namespaceImport] : []),
       ...(declarations.defaultImport && declarations.defaultImport !== 'React' ? [declarations.defaultImport] : []),
@@ -40,7 +40,7 @@ for await (const { sourceFile, declarations } of walkModuleDependencies(sourceFi
       }
     }
 
-    const declaration = NNU(sourceFile.getImportDeclaration(decl => decl.getModuleSpecifier().getLiteralValue() === declarations.moduleSpecifier));
+    const declaration = NNU(sourceFile.getImportDeclaration(decl => decl.getModuleSpecifier().getLiteralValue() === declarations.moduleSpecifier), `No declaration found matching '${ declarations.moduleSpecifier }' in '${ filename }`);
     const defaultImport = declaration.getDefaultImport();
     if (defaultImport && importIdentifiers.includes(defaultImport.getText())) {
       console.warn(`  Unused import: '${defaultImport.getText()}' from '${declaration.getModuleSpecifier().getLiteralValue()}'`)

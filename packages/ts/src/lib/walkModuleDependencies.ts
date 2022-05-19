@@ -133,6 +133,7 @@ export async function* walkModuleDependencies(filenames: string | string[], walk
                 depth,
                 declarations: {
                   isExternalLibraryImport: params && params[ 0 ],
+                  isMetaImport: true,
                   resolvedFileName: params && params[ 2 ],
                   moduleSpecifier,
                   defaultImport: '-',
