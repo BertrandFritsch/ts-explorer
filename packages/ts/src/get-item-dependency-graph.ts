@@ -31,7 +31,7 @@ async function getModuleDependencies() {
   const elements = new Map<string, ElementDefinition>();
   const stack: string[] = [];
 
-  for await (const { filename, depth, declarations } of walkModuleDependencies([program.args[0]], true)) {
+  for await (const { filename, depth, declarations } of walkModuleDependencies([program.args[0]], { walkThroughImports: false })) {
     if (declarations.resolvedFileName) {
       assertDependencyGraphImportResolved(declarations);
 
@@ -84,7 +84,6 @@ function extractFilenameUserName(filename: string) {
 }
 
 function handlePath(elements: Map<string, cytoscape.ElementDefinition>, stack: string[], item: Item, declarations: DependencyGraphImport & { resolvedFileName: string }, highlight: boolean) {
-
   if ((item.isExternal ? declarations.moduleSpecifier : declarations.resolvedFileName) === item.moduleSpecifier
       && (item.namedImport === undefined
           || item.namedImport === 'default' && declarations.defaultImport !== undefined

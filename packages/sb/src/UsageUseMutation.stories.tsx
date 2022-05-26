@@ -5,11 +5,12 @@ import useMutationElements from '../../../tmp/useMutationUsages.json';
 import useIbisApolloMutationElements from '../../../tmp/useIbisApolloMutationUsages.json';
 import useQueryElements from '../../../tmp/useQueryUsages.json';
 import useIbisApolloQueryElements from '../../../tmp/useIbisApolloQueryUsages.json';
+import MultiSelectAutocompleteAsyncElements from '../../../tmp/MultiSelectAutocompleteAsync.json';
+import MultiSelectAutocompleteAsyncPaginatedElements from '../../../tmp/MultiSelectAutocompleteAsyncPaginated.json';
 import apolloClientElements from '../../../tmp/apolloClientUsages.json';
 import useMatomoElements from '../../../tmp/useMatomoUsages.json';
 import axiosElements from '../../../tmp/axiosUsages.json';
 import RESTCallsElements from '../../../tmp/RESTCallsUsages.json';
-import { Button } from './stories/Button';
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -22,7 +23,7 @@ export default {
   argTypes: {
     backgroundColor: { control: 'color' },
   },
-} as ComponentMeta<typeof Button>;
+} as ComponentMeta<typeof CytoscapeView>;
 
 // More on component templates: https://storybook.js.org/docs/react/writing-stories/introduction#using-args
 const Template: ComponentStory<typeof CytoscapeView> = args => <CytoscapeView {...args} />;
@@ -46,6 +47,16 @@ useQuery.args = {
 export const useIbisApolloQuery = Template.bind({});
 useIbisApolloQuery.args = {
   elements: useIbisApolloQueryElements
+};
+
+export const MultiSelectAutocompleteAsync = Template.bind({});
+MultiSelectAutocompleteAsync.args = {
+  elements: MultiSelectAutocompleteAsyncElements
+};
+
+export const MultiSelectAutocompleteAsyncPaginated = Template.bind({});
+MultiSelectAutocompleteAsyncPaginated.args = {
+  elements: MultiSelectAutocompleteAsyncPaginatedElements
 };
 
 export const apolloClient = Template.bind({});

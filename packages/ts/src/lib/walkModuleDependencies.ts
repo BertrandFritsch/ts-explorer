@@ -5,11 +5,17 @@ import fg from 'fast-glob';
 import { ANNU, asserts, getRelativePath, getRootDirectory, NNU } from './helpers';
 import { DependencyGraphItem } from './types';
 
-export async function* walkModuleDependencies(filenames: string | string[], walkThroughImports = true) {
+interface WalkModuleDependenciesOptions {
+  walkThroughImports: boolean;
+  skipAddingFilesFromTsConfig: boolean;
+  skipFileDependencyResolution: boolean;
+}
+
+export async function* walkModuleDependencies(filenames: string | string[], { walkThroughImports = true, skipFileDependencyResolution = true, skipAddingFilesFromTsConfig = true }: Partial<WalkModuleDependenciesOptions> = {}) {
   const project = new Project({
     tsConfigFilePath: pathModule.join(getRootDirectory(), 'tsconfig.json'),
-    skipAddingFilesFromTsConfig: true,
-    skipFileDependencyResolution: true,
+    skipAddingFilesFromTsConfig,
+    skipFileDependencyResolution,
     skipLoadingLibFiles: false
   });
   const options = project.getCompilerOptions();

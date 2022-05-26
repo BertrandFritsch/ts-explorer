@@ -25,7 +25,7 @@ console.log(JSON.stringify(getExternalDependencyImports(), null, 2));
 async function getExternalDependencyImports() {
   const modules = new Set<string>();
 
-  for await (const { declarations } of walkModuleDependencies(sourceFiles, program.opts().recursive)) {
+  for await (const { declarations } of walkModuleDependencies(sourceFiles, { walkThroughImports: program.opts().recursive })) {
     if (declarations.isExternalLibraryImport !== false) {
       modules.add(declarations.moduleSpecifier.replace(/((?:^@[\w-.]+\/)?[\w-.]+).*/, '$1'));
     }

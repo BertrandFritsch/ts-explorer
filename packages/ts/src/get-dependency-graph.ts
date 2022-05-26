@@ -26,7 +26,7 @@ console.log(JSON.stringify(Array.from((await getModuleDependencies()).entries())
 async function getModuleDependencies() {
   const modules = new Map<string, DependencyGraphImport[]>();
 
-  for await (const { filename, declarations } of walkModuleDependencies(sourceFiles, program.opts().recursive)) {
+  for await (const { filename, declarations } of walkModuleDependencies(sourceFiles, { walkThroughImports: program.opts().recursive })) {
     let imports = modules.get(filename);
     if (!imports) {
       modules.set(filename, imports = [])
