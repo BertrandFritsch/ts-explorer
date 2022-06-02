@@ -24,6 +24,7 @@ program.name('get-imported-graphql-queries')
 
 program.argument('<input source file>');
 program.addOption(new Option('-i, --item <item...>', 'the items to look for: <module> #(default | <item>)').makeOptionMandatory());
+program.addOption(new Option('-g, --ignore-files <file...>', 'the list of files to ignore'));
 program.parse();
 
 initializeRootDirectory(program.args[ 0 ]);
@@ -32,10 +33,11 @@ console.log(JSON.stringify(await getModuleDependencies(), null, 2));
 
 async function getModuleDependencies() {
   const items = program.opts<Record<string, string[]>>().item.map(item => parseModuleItem(item));
+  const ignoredFiles = program.opts<Record<string, string[] | undefined>>().ignoreFiles ?? [];
   const queries: QueryItem[] = [];
 
   for await (const { filename, sourceFile, declarations } of walkModuleDependencies([ program.args[ 0 ] ], { skipAddingFilesFromTsConfig: false })) {
-    if (!items.some(item => !item.isExternal && item.moduleSpecifier === filename)) { // consider items as endpoints -- don't look up for GraphQL calls inside them
+    if (!ignoredFiles.includes(filename) && !items.some(item => !item.isExternal && item.moduleSpecifier === filename)) { // consider items as endpoints -- don't look up for GraphQL calls inside them
       for (const item of items) {
         if ((item.isExternal ? declarations.moduleSpecifier : declarations.resolvedFileName) === item.moduleSpecifier
             && (item.namedImport === 'default' && declarations.defaultImport !== undefined
