@@ -7,6 +7,7 @@ import useQueryElements from '../../../tmp/useQueryUsages.json';
 import useIbisApolloQueryElements from '../../../tmp/useIbisApolloQueryUsages.json';
 import MultiSelectAutocompleteAsyncElements from '../../../tmp/MultiSelectAutocompleteAsync.json';
 import MultiSelectAutocompleteAsyncPaginatedElements from '../../../tmp/MultiSelectAutocompleteAsyncPaginated.json';
+import DefaultMessagesElements from '../../../tmp/DefaultMessages.json';
 import apolloClientElements from '../../../tmp/apolloClientUsages.json';
 import useMatomoElements from '../../../tmp/useMatomoUsages.json';
 import axiosElements from '../../../tmp/axiosUsages.json';
@@ -57,6 +58,11 @@ MultiSelectAutocompleteAsync.args = {
 export const MultiSelectAutocompleteAsyncPaginated = Template.bind({});
 MultiSelectAutocompleteAsyncPaginated.args = {
   elements: MultiSelectAutocompleteAsyncPaginatedElements
+};
+
+export const DefaultMessages = Template.bind({});
+DefaultMessages.args = {
+  elements: DefaultMessagesElements
 };
 
 export const apolloClient = Template.bind({});

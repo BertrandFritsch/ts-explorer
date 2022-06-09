@@ -19,6 +19,7 @@ program.name('get-item-dependency-graph')
 program.argument('<input source file>');
 program.addOption(new Option('-i, --item <item...>', 'the items to look for: <module> [ #(default | <item>) ]').makeOptionMandatory());
 program.addOption(new Option('-p, --highlight-paths-to <item...>', 'highlights the path to intermediate internal items: <module> [ #(default | <item>) ]'));
+program.option('-k, --keep-full-path', 'whether the full path of the module will be kept', false)
 program.parse();
 
 initializeRootDirectory(program.args[0]);
@@ -31,7 +32,7 @@ async function getModuleDependencies() {
   const elements = new Map<string, ElementDefinition>();
   const stack: string[] = [];
 
-  for await (const { filename, depth, declarations } of walkModuleDependencies([program.args[0]], { walkThroughImports: false })) {
+  for await (const { filename, depth, declarations } of walkModuleDependencies([program.args[0]], { walkThroughImports: true })) {
     if (declarations.resolvedFileName) {
       assertDependencyGraphImportResolved(declarations);
 
@@ -106,7 +107,7 @@ function appendStack(elements: Map<string, cytoscape.ElementDefinition>, stack: 
   let parent: string | undefined = undefined;
   for (const element of stack) {
     if (highlight || !elements.has(element)) {
-      elements.set(element, { data: { id: element, /*parent, */ name: extractFilenameUserName(element), highlight } });
+      elements.set(element, { data: { id: element, /*parent, */ name: program.opts().keepFullPath ? element : extractFilenameUserName(element), highlight } });
     }
 
     if (parent) {
