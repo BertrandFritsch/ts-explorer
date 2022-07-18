@@ -12,6 +12,7 @@ import apolloClientElements from '../../../tmp/apolloClientUsages.json';
 import useMatomoElements from '../../../tmp/useMatomoUsages.json';
 import axiosElements from '../../../tmp/axiosUsages.json';
 import RESTCallsElements from '../../../tmp/RESTCallsUsages.json';
+import MUITooltipElements from '../../../tmp/MUITooltip.json';
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -83,4 +84,9 @@ useAxios.args = {
 export const RESTCalls = Template.bind({});
 RESTCalls.args = {
   elements: RESTCallsElements
+};
+
+export const MUITooltip = Template.bind({});
+MUITooltip.args = {
+  elements: MUITooltipElements
 };
