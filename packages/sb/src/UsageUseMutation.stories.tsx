@@ -1,5 +1,5 @@
 import React from 'react';
-import { ComponentMeta, ComponentStory } from '@storybook/react';
+import { Meta, StoryFn } from '@storybook/react';
 import CytoscapeView from './CytoscapeView';
 import useMutationElements from '../../../tmp/useMutationUsages.json';
 import useIbisApolloMutationElements from '../../../tmp/useIbisApolloMutationUsages.json';
@@ -15,6 +15,8 @@ import RESTCallsElements from '../../../tmp/RESTCallsUsages.json';
 import MUITooltipElements from '../../../tmp/MUITooltip.json';
 import tabFiltersUsages from '../../../tmp/tabFiltersUsages.json';
 import alertsUsages from '../../../tmp/alertsUsages.json';
+import makeStyles from '../../../tmp/makeStyles.json';
+import muiTables from '../../../tmp/muiTables.json';
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -27,10 +29,10 @@ export default {
   argTypes: {
     backgroundColor: { control: 'color' },
   },
-} as ComponentMeta<typeof CytoscapeView>;
+} as Meta<typeof CytoscapeView>;
 
 // More on component templates: https://storybook.js.org/docs/react/writing-stories/introduction#using-args
-const Template: ComponentStory<typeof CytoscapeView> = args => <CytoscapeView {...args} />;
+const Template: StoryFn<typeof CytoscapeView> = args => <CytoscapeView {...args} />;
 
 export const useMutation = Template.bind({});
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
@@ -101,4 +103,14 @@ TabFiltersUsages.args = {
 export const AlertsUsages = Template.bind({});
 AlertsUsages.args = {
   elements: alertsUsages
+};
+
+export const MakeStylesUsages = Template.bind({});
+MakeStylesUsages.args = {
+  elements: makeStyles
+};
+
+export const MUITableUsages = Template.bind({});
+MUITableUsages.args = {
+  elements: muiTables
 };
