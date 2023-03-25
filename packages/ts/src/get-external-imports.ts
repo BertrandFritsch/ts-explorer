@@ -20,7 +20,7 @@ const sourceFiles = path.extname(program.args[0]) === '.json'
 
 initializeRootDirectory(sourceFiles[0]);
 
-console.log(JSON.stringify(getExternalDependencyImports(), null, 2));
+console.log(JSON.stringify(await getExternalDependencyImports(), null, 2));
 
 async function getExternalDependencyImports() {
   const modules = new Set<string>();

@@ -14,6 +14,7 @@ import axiosElements from '../../../tmp/axiosUsages.json';
 import RESTCallsElements from '../../../tmp/RESTCallsUsages.json';
 import MUITooltipElements from '../../../tmp/MUITooltip.json';
 import tabFiltersUsages from '../../../tmp/tabFiltersUsages.json';
+import alertsUsages from '../../../tmp/alertsUsages.json';
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -95,4 +96,9 @@ MUITooltip.args = {
 export const TabFiltersUsages = Template.bind({});
 TabFiltersUsages.args = {
   elements: tabFiltersUsages
+};
+
+export const AlertsUsages = Template.bind({});
+AlertsUsages.args = {
+  elements: alertsUsages
 };
