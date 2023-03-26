@@ -1,6 +1,6 @@
 import fs from 'fs';
 import { Command } from 'commander';
-import { DependencyGraphImport } from './lib/types';
+import { DependencyGraphImport } from './lib/types.mjs';
 
 const program = new Command();
 

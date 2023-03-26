@@ -1,7 +1,7 @@
 import path from 'path';
 import fs from 'fs';
-import { initializeRootDirectory } from './lib/helpers';
-import { walkModuleDependencies } from './lib/walkModuleDependencies';
+import { initializeRootDirectory } from './lib/helpers.mjs';
+import { walkModuleDependencies } from './lib/walkModuleDependencies.mjs';
 import { Command } from 'commander';
 
 const program = new Command();

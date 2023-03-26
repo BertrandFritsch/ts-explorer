@@ -2,8 +2,8 @@ import pathModule from 'path';
 import { Project, SyntaxKind, ts } from 'ts-morph';
 import { ResolvedModuleFull } from 'typescript';
 import fg from 'fast-glob';
-import { ANNU, asserts, getRelativePath, getRootDirectory, NNU } from './helpers';
-import { DependencyGraphItem } from './types';
+import { ANNU, asserts, getRelativePath, getRootDirectory, NNU } from './helpers.mjs';
+import { DependencyGraphItem } from './types.mjs';
 
 interface WalkModuleDependenciesOptions {
   walkThroughImports: boolean;

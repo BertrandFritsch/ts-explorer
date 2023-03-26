@@ -1,5 +1,6 @@
 {
   "name": "@ts-explorer/sb",
+  "type": "module",
   "scripts": {
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
@@ -13,19 +14,19 @@
   },
   "devDependencies": {
     "@mdx-js/react": "^2.3.0",
-    "@storybook/addon-actions": "^7.0.0-beta.61",
-    "@storybook/addon-essentials": "^7.0.0-beta.61",
-    "@storybook/addon-links": "^7.0.0-beta.61",
-    "@storybook/addon-mdx-gfm": "^7.0.0-beta.61",
-    "@storybook/react": "^7.0.0-beta.61",
-    "@storybook/react-vite": "^7.0.0-beta.61",
+    "@storybook/addon-actions": "^7.0.0-rc.8",
+    "@storybook/addon-essentials": "^7.0.0-rc.8",
+    "@storybook/addon-links": "^7.0.0-rc.8",
+    "@storybook/addon-mdx-gfm": "^7.0.0-rc.8",
+    "@storybook/react": "^7.0.0-rc.8",
+    "@storybook/react-vite": "^7.0.0-rc.8",
     "@storybook/testing-library": "^0.0.14-next.1",
     "@types/cytoscape": "^3.19.9",
-    "@types/node": "^18.15.9",
+    "@types/node": "^18.15.10",
     "@types/react": "^18.0.29",
     "@types/react-dom": "^18.0.11",
     "require-from-string": "^2.0.2",
-    "storybook": "^7.0.0-beta.61",
+    "storybook": "^7.0.0-rc.8",
     "typescript": "^5.0.2",
     "vite": "^4.2.1"
   }

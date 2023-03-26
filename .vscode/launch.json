@@ -5,7 +5,7 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "type": "pwa-node",
+      "type": "node",
       "request": "launch",
       "name": "Get dependency graph",
       "skipFiles": [
@@ -20,18 +20,23 @@
       "args": [ "../pelico_front/app/styles/pelicool/tokens/typography.ts" ]
     },
     {
-      "type": "pwa-node",
+      "type": "node",
       "request": "launch",
       "name": "Clean unused dependencies",
       "skipFiles": [
         "<node_internals>/**"
       ],
-      "program": "${workspaceFolder}/src/clean-unused-dependencies.ts",
+      "program": "${workspaceFolder}/packages/ts/src/clean-unused-dependencies.mts",
+      "cwd": "${workspaceFolder}",
       "runtimeArgs": [ "--experimental-specifier-resolution=node" ],
-      "args": [ "../pelico_front/app/pages/supply/portfolio/index.tsx" ]
+      "args": [ "../pelilab/pelico_front/app/pages/dashboard/components/LastDataUpdateFooter/styles.ts" ],
+      "outFiles": [
+        "${workspaceFolder}/packages/ts/dist/**/*.mjs",
+        "!**/node_modules/**"
+      ]
     },
     {
-      "type": "pwa-node",
+      "type": "node",
       "request": "launch",
       "name": "Get external imports",
       "skipFiles": [

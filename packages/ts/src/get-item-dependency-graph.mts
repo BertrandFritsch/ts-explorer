@@ -1,6 +1,6 @@
-import { initializeRootDirectory } from './lib/helpers';
-import { assertDependencyGraphImportResolved, DependencyGraphImport } from './lib/types';
-import { walkModuleDependencies } from './lib/walkModuleDependencies';
+import { initializeRootDirectory } from './lib/helpers.mjs';
+import { assertDependencyGraphImportResolved, DependencyGraphImport } from './lib/types.mjs';
+import { walkModuleDependencies } from './lib/walkModuleDependencies.mjs';
 import { Command, Option } from 'commander';
 import { ElementDefinition } from 'cytoscape';
 
