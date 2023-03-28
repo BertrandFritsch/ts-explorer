@@ -1,5 +1,5 @@
 import pathModule from 'path';
-import { Project, SyntaxKind, ts } from 'ts-morph';
+import { IndentationText, Project, SyntaxKind, ts } from 'ts-morph';
 import { ResolvedModuleFull } from 'typescript';
 import fg from 'fast-glob';
 import { ANNU, asserts, getRelativePath, getRootDirectory, NNU } from './helpers.mjs';
@@ -13,6 +13,9 @@ interface WalkModuleDependenciesOptions {
 
 export async function* walkModuleDependencies(filenames: string | string[], { walkThroughImports = true, skipFileDependencyResolution = true, skipAddingFilesFromTsConfig = true }: Partial<WalkModuleDependenciesOptions> = {}) {
   const project = new Project({
+    manipulationSettings: {
+      indentationText: IndentationText.TwoSpaces
+    },
     tsConfigFilePath: pathModule.join(getRootDirectory(), 'tsconfig.json'),
     skipAddingFilesFromTsConfig,
     skipFileDependencyResolution,
@@ -63,8 +66,9 @@ export async function* walkModuleDependencies(filenames: string | string[], { wa
               }
 
               return [];
-            })()
-          }
+            })(),
+          },
+          importDeclaration
         };
 
         if (walkThroughImports && params && params[ 0 ] === false && !modules.has(params[ 2 ])) {
@@ -106,8 +110,9 @@ export async function* walkModuleDependencies(filenames: string | string[], { wa
                 }
 
                 return [];
-              })()
-            }
+              })(),
+            },
+            exportDeclaration
           };
 
           if (walkThroughImports && params && params[ 0 ] === false && !modules.has(params[ 2 ])) {

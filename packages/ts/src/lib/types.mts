@@ -1,4 +1,4 @@
-import { SourceFile } from "ts-morph";
+import { ExportDeclaration, ImportDeclaration, SourceFile } from "ts-morph";
 
 export interface DependencyGraphImport {
   isExportedImport?: boolean;
@@ -28,4 +28,6 @@ export interface DependencyGraphItem {
   sourceFile: SourceFile;
   depth: number;
   declarations: DependencyGraphImport;
+  importDeclaration?: ImportDeclaration;
+  exportDeclaration?: ExportDeclaration;
 }

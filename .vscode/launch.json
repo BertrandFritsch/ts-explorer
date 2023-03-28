@@ -27,9 +27,22 @@
         "<node_internals>/**"
       ],
       "program": "${workspaceFolder}/packages/ts/src/clean-unused-dependencies.mts",
-      "cwd": "${workspaceFolder}",
       "runtimeArgs": [ "--experimental-specifier-resolution=node" ],
       "args": [ "../pelilab/pelico_front/app/pages/dashboard/components/LastDataUpdateFooter/styles.ts" ],
+      "outFiles": [
+        "${workspaceFolder}/packages/ts/dist/**/*.mjs",
+        "!**/node_modules/**"
+      ]
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Migrate makeStyles form JSS to TSS",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "program": "${workspaceFolder}/packages/ts/src/migrate-make-styles-jss-to-tss.mts",
+      "args": [ "../pelilab/pelico_front/app/components/common/HeatCell/styles.ts" ],
       "outFiles": [
         "${workspaceFolder}/packages/ts/dist/**/*.mjs",
         "!**/node_modules/**"
