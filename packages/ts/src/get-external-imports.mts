@@ -1,7 +1,7 @@
 import path from 'path';
 import fs from 'fs';
 import { initializeRootDirectory } from './lib/helpers.mjs';
-import { walkModuleDependencies } from './lib/walkModuleDependencies.mjs';
+import { walkModuleDependencyImports } from './lib/walkModuleDependencyImports.mjs';
 import { Command } from 'commander';
 
 const program = new Command();
@@ -25,7 +25,7 @@ console.log(JSON.stringify(await getExternalDependencyImports(), null, 2));
 async function getExternalDependencyImports() {
   const modules = new Set<string>();
 
-  for await (const { declarations } of walkModuleDependencies(sourceFiles, { walkThroughImports: program.opts().recursive })) {
+  for await (const { declarations } of walkModuleDependencyImports(sourceFiles, { walkThroughImports: program.opts().recursive })) {
     if (declarations.isExternalLibraryImport !== false) {
       modules.add(declarations.moduleSpecifier.replace(/((?:^@[\w-.]+\/)?[\w-.]+).*/, '$1'));
     }

@@ -1,6 +1,8 @@
+import path from 'node:path'
+import fs from 'node:fs'
 import { Node, SourceFile, SyntaxKind, ts } from 'ts-morph';
 import { asserts, initializeRootDirectory, NNU } from './lib/helpers.mjs';
-import { walkModuleDependencies } from './lib/walkModuleDependencies.mjs';
+import { walkModuleDependencyImports } from './lib/walkModuleDependencyImports.mjs';
 import { Command } from 'commander';
 
 interface Item {
@@ -9,23 +11,20 @@ interface Item {
   isExternal: boolean;
 }
 
-interface QueryItem {
-  queryCaller: string;
-  filename: string;
-  namedImport: string;
-  queryLocation: string;
-}
-
 const program = new Command();
 
 program.name('migrate-make-styles-jss-to-tss')
        .description('Migrate the makeStyles calls from JSS to TSS')
        .version('0.0.1');
 
-program.argument('<input source file>');
+program.argument('<input source file> | <input json file>');
 program.parse();
 
-initializeRootDirectory(program.args[ 0 ]);
+const sourceFiles = path.extname(program.args[0]) === '.json'
+  ? JSON.parse(fs.readFileSync(program.args[0], 'utf-8'))
+  : [program.args[0]];
+
+initializeRootDirectory(sourceFiles[ 0 ]);
 
 await migrateJSS2TSS();
 
@@ -125,7 +124,7 @@ function updateTSSClauses(filename: string, sourceFile: SourceFile, item: string
 }
 
 async function *walkModuleImports(items: Item[]) {
-  for await (const { filename, sourceFile, declarations, importDeclaration } of walkModuleDependencies([ program.args[ 0 ] ], { skipAddingFilesFromTsConfig: false })) {
+  for await (const { filename, sourceFile, declarations, importDeclaration } of walkModuleDependencyImports(sourceFiles, { skipAddingFilesFromTsConfig: false })) {
     if (!items.some(item => !item.isExternal && item.moduleSpecifier === filename)) { // consider items as endpoints -- don't look up for GraphQL calls inside them
       for (const item of items) {
         if ((item.isExternal ? declarations.moduleSpecifier : declarations.resolvedFileName) === item.moduleSpecifier

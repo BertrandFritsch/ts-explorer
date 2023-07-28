@@ -1,6 +1,6 @@
 import { initializeRootDirectory } from './lib/helpers.mjs';
 import { assertDependencyGraphImportResolved, DependencyGraphImport } from './lib/types.mjs';
-import { walkModuleDependencies } from './lib/walkModuleDependencies.mjs';
+import { walkModuleDependencyImports } from './lib/walkModuleDependencyImports.mjs';
 import { Command, Option } from 'commander';
 import { ElementDefinition } from 'cytoscape';
 
@@ -32,7 +32,7 @@ async function getModuleDependencies() {
   const elements = new Map<string, ElementDefinition>();
   const stack: string[] = [];
 
-  for await (const { filename, depth, declarations } of walkModuleDependencies([program.args[0]], { walkThroughImports: true })) {
+  for await (const { filename, depth, declarations } of walkModuleDependencyImports([program.args[0]], { walkThroughImports: true })) {
     if (declarations.resolvedFileName) {
       assertDependencyGraphImportResolved(declarations);
 

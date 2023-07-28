@@ -49,3 +49,7 @@ export function getRelativePath(path: string) {
 export function startsWithUppercaseLetter(word: string){
   return /^\p{Lu}/u.test(word);
 }
+
+export function hasUppercaseLetterInside(word: string){
+  return /^.+\p{Lu}/u.test(word);
+}

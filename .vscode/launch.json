@@ -41,8 +41,36 @@
       "skipFiles": [
         "<node_internals>/**"
       ],
-      "program": "${workspaceFolder}/packages/ts/src/migrate-make-styles-jss-to-tss.mts",
-      "args": [ "../pelilab/pelico_front/app/components/common/HeatCell/styles.ts" ],
+      "program": "${workspaceFolder}/packages/ts/src/include-theme.mts",
+      "args": [ "../pelilab/pelico_front/app/components/common/Notification/index.tsx" ],
+      "outFiles": [
+        "${workspaceFolder}/packages/ts/dist/**/*.mjs",
+        "!**/node_modules/**"
+      ]
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Migrate Gap size attribute",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "program": "${workspaceFolder}/packages/ts/src/migrate-gap-size-attribute.mts",
+      "args": [ "../pelilab/pelico_front/app/components/modals/View360ServiceOrderModal/components/OverviewTab/index.tsx" ],
+      "outFiles": [
+        "${workspaceFolder}/packages/ts/dist/**/*.mjs",
+        "!**/node_modules/**"
+      ]
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Remove unused styles",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "program": "${workspaceFolder}/packages/ts/src/remove-unused-styles.mts",
+      "args": [ "../pelilab/pelico_front/app/app.tsx" ],
       "outFiles": [
         "${workspaceFolder}/packages/ts/dist/**/*.mjs",
         "!**/node_modules/**"

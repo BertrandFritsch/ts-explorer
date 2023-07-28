@@ -1,7 +1,7 @@
 import { asserts, initializeRootDirectory, NNU, startsWithUppercaseLetter } from './lib/helpers.mjs';
 import path from 'path';
 import fs from 'fs';
-import { walkModuleDependencies } from './lib/walkModuleDependencies.mjs';
+import { walkModuleDependencyImports } from './lib/walkModuleDependencyImports.mjs';
 import { SyntaxKind, ts } from 'ts-morph';
 import { Command } from 'commander';
 
@@ -21,7 +21,7 @@ const sourceFiles = path.extname(program.args[ 0 ]) === '.json'
 
 initializeRootDirectory(sourceFiles[ 0 ]);
 
-for await (const { filename, sourceFile, declarations } of walkModuleDependencies(sourceFiles, { walkThroughImports: program.opts().recursive })) {
+for await (const { filename, sourceFile, declarations } of walkModuleDependencyImports(sourceFiles, { walkThroughImports: program.opts().recursive })) {
   if (!declarations.isMetaImport && !declarations.isExportedImport && (declarations.namespaceImport || declarations.defaultImport || declarations.namedImports.length > 0)) {
     let importIdentifiers = [
       ...(declarations.namespaceImport && declarations.namespaceImport !== 'React' ? [declarations.namespaceImport] : []),

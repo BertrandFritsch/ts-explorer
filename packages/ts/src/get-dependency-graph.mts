@@ -2,7 +2,7 @@ import path from 'path';
 import fs from 'fs';
 import { initializeRootDirectory } from './lib/helpers.mjs';
 import { DependencyGraphImport } from './lib/types.mjs';
-import { walkModuleDependencies } from './lib/walkModuleDependencies.mjs';
+import { walkModuleDependencyImports } from './lib/walkModuleDependencyImports.mjs';
 import { Command } from 'commander';
 
 const program = new Command();
@@ -26,7 +26,7 @@ console.log(JSON.stringify(Array.from((await getModuleDependencies()).entries())
 async function getModuleDependencies() {
   const modules = new Map<string, DependencyGraphImport[]>();
 
-  for await (const { filename, declarations } of walkModuleDependencies(sourceFiles, { walkThroughImports: program.opts().recursive })) {
+  for await (const { filename, declarations } of walkModuleDependencyImports(sourceFiles, { walkThroughImports: program.opts().recursive })) {
     let imports = modules.get(filename);
     if (!imports) {
       modules.set(filename, imports = [])

@@ -1,6 +1,6 @@
 import { CallExpression, Identifier, Node, SyntaxKind, ts } from 'ts-morph';
 import { asserts, getRelativePath, initializeRootDirectory, NNU } from './lib/helpers.mjs';
-import { walkModuleDependencies } from './lib/walkModuleDependencies.mjs';
+import { walkModuleDependencyImports } from './lib/walkModuleDependencyImports.mjs';
 import { Command, Option } from 'commander';
 
 interface Item {
@@ -36,7 +36,7 @@ async function getModuleDependencies() {
   const ignoredFiles = program.opts<Record<string, string[] | undefined>>().ignoreFiles ?? [];
   const queries: QueryItem[] = [];
 
-  for await (const { filename, sourceFile, declarations } of walkModuleDependencies([ program.args[ 0 ] ], { skipAddingFilesFromTsConfig: false })) {
+  for await (const { filename, sourceFile, declarations } of walkModuleDependencyImports([ program.args[ 0 ] ], { skipAddingFilesFromTsConfig: false })) {
     if (!ignoredFiles.includes(filename) && !items.some(item => !item.isExternal && item.moduleSpecifier === filename)) { // consider items as endpoints -- don't look up for GraphQL calls inside them
       for (const item of items) {
         if ((item.isExternal ? declarations.moduleSpecifier : declarations.resolvedFileName) === item.moduleSpecifier
