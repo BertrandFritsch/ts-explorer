@@ -3,6 +3,8 @@ import { assertDependencyGraphImportResolved, DependencyGraphImport } from './li
 import { walkModuleDependencyImports } from './lib/walkModuleDependencyImports.mjs';
 import { Command, Option } from 'commander';
 import { ElementDefinition } from 'cytoscape';
+import path from 'node:path'
+import fs from 'node:fs'
 
 interface Item {
   moduleSpecifier: string;
@@ -22,7 +24,11 @@ program.addOption(new Option('-p, --highlight-paths-to <item...>', 'highlights t
 program.option('-k, --keep-full-path', 'whether the full path of the module will be kept', false)
 program.parse();
 
-initializeRootDirectory(program.args[0]);
+const sourceFiles = path.extname(program.args[0]) === '.json'
+  ? JSON.parse(fs.readFileSync(program.args[0], 'utf-8'))
+  : [program.args[0]];
+
+initializeRootDirectory(sourceFiles[ 0 ]);
 
 console.log(JSON.stringify(Array.from((await getModuleDependencies()).values()), null, 2));
 
@@ -32,7 +38,7 @@ async function getModuleDependencies() {
   const elements = new Map<string, ElementDefinition>();
   const stack: string[] = [];
 
-  for await (const { filename, depth, declarations } of walkModuleDependencyImports([program.args[0]], { walkThroughImports: true })) {
+  for await (const { filename, depth, declarations } of walkModuleDependencyImports(sourceFiles, { walkThroughImports: true })) {
     if (declarations.resolvedFileName) {
       assertDependencyGraphImportResolved(declarations);
 

@@ -17,6 +17,7 @@ import tabFiltersUsages from '../../../tmp/tabFiltersUsages.json';
 import alertsUsages from '../../../tmp/alertsUsages.json';
 import makeStyles from '../../../tmp/makeStyles.json';
 import muiTables from '../../../tmp/muiTables.json';
+import e2ePlaywrightTests from '../../../tmp/e2ePlaywrightTestImport.json';
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -113,4 +114,9 @@ MakeStylesUsages.args = {
 export const MUITableUsages = Template.bind({});
 MUITableUsages.args = {
   elements: muiTables
+};
+
+export const E2EPlaywrightTestUsages = Template.bind({});
+E2EPlaywrightTestUsages.args = {
+  elements: e2ePlaywrightTests
 };
