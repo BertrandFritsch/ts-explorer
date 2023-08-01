@@ -31,3 +31,9 @@ export interface DependencyGraphItem {
   importDeclaration?: ImportDeclaration;
   exportDeclaration?: ExportDeclaration;
 }
+
+export interface ModuleItem {
+  moduleSpecifier: string;
+  namedImport: string | undefined;
+  isExternal: boolean;
+}

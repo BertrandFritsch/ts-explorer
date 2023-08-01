@@ -1,5 +1,6 @@
 import fsModule from 'fs';
 import pathModule from 'path';
+import { ModuleItem } from './types.mjs'
 
 export function asserts(expr: boolean, message = 'Assertion failed!'): asserts expr {
   if (!expr) {
@@ -46,10 +47,28 @@ export function getRelativePath(path: string) {
   return pathModule.relative(getRootDirectory(), path).replaceAll(/\\/g, '/');
 }
 
+export function isExternalModule(path: string) {
+  return path.includes('node_modules');
+}
+
 export function startsWithUppercaseLetter(word: string){
   return /^\p{Lu}/u.test(word);
 }
 
 export function hasUppercaseLetterInside(word: string){
   return /^.+\p{Lu}/u.test(word);
+}
+
+export function parseModuleItem(item: string): ModuleItem {
+  const ModuleItemRE = /^(?<moduleSpecifier>(?:@(?:\w|[-_]|\d)+\/)?.+?)(?:#(?<namedImport>(?:\w|[-_]|\d)+))?$/;
+  const matches = ModuleItemRE.exec(item);
+  if (!matches) {
+    throw new Error(`'${ item }' does not match the expected format!`)
+  }
+
+  return {
+    moduleSpecifier: matches.groups!.moduleSpecifier,
+    namedImport: matches.groups && matches.groups.namedImport,
+    isExternal: matches.groups!.moduleSpecifier.match(/\.\w+$/) === null
+  };
 }

@@ -79,6 +79,20 @@
     {
       "type": "node",
       "request": "launch",
+      "name": "Extract fixtures from specs",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "program": "${workspaceFolder}/packages/ts/src/extract-fixture-from-specs.mts",
+      "args": [ "../pelilab/meta/e2e/src/modules/mro/service-order-book/table/table.spec.ts" ],
+      "outFiles": [
+        "${workspaceFolder}/packages/ts/dist/**/*.mjs",
+        "!**/node_modules/**"
+      ]
+    },
+    {
+      "type": "node",
+      "request": "launch",
       "name": "Get external imports",
       "skipFiles": [
         "<node_internals>/**"

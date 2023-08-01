@@ -1,16 +1,10 @@
-import { initializeRootDirectory } from './lib/helpers.mjs';
-import { assertDependencyGraphImportResolved, DependencyGraphImport } from './lib/types.mjs';
+import { initializeRootDirectory, parseModuleItem } from './lib/helpers.mjs';
+import { assertDependencyGraphImportResolved, DependencyGraphImport, ModuleItem } from './lib/types.mjs';
 import { walkModuleDependencyImports } from './lib/walkModuleDependencyImports.mjs';
 import { Command, Option } from 'commander';
 import { ElementDefinition } from 'cytoscape';
 import path from 'node:path'
 import fs from 'node:fs'
-
-interface Item {
-  moduleSpecifier: string;
-  namedImport: string | undefined;
-  isExternal: boolean;
-}
 
 const program = new Command();
 
@@ -70,16 +64,6 @@ async function getModuleDependencies() {
 }
 
 
-function parseModuleItem(item: string): Item {
-  const ModuleItemRE = /^(?<moduleSpecifier>(?:@(?:\w|[-_]|\d)+\/)?.+?)(?:#(?<namedImport>(?:\w|[-_]|\d)+))?$/;
-  const matches = ModuleItemRE.exec(item);
-  if (!matches) {
-    throw new Error(`'${ item }' does not match the expected format!`)
-  }
-
-  return { moduleSpecifier: matches.groups!.moduleSpecifier, namedImport: matches.groups && matches.groups.namedImport, isExternal: matches.groups!.moduleSpecifier.match(/\.\w+$/) === null };
-}
-
 function extractFilenameUserName(filename: string) {
   const FileNameRE = /^.*?(?<name>[^/]+)(?:\/index\.(?:tsx|ts|js))?$/;
   const matches = FileNameRE.exec(filename);
@@ -90,7 +74,7 @@ function extractFilenameUserName(filename: string) {
   return matches.groups!.name;
 }
 
-function handlePath(elements: Map<string, cytoscape.ElementDefinition>, stack: string[], item: Item, declarations: DependencyGraphImport & { resolvedFileName: string }, highlight: boolean) {
+function handlePath(elements: Map<string, cytoscape.ElementDefinition>, stack: string[], item: ModuleItem, declarations: DependencyGraphImport & { resolvedFileName: string }, highlight: boolean) {
   if ((item.isExternal ? declarations.moduleSpecifier : declarations.resolvedFileName) === item.moduleSpecifier
       && (item.namedImport === undefined
           || item.namedImport === 'default' && declarations.defaultImport !== undefined

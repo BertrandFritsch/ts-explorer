@@ -12,6 +12,7 @@ interface WalkModuleDependencyImportOptions {
 }
 
 interface WalkModuleDependencyGraphOptions {
+  walkThroughImports: boolean;
   skipAddingFilesFromTsConfig: boolean;
   skipFileDependencyResolution: boolean;
   yieldSourceFileOnlyOnce: boolean;

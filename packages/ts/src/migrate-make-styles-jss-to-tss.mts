@@ -155,7 +155,7 @@ function parseModuleItem(item: string): Item {
   const ModuleItemRE = /^(?<moduleSpecifier>(?:@(?:\w|[-_]|\d)+\/)?.+?)#(?<namedImport>(?:\w|[-_]|\d)+)$/;
   const matches = ModuleItemRE.exec(item);
   if (!matches) {
-    throw new Error(`'${ item }' does not match the expected format!`);
+    throw new Error(`'${ item }' does not match the expected format!`)
   }
 
   return { moduleSpecifier: matches.groups!.moduleSpecifier, namedImport: matches.groups!.namedImport, isExternal: matches.groups!.moduleSpecifier.match(/\.\w+$/) === null };
