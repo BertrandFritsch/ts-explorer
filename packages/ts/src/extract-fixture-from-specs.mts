@@ -20,8 +20,6 @@ const sourceFiles = path.extname(program.args[0]) === '.json'
 
 initializeRootDirectory(sourceFiles[ 0 ]);
 
-let idGen = 0
-
 console.log(
 `
 ---- graphviz nodes ----
@@ -47,7 +45,7 @@ type GraphNode = moduleNode | fixtureNode
 type LinkNode = {
   source: string
   target: string
-  fixture: string
+  fixture?: string
 }
 
 async function extractFixtureFromSpecs() {
@@ -63,7 +61,7 @@ async function extractFixtureFromSpecs() {
     }
 
     const graphNode = {
-      id: generateNodeId(moduleName),
+      id: generateNodeId(moduleName, 'mn'),
       name: moduleName,
       type: 'spec' as const
     }
@@ -88,10 +86,10 @@ async function extractFixtureFromSpecs() {
 
     const testIndentifier = getCallExpressionIdentifier(testCall)
 
-    ;(function walker(testIndentifier: Identifier, targetNode: GraphNode) {
-      const { testDefinition, graphNode } = addFixtureNode(graphNodes, testIndentifier, targetNode)
+    ;(function walker(testIndentifier: Identifier, sourceNode: GraphNode) {
+      const { testDefinition, graphNode } = addFixtureNode(graphNodes, testIndentifier)
 
-      if (graphNode === null || graphLinks.some(link => link.source === graphNode.id && link.target === targetNode.id)) {
+      if (graphNode === null || graphLinks.some(link => link.target === graphNode.id && link.source === sourceNode.id)) {
         return
       }
   
@@ -110,8 +108,8 @@ async function extractFixtureFromSpecs() {
         // fixture declared in the same file
         if (Node.isArrowFunction(fixtureValue) || Node.isArrayLiteralExpression(fixtureValue)) {
           graphLinks.push({
-            source: graphNode.id,
-            target: targetNode.id,
+            source: sourceNode.id,
+            target: graphNode.id,
             fixture: fixtureName,
           })
 
@@ -120,17 +118,25 @@ async function extractFixtureFromSpecs() {
 
         // fixture declared in another file
         asserts(Node.isIdentifier(fixtureValue), `Expected fixture to be an Identifier, but was ${ fixtureValue.getKindName() }`)
-        const { graphNode: sourceNode } = addFixtureNode(graphNodes, fixtureValue, targetNode)
+        const { graphNode: targetNode } = addFixtureNode(graphNodes, fixtureValue)
 
-        if (sourceNode !== null && !graphLinks.some(link => link.source === sourceNode.id && link.target === graphNode.id)) {
+        if (targetNode !== null && !graphLinks.some(link => link.source === graphNode.id && link.target === targetNode.id)) {
           graphLinks.push({
-            source: sourceNode.id,
-            target: sourceNode.id === graphNode.id ? targetNode.id : graphNode.id,
+            source: targetNode.id === graphNode.id ? sourceNode.id : graphNode.id,
+            target: targetNode.id,
             fixture: fixtureName,
           })
         }
       }
-      
+
+      if (graphNode.id !== sourceNode.id && !graphLinks.some(link => link.source === sourceNode.id && link.target === graphNode.id)) {
+        // no fixture declared in the same file, so we need to add a link to the base fixture
+        graphLinks.push({
+          source: sourceNode.id,
+          target: graphNode.id,
+        })
+      }
+
       // walk to the base fixture
       const testDefinitionInitializer = testDefinition.getInitializer()
       asserts(Node.isCallExpression(testDefinitionInitializer), `Expected initializer to be a CallExpression, but was ${ testDefinitionInitializer?.getKindName() }`)
@@ -155,17 +161,23 @@ async function extractFixtureFromSpecs() {
                             .map(node => `${ node.id } [label="${ node.name }"];`)
 
   const fixtures = graphNodes.filter(node => node.type === 'fixture')
-                           .map(node => `${ node.id } [label="${ node.name }"];`
-  )
+                           .map(node => `${ node.id } [label="${ node.name }"];`)
+
+  fixtures.push('')
 
   fixtures.push(...graphLinks.map(
-    link => `${ link.source }:${ link.fixture } -> ${ link.target } [label="${ link.fixture }"];`
+    link => {
+      const fixtureLabel = link.fixture === undefined ? '' : ` [label="${link.fixture}"]`
+      const fixtureSuffix = link.fixture === undefined ? '' : `:${link.fixture}`
+      return `${link.source}${fixtureSuffix} -> ${link.target}${fixtureLabel};`
+    }
   ))
 
   return `
 digraph FixtureHierarchy {
     bgcolor=transparent;
     fontname=Arial;
+    rankdir=BT;
     node [shape=box, style=rounded, fontsize=12];
     edge [fontsize=10];
 
@@ -197,7 +209,7 @@ function getFixtureDefinition(testIndentifier: Identifier) {
   return { declarationModuleName, testDefinition }
 }
 
-function addFixtureNode(graphNodes: GraphNode[], testIndentifier: Identifier, targetNode: GraphNode): { testDefinition: VariableDeclaration, graphNode: GraphNode | null, grapheNodeExisted: boolean } {
+function addFixtureNode(graphNodes: GraphNode[], testIndentifier: Identifier): { testDefinition: VariableDeclaration, graphNode: GraphNode | null, grapheNodeExisted: boolean } {
   const { declarationModuleName, testDefinition } = getFixtureDefinition(testIndentifier)
 
   if (declarationModuleName === null) {
@@ -211,7 +223,7 @@ function addFixtureNode(graphNodes: GraphNode[], testIndentifier: Identifier, ta
   }
 
   graphNode = {
-    id: generateNodeId(declarationModuleName),
+    id: generateNodeId(declarationModuleName, 'fn'),
     name: declarationModuleName,
     type: 'fixture' as const
   }
@@ -227,6 +239,6 @@ function getCallExpressionIdentifier(callExpression: CallExpression) {
   return expression
 }
 
-function generateNodeId(name: string) {
-  return `${ name.replace(/-/g, '_') }_${ idGen++}`
+function generateNodeId(name: string, type: 'mn' | 'fn') {
+  return `${ type }_${ name.replace(/-/g, '_') }`
 }

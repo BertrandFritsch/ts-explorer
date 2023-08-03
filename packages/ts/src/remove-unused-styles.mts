@@ -42,7 +42,7 @@ async function removeUnusedStyles() {
         }
 
         if (makeStylesCall.getFirstAncestor(node => Node.isExportAssignment(node))) {
-          detectUsedStylesInOtherSourceFiles(filename, sourceFile, definedClasses, 'default');
+          detectUsedStylesInOtherSourceFiles(sourceFile, definedClasses, 'default');
         }
         else {
           const variableDeclaration = makeStylesCall.getFirstAncestor(node => Node.isVariableDeclaration(node));
@@ -54,7 +54,7 @@ async function removeUnusedStyles() {
           asserts(Node.isVariableStatement(variableStatement), `Expected node to be a VariableStatement, but was not found!`);
 
           if (variableStatement.isExported()) {
-            return detectUsedStylesInOtherSourceFiles(filename, sourceFile, definedClasses, variableName);
+            return detectUsedStylesInOtherSourceFiles(sourceFile, definedClasses, variableName);
           }
           else {
             const nameNode = variableDeclaration.getNameNode();
@@ -82,7 +82,7 @@ async function removeUnusedStyles() {
   }
 }
 
-function detectUsedStylesInOtherSourceFiles(filename: string, sourceFile: SourceFile, definedClasses: Map<string, PropertyAssignment>, exportName: string) {
+function detectUsedStylesInOtherSourceFiles(sourceFile: SourceFile, definedClasses: Map<string, PropertyAssignment>, exportName: string) {
   for (const node of sourceFile.getReferencingNodesInOtherSourceFiles()) {
     asserts(Node.isImportDeclaration(node), `Expected node to be an ImportDeclaration, but was ${ node.getKindName() }`);
     

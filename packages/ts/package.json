@@ -11,7 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "commander": "^11.0.0",
-    "cytoscape": "^3.25.0",
+    "cytoscape": "^3.26.0",
     "fast-glob": "^3.3.1",
     "ts-morph": "^19.0.0",
     "typescript": "^5.1.6"
