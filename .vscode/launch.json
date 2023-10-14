@@ -84,7 +84,7 @@
         "<node_internals>/**"
       ],
       "program": "${workspaceFolder}/packages/ts/src/extract-fixture-from-specs.mts",
-      "args": [ "../pelilab/meta/e2e/src/modules/mro/service-order-book/table/table.spec.ts" ],
+      "args": [ "../pelilab/meta/e2e/src/modules/production-planning/work-order/work-order.spec.ts" ],
       "outFiles": [
         "${workspaceFolder}/packages/ts/dist/**/*.mjs",
         "!**/node_modules/**"

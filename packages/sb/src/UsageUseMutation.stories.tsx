@@ -18,6 +18,7 @@ import alertsUsages from '../../../tmp/alertsUsages.json';
 import makeStyles from '../../../tmp/makeStyles.json';
 import muiTables from '../../../tmp/muiTables.json';
 import e2ePlaywrightTests from '../../../tmp/e2ePlaywrightTestImport.json';
+import agGridReactElements from '../../../tmp/ag-grid-react.json';
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -119,4 +120,9 @@ MUITableUsages.args = {
 export const E2EPlaywrightTestUsages = Template.bind({});
 E2EPlaywrightTestUsages.args = {
   elements: e2ePlaywrightTests
+};
+
+export const AGGridReactUsages = Template.bind({});
+AGGridReactUsages.args = {
+  elements: agGridReactElements
 };

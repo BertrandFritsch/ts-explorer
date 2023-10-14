@@ -11,8 +11,11 @@ program.name('extract-fixture-from-specs')
   .description('Extract the fixtures used by the specs')
   .version('0.0.1');
 
-program.argument('<input source file> | <input json file>');
+program.option('-a, --auto', 'add auto fixtures', false)
+  .argument('<input source file> | <input json file>');
 program.parse();
+
+const addAutoFixtures = program.opts().auto
 
 const sourceFiles = path.extname(program.args[0]) === '.json'
   ? JSON.parse(fs.readFileSync(program.args[0], 'utf-8'))
@@ -84,10 +87,10 @@ async function extractFixtureFromSpecs() {
 
     asserts(testCall !== undefined, `Could not find a call to test in ${filename}`)
 
-    const testIndentifier = getCallExpressionIdentifier(testCall)
+    const testIdentifier = getCallExpressionIdentifier(testCall)
 
-    ;(function walker(testIndentifier: Identifier, sourceNode: GraphNode) {
-      const { testDefinition, graphNode } = addFixtureNode(graphNodes, testIndentifier)
+    ;(function walker(testIdentifier: Identifier, sourceNode: GraphNode) {
+      const { testDefinition, graphNode } = addFixtureNode(graphNodes, testIdentifier)
 
       if (graphNode === null || graphLinks.some(link => link.target === graphNode.id && link.source === sourceNode.id)) {
         return
@@ -95,66 +98,80 @@ async function extractFixtureFromSpecs() {
   
       // extract the declared fixtures
       const objectLiteralExpression = testDefinition.getFirstDescendantByKind(SyntaxKind.ObjectLiteralExpression)
-      asserts(objectLiteralExpression !== undefined, `Could not find an object literal expression in ${ testDefinition.getSourceFile().getFilePath() }`)
+      if (objectLiteralExpression !== undefined) {
+        for (const fixtureProperty of objectLiteralExpression.getProperties()) {
+          asserts(Node.isPropertyAssignment(fixtureProperty), `Expected fixture to be a PropertyAssignment, but was ${ fixtureProperty.getKindName() }`)
 
-      for (const fixtureProperty of objectLiteralExpression.getProperties()) {
-        asserts(Node.isPropertyAssignment(fixtureProperty), `Expected fixture to be a PropertyAssignment, but was ${ fixtureProperty.getKindName() }`)
+          const fixtureName = fixtureProperty.getName()
+          const fixtureValue = fixtureProperty.getInitializer()
 
-        const fixtureName = fixtureProperty.getName()
-        const fixtureValue = fixtureProperty.getInitializer()
+          asserts(fixtureValue !== undefined, `Fixture ${ fixtureName } has no initializer`)
 
-        asserts(fixtureValue !== undefined, `Fixture ${ fixtureName } has no initializer`)
+          // fixture declared in the same file
+          if (Node.isArrowFunction(fixtureValue) || Node.isArrayLiteralExpression(fixtureValue)) {
+            if (!addAutoFixtures && !Node.isArrayLiteralExpression(fixtureValue)) {
+              graphLinks.push({
+                source: sourceNode.id,
+                target: graphNode.id,
+                fixture: fixtureName,
+              })
+            }
 
-        // fixture declared in the same file
-        if (Node.isArrowFunction(fixtureValue) || Node.isArrayLiteralExpression(fixtureValue)) {
+            continue
+          }
+
+          // fixture declared in another file
+          asserts(Node.isIdentifier(fixtureValue), `Expected fixture to be an Identifier, but was ${ fixtureValue.getKindName() }`)
+          const { graphNode: targetNode } = addFixtureNode(graphNodes, fixtureValue)
+
+          if (targetNode !== null && !graphLinks.some(link => link.source === graphNode.id && link.target === targetNode.id)) {
+            graphLinks.push({
+              source: targetNode.id === graphNode.id ? sourceNode.id : graphNode.id,
+              target: targetNode.id,
+              fixture: fixtureName,
+            })
+          }
+        }
+
+        if (graphNode.id !== sourceNode.id && !graphLinks.some(link => link.source === sourceNode.id && link.target === graphNode.id)) {
+          // no fixture declared in the same file, so we need to add a link to the base fixture
           graphLinks.push({
             source: sourceNode.id,
             target: graphNode.id,
-            fixture: fixtureName,
-          })
-
-          continue
-        }
-
-        // fixture declared in another file
-        asserts(Node.isIdentifier(fixtureValue), `Expected fixture to be an Identifier, but was ${ fixtureValue.getKindName() }`)
-        const { graphNode: targetNode } = addFixtureNode(graphNodes, fixtureValue)
-
-        if (targetNode !== null && !graphLinks.some(link => link.source === graphNode.id && link.target === targetNode.id)) {
-          graphLinks.push({
-            source: targetNode.id === graphNode.id ? sourceNode.id : graphNode.id,
-            target: targetNode.id,
-            fixture: fixtureName,
           })
         }
+
+        // walk to the base fixture
+        const testDefinitionInitializer = testDefinition.getInitializer()
+        asserts(Node.isCallExpression(testDefinitionInitializer), `Expected initializer to be a CallExpression, but was ${ testDefinitionInitializer?.getKindName() }`)
+
+        const extendExpression = testDefinitionInitializer.getExpression()
+        asserts(Node.isPropertyAccessExpression(extendExpression), `Expected expression to be a PropertyAccessExpression, but was ${ extendExpression?.getKindName() }`)
+        asserts(extendExpression.getName() === 'extend', `Expected expression to be 'extend', but was ${ extendExpression.getName() }`)
+
+        const baseIdentifier = extendExpression.getFirstChild()
+        asserts(Node.isIdentifier(baseIdentifier), `Expected base expression to be an Identifier, but was ${ baseIdentifier?.getKindName() }`)
+
+        const baseFixtureName = baseIdentifier.getText()
+        console.debug('Found base fixture:', baseFixtureName, 'in', getRelativePath(baseIdentifier.getSourceFile().getFilePath()))
+
+        walker(baseIdentifier, graphNode)
       }
+      else {
+        // merged tests
+        const callExpression = testDefinition.getFirstDescendantByKind(SyntaxKind.CallExpression)
+        asserts(callExpression !== undefined, `Expected test definition to have a CallExpression, but was ${ testDefinition.getKindName() }`)
 
-      if (graphNode.id !== sourceNode.id && !graphLinks.some(link => link.source === sourceNode.id && link.target === graphNode.id)) {
-        // no fixture declared in the same file, so we need to add a link to the base fixture
-        graphLinks.push({
-          source: sourceNode.id,
-          target: graphNode.id,
-        })
+        const callee = callExpression.getExpression();
+        asserts(Node.isIdentifier(callee) && callee.getText() === 'mergeTests', `Expected test definition to be a call to 'mergeTests', but was ${ callee?.getText() }`)
+
+        for (const test of callExpression.getArguments()) {
+          asserts(Node.isIdentifier(test), `Expected argument to be an Identifier, but was ${ test.getKindName() }`)
+
+          walker(test, graphNode)
+        }
       }
-
-      // walk to the base fixture
-      const testDefinitionInitializer = testDefinition.getInitializer()
-      asserts(Node.isCallExpression(testDefinitionInitializer), `Expected initializer to be a CallExpression, but was ${ testDefinitionInitializer?.getKindName() }`)
-
-      asserts(Node.isCallExpression(testDefinitionInitializer), `Expected initializer to be a CallExpression, but was ${ testDefinitionInitializer?.getKindName() }`)
-
-      const extendExpression = testDefinitionInitializer.getExpression()
-      asserts(Node.isPropertyAccessExpression(extendExpression), `Expected expression to be a PropertyAccessExpression, but was ${ extendExpression?.getKindName() }`)
-      asserts(extendExpression.getName() === 'extend', `Expected expression to be 'extend', but was ${ extendExpression.getName() }`)
-
-      const baseIdentifier = extendExpression.getFirstChild()
-      asserts(Node.isIdentifier(baseIdentifier), `Expected base expression to be an Identifier, but was ${ baseIdentifier?.getKindName() }`)
-
-      const baseFixtureName = baseIdentifier.getText()
-      console.debug('Found base fixture:', baseFixtureName, 'in', getRelativePath(baseIdentifier.getSourceFile().getFilePath()))
-
-      walker(baseIdentifier, graphNode)
-    })(testIndentifier, graphNode)
+    })(testIdentifier, graphNode)
   }
 
   const modules = graphNodes.filter(node => node.type === 'spec')
@@ -192,34 +209,34 @@ digraph FixtureHierarchy {
   `
 }
 
-function getFixtureDefinition(testIndentifier: Identifier) {
-  const defs = testIndentifier.getDefinitionNodes()
-  asserts(defs.length === 1, `More than one definition found for parameter of '${'test'}'`)
+function getFixtureDefinition(testIdentifier: Identifier) {
+  const defs = testIdentifier.getDefinitionNodes()
+  asserts(defs.length === 1, `More than one definition found for parameter of 'test'`)
 
   const testDefinition = defs[0]
   asserts(Node.isVariableDeclaration(testDefinition), `Expected definition to be a VariableDeclaration, but was ${testDefinition?.getKindName()}`)
 
-  const desclarationFilename = testDefinition.getSourceFile().getFilePath()
+  const declarationFilename = testDefinition.getSourceFile().getFilePath()
   
-  if (isExternalModule(desclarationFilename)) {
+  if (isExternalModule(declarationFilename)) {
     return { declarationModuleName: null, testDefinition }
   }
   
-  const declarationModuleName = desclarationFilename.replace(/^.+\/(.+?)\.fixture\.ts$/, '$1')
+  const declarationModuleName = declarationFilename.replace(/^.+\/(.+?)\.fixture\.ts$/, '$1')
   return { declarationModuleName, testDefinition }
 }
 
-function addFixtureNode(graphNodes: GraphNode[], testIndentifier: Identifier): { testDefinition: VariableDeclaration, graphNode: GraphNode | null, grapheNodeExisted: boolean } {
-  const { declarationModuleName, testDefinition } = getFixtureDefinition(testIndentifier)
+function addFixtureNode(graphNodes: GraphNode[], testIdentifier: Identifier): { testDefinition: VariableDeclaration, graphNode: GraphNode | null, graphNodeExisted: boolean } {
+  const { declarationModuleName, testDefinition } = getFixtureDefinition(testIdentifier)
 
   if (declarationModuleName === null) {
-    return { testDefinition, graphNode: null, grapheNodeExisted: false }
+    return { testDefinition, graphNode: null, graphNodeExisted: false }
   }
 
   let graphNode = graphNodes.find(n => n.name === declarationModuleName && n.type === 'fixture')
 
   if (graphNode !== undefined) {
-    return { testDefinition, graphNode, grapheNodeExisted: true }
+    return { testDefinition, graphNode, graphNodeExisted: true }
   }
 
   graphNode = {
@@ -230,7 +247,7 @@ function addFixtureNode(graphNodes: GraphNode[], testIndentifier: Identifier): {
 
   graphNodes.push(graphNode)
 
-  return { testDefinition, graphNode, grapheNodeExisted: false }
+  return { testDefinition, graphNode, graphNodeExisted: false }
 }
 
 function getCallExpressionIdentifier(callExpression: CallExpression) {
