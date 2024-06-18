@@ -21,9 +21,9 @@ jobs:
       - name: Install Dependencies
         run: pnpm install
       - name: Build
-        run: pnpm -C packages/ts run release
+        run: pnpm -C packages/ts run build
       - name: Semantic Release
-        run: npx semantic-release
+        run: pnpm -C packages/ts run release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
