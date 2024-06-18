@@ -11,13 +11,13 @@
       "skipFiles": [
         "<node_internals>/**"
       ],
-      "program": "${workspaceFolder}/src/get-dependency-graph.ts",
+      "program": "${workspaceFolder}/packages/ts/src/main.mts",
       // "preLaunchTask": "tsc: build - tsconfig.json",
       // "outFiles": [
       //   "${workspaceFolder}/dist/**/*.js"
       // ],
-      "runtimeArgs": [ "--experimental-specifier-resolution=node" ],
-      "args": [ "../pelico_front/app/styles/pelicool/tokens/typography.ts" ]
+      // "runtimeArgs": [ "--experimental-specifier-resolution=node" ],
+      "args": [ "get-dependency-graph", "../pelico_front/app/app.tsx" ]
     },
     {
       "type": "node",
