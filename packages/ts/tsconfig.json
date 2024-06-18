@@ -1,9 +1,9 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "outDir": "dist/"
+    "outDir": "dist-dev/"
   },
   "include": [
-    "src/*.mts"
+    "src/main.mts"
   ]
 }

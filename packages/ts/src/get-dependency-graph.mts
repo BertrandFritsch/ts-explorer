@@ -3,55 +3,30 @@ import fs from 'fs'
 import { initializeRootDirectory } from './lib/helpers.mjs'
 import { DependencyGraphImport } from './lib/types.mjs'
 import { walkModuleDependencyImports } from './lib/walkModuleDependencyImports.mjs'
-import { Command } from 'commander'
 
-const program = new Command()
+export async function getDependencyGraph(sourceFile: string, isRecursive: boolean) {
+  const sourceFiles =
+    path.extname(sourceFile) === '.json'
+      ? JSON.parse(fs.readFileSync(sourceFile, 'utf-8'))
+      : [sourceFile]
 
-program
-  .name('get-dependency-graph')
-  .description('Build the dependency graph of a set of typescript files')
-  .version('0.0.2')
+  initializeRootDirectory(sourceFiles[0])
+  return getModuleDependencies()
 
-program
-  .option(
-    '-r, --recursive',
-    'whether the internal dependencies have to be processed recursively',
-    false,
-  )
-  .argument('<input source file> | <input json file>')
-program.parse()
+  async function getModuleDependencies() {
+    const modules = new Map<string, DependencyGraphImport[]>()
 
-const sourceFiles =
-  path.extname(program.args[0]) === '.json'
-    ? JSON.parse(fs.readFileSync(program.args[0], 'utf-8'))
-    : [program.args[0]]
+    for await (const { filename, declarations } of walkModuleDependencyImports(sourceFiles, {
+      walkThroughImports: isRecursive,
+    })) {
+      let imports = modules.get(filename)
+      if (!imports) {
+        modules.set(filename, (imports = []))
+      }
 
-initializeRootDirectory(sourceFiles[0])
-
-console.log(
-  JSON.stringify(
-    Array.from((await getModuleDependencies()).entries()).reduce(
-      (acc, [key, value]) => ({ ...acc, [key]: value }),
-      {},
-    ),
-    null,
-    2,
-  ),
-)
-
-async function getModuleDependencies() {
-  const modules = new Map<string, DependencyGraphImport[]>()
-
-  for await (const { filename, declarations } of walkModuleDependencyImports(sourceFiles, {
-    walkThroughImports: program.opts().recursive,
-  })) {
-    let imports = modules.get(filename)
-    if (!imports) {
-      modules.set(filename, (imports = []))
+      imports.push(declarations)
     }
 
-    imports.push(declarations)
+    return modules
   }
-
-  return modules
 }

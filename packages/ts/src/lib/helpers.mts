@@ -1,5 +1,6 @@
-import fsModule from 'fs'
-import pathModule from 'path'
+import { spawnSync } from 'node:child_process'
+import fsModule from 'node:fs'
+import pathModule from 'node:path'
 import { ModuleItem } from './types.mjs'
 
 export function asserts(expr: boolean, message = 'Assertion failed!'): asserts expr {
@@ -79,4 +80,31 @@ export function parseModuleItem(item: string): ModuleItem {
     namedImport: matches.groups && matches.groups.namedImport,
     isExternal: matches.groups!.moduleSpecifier.match(/\.\w+$/) === null,
   }
+}
+
+function execCommand(command: string, args: string[], shell = false) {
+  const result = spawnSync(command, args, { shell })
+
+  if (result.error) {
+    throw result.error
+  }
+
+  return result.stdout.toString().trim()
+}
+
+export function getVersion(filename: string) {
+  const pkgLocation = (() => {
+    if (process.env.NODE_ENV === 'production') {
+      const nodeModulesFolder = execCommand('npm', ['root', '-g'], true)
+      return pathModule.join(nodeModulesFolder, '@pelico', 'pipeline-watch', 'package.json')
+    }
+
+    return lookupForFile('package.json', pathModule.dirname(filename))
+  })()
+
+  const { name, description, version } = JSON.parse(
+    fsModule.readFileSync(pkgLocation, { encoding: 'utf-8' }),
+  )
+
+  return { name, description, version }
 }
