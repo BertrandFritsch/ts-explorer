@@ -104,7 +104,7 @@ async function updateImportTSSClauses(item: string) {
 function updateTSSClauses(filename: string, sourceFile: SourceFile, item: string) {
   for (const callExpression of sourceFile.getDescendantsOfKind(SyntaxKind.CallExpression)) {
     /*
-      * migrate the classes assignement:
+      * migrate the classes assignment:
       *   const classes = useStyles() => const { classes } = useStyles()
       */
     const callee = callExpression.getExpression();
@@ -124,7 +124,7 @@ function updateTSSClauses(filename: string, sourceFile: SourceFile, item: string
 }
 
 async function *walkModuleImports(items: Item[]) {
-  for await (const { filename, sourceFile, declarations, importDeclaration } of walkModuleDependencyImports(sourceFiles, { skipAddingFilesFromTsConfig: false })) {
+  for await (const { filename, sourceFile, declarations, importDeclaration } of walkModuleDependencyImports(sourceFiles, { skipAddingFilesFromTsConfig: false, walkThroughImports: false })) {
     if (!items.some(item => !item.isExternal && item.moduleSpecifier === filename)) { // consider items as endpoints -- don't look up for GraphQL calls inside them
       for (const item of items) {
         if ((item.isExternal ? declarations.moduleSpecifier : declarations.resolvedFileName) === item.moduleSpecifier

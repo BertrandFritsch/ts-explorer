@@ -144,13 +144,13 @@ export async function* walkModuleDependencyImports(filenames: string | string[],
         }
       }
 
-      // support `import.meta.globEager` imported files
+      // support `import.meta.glob` imported files
       for (const callExpression of sourceFile.getDescendantsOfKind(SyntaxKind.CallExpression)) {
         asserts(ts.isCallExpression(callExpression.compilerNode));
 
         const propertyAccessExpression = callExpression.getExpression();
         if (ts.isPropertyAccessExpression(propertyAccessExpression.compilerNode)) {
-          if (propertyAccessExpression.compilerNode.name.getText() === 'globEager') {
+          if (propertyAccessExpression.compilerNode.name.getText() === 'glob') {
             const cwd = pathModule.dirname(pathModule.resolve(module.resolvedFileName));
             const p = callExpression.compilerNode.arguments[ 0 ];
             asserts(ts.isStringLiteral(p));

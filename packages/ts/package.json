@@ -10,13 +10,13 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "commander": "^11.1.0",
-    "cytoscape": "^3.26.0",
-    "fast-glob": "^3.3.1",
-    "ts-morph": "^20.0.0",
-    "typescript": "^5.1.6"
+    "commander": "^12.1.0",
+    "cytoscape": "^3.29.2",
+    "fast-glob": "^3.3.2",
+    "ts-morph": "^22.0.0",
+    "typescript": "^5.4.5"
   },
   "devDependencies": {
-    "@types/cytoscape": "^3.19.12"
+    "@types/cytoscape": "^3.21.4"
   }
 }

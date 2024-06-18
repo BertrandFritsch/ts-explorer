@@ -36,7 +36,7 @@ initializeRootDirectory(program.args[ 0 ]);
 await migrateSpacingToGap();
 
 async function migrateSpacingToGap() {
-  const items = [ parseModuleItem(`app/components/common/Space.tsx#default`), parseModuleItem(`app/components/common/SpaceH.tsx#default`) ];
+  const items = [ parseModuleItem(`app/components/common/Placeholders/Space/index.tsx#default`), parseModuleItem(`app/components/common/Placeholders/SpaceH/index.tsx#default`) ];
 
   for await (const { filename, sourceFile, importDeclaration } of walkModuleImports(items)) {
     let updated = false
