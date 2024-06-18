@@ -2,7 +2,7 @@ import {build} from 'esbuild'
 import copy from 'esbuild-plugin-copy'
 
 await build({
-  entryPoints: ['src/main.ts'],
+  entryPoints: ['src/main.mts'],
   define: {
     'process.env.NODE_ENV': '"production"',
   },
