@@ -1,4 +1,4 @@
-# `@bfr/ts-explorer`
+# `@bertrand.fritsch/ts-explorer`
 
 This is a TypeScript code exploration tool that allows you to generate a dependency graph of a set of TypeScript files and get a list of files.
 
@@ -7,7 +7,7 @@ This is a TypeScript code exploration tool that allows you to generate a depende
 You can install this package via npm:
 
 ```bash
-npm install @bfr/ts-explorer
+npm install @bertrand.fritsch/ts-explorer
 ```
 ## Usage
 This package provides two main commands:  
@@ -17,26 +17,26 @@ This package provides two main commands:
 This command generates the dependency graph of a set of TypeScript files.
 
 ```bash
-npx @bfr/ts-explorer get-dependency-graph <input source file> | <input json file> [--recursive]
+npx @bertrand.fritsch/ts-explorer get-dependency-graph <input source file> | <input json file> [--recursive]
 ```
 The `--recursive` option allows the internal dependencies to be processed recursively.
 
 **Example**
 
 ```bash
-npx @bfr/ts-explorer get-dependency-graph ./src/main.ts --recursive
+npx @bertrand.fritsch/ts-explorer get-dependency-graph ./src/main.ts --recursive
 ```
 `get-file-list`
 
 This command generates a list of files.
 
 ```bash
-npx @bfr/ts-explorer get-file-list <input source file> | <input json file>
+npx @bertrand.fritsch/ts-explorer get-file-list <input source file> | <input json file>
 ```
 **Example**
 
 ```bash
-npx @bfr/ts-explorer get-file-list ./src/main.ts
+npx @bertrand.fritsch/ts-explorer get-file-list ./src/main.ts
 ```
 
 ## License

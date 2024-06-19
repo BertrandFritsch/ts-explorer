@@ -1,5 +1,5 @@
 {
-  "name": "@bfr/ts-explorer",
+  "name": "@bertrand.fritsch/ts-explorer",
   "version": "0.0.1",
   "description": "Explore TypeScript code",
   "type": "module",
