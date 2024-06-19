@@ -3,13 +3,16 @@
   "version": "0.0.1",
   "description": "Explore TypeScript code",
   "type": "module",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "tsc:watch": "tsc -w",
     "tsc:check": "tsc --noEmit",
     "build": "node esbuild.config.mjs",
     "release": "semantic-release"
   },
-  "author": "",
+  "author": "Bertrand Fritsch",
   "license": "MIT",
   "dependencies": {
     "commander": "^12.1.0",
