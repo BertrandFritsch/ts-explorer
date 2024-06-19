@@ -96,7 +96,7 @@ export function getVersion(filename: string) {
   const pkgLocation = (() => {
     if (process.env.NODE_ENV === 'production') {
       const nodeModulesFolder = execCommand('npm', ['root', '-g'], true)
-      return pathModule.join(nodeModulesFolder, '@pelico', 'pipeline-watch', 'package.json')
+      return pathModule.join(nodeModulesFolder, '@bertrand-fritsch', 'ts-explorer', 'package.json')
     }
 
     return lookupForFile('package.json', pathModule.dirname(filename))

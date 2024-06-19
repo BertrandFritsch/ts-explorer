@@ -17,8 +17,8 @@ await build({
   plugins: [
     copy({
       assets: [
-        // include entry point
         { from: 'src/cli.mjs', to: './' },
+        { from: '../../README.md', to: './' },
       ],
       verbose: true,
     }),
