@@ -1,11 +1,21 @@
 {
   "name": "@bertrand.fritsch/ts-explorer",
-  "version": "0.0.1",
+  "version": "1.0.3",
   "description": "Explore TypeScript code",
+  "license": "MIT",
+  "bin": {
+    "pipeline-watch": "dist/bin/cli.mjs"
+  },
   "type": "module",
+  "engines": {
+    "node": ">=18"
+  },
   "publishConfig": {
     "access": "public"
   },
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "tsc:watch": "tsc -w",
     "tsc:check": "tsc --noEmit",
@@ -13,7 +23,6 @@
     "release": "semantic-release"
   },
   "author": "Bertrand Fritsch",
-  "license": "MIT",
   "dependencies": {
     "commander": "^12.1.0",
     "fast-glob": "^3.3.2",
