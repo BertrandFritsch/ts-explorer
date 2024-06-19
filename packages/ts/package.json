@@ -1,5 +1,5 @@
 {
-  "name": "ts-explorer",
+  "name": "@bfr/ts-explorer",
   "version": "0.0.1",
   "description": "Explore TypeScript code",
   "type": "module",
@@ -10,7 +10,7 @@
     "release": "semantic-release"
   },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "commander": "^12.1.0",
     "fast-glob": "^3.3.2",

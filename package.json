@@ -1,7 +1,4 @@
 {
-  "scripts": {
-
-  },
   "pnpm": {
     "peerDependencyRules": {
       "allowedVersions": {
