@@ -2,27 +2,32 @@
   "name": "@bertrand.fritsch/ts-explorer",
   "version": "1.0.3",
   "description": "Explore TypeScript code",
-  "license": "MIT",
-  "bin": {
-    "pipeline-watch": "dist/bin/cli.mjs"
-  },
-  "type": "module",
-  "engines": {
-    "node": ">=18"
-  },
-  "publishConfig": {
-    "access": "public"
-  },
-  "files": [
-    "dist"
-  ],
+  "module": "dist/main.mjs",
   "scripts": {
     "tsc:watch": "tsc -w",
     "tsc:check": "tsc --noEmit",
     "build": "node esbuild.config.mjs",
-    "release": "semantic-release"
+    "release": "semantic-release",
+    "test": "jest"
   },
+  "keywords": [
+    "typescript",
+    "explorer",
+    "dependency",
+    "graph",
+    "file",
+    "list"
+  ],
   "author": "Bertrand Fritsch",
+  "license": "MIT",
+  "homepage": "https://github.com/bertrand-fritsch/ts-explorer#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bertrand-fritsch/ts-explorer.git"
+  },
+  "bugs": {
+    "url": "https://github.com/bertrand-fritsch/ts-explorer/issues"
+  },
   "dependencies": {
     "commander": "^12.1.0",
     "fast-glob": "^3.3.2",
@@ -40,5 +45,17 @@
     "esbuild-plugin-copy": "^2.1.1",
     "prettier": "^3.3.2",
     "semantic-release": "^24.0.0"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist"
+  ],
+  "bin": {
+    "ts-explorer": "./dist/bin/cli.mjs"
   }
 }
