@@ -20,13 +20,13 @@
   ],
   "author": "Bertrand Fritsch",
   "license": "MIT",
-  "homepage": "https://github.com/bertrand-fritsch/ts-explorer#readme",
+  "homepage": "https://github.com/BertrandFritsch/ts-explorer#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bertrand-fritsch/ts-explorer.git"
+    "url": "git+https://github.com/BertrandFritsch/ts-explorer.git"
   },
   "bugs": {
-    "url": "https://github.com/bertrand-fritsch/ts-explorer/issues"
+    "url": "https://github.com/BertrandFritsch/ts-explorer/issues"
   },
   "dependencies": {
     "commander": "^12.1.0",
