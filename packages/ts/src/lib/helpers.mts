@@ -42,13 +42,47 @@ function lookupForFile(name: string, from: string) {
 }
 
 let rootDirectory: string | null = null
+let moduleType: 'esm' | 'cjs' | null = null
 
 export function initializeRootDirectory(filename: string) {
   rootDirectory = pathModule.dirname(lookupForFile('tsconfig.json', filename))
+
+  const packageJson = lookupForFile('package.json', rootDirectory)
+  const { type } = JSON.parse(fsModule.readFileSync(packageJson, { encoding: 'utf-8' }))
+  moduleType = type === 'module' ? 'esm' : 'cjs'
 }
 
 export function getRootDirectory() {
   return NNU(rootDirectory)
+}
+
+export function getModuleType() {
+  return NNU(moduleType)
+}
+
+export function resolveModuleName(filename: string) {
+  const parsedPath = pathModule.parse(filename)
+
+  switch (parsedPath.ext) {
+    case '.mts':
+    case '.mjs':
+      return `${parsedPath.name}.mjs`
+    case '.cts':
+    case '.cjs':
+      return `${parsedPath.name}.cjs`
+  }
+
+  if (moduleType === 'esm') {
+    switch (parsedPath.ext) {
+      case '.ts':
+      case '.tsx':
+      case '.jsx':
+      case '.js':
+        return `${parsedPath.name}.js`
+    }
+  }
+
+  return parsedPath.name
 }
 
 export function getRelativePath(path: string) {

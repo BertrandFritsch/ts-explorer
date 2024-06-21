@@ -3,7 +3,5 @@
   "compilerOptions": {
     "outDir": "dist-dev/"
   },
-  "include": [
-    "src/main.mts"
-  ]
+  "include": ["src/main.mts"]
 }
