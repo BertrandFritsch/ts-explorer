@@ -23,7 +23,9 @@ jobs:
       - name: Build
         run: pnpm -C packages/ts run build
       - name: Semantic Release
-        run: pnpm -C packages/ts run release
+        run:
+          cp README.md packages/ts/README.md
+          pnpm -C packages/ts run release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

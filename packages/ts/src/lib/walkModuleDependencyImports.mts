@@ -1,8 +1,8 @@
-import pathModule from 'path'
+import pathModule from 'node:path'
 import { IndentationText, Project, SyntaxKind, ts } from 'ts-morph'
 import { ResolvedModuleFull } from 'typescript'
 import fg from 'fast-glob'
-import { ANNU, asserts, getRelativePath, getRootDirectory, NNU } from './helpers.mjs'
+import { ANNU, asserts, getRelativePath, getRootDirectory, NNU, resolveModuleName, } from './helpers.mjs'
 import { DependencyGraphImport, DependencyGraphItem } from './types.mjs'
 
 interface WalkModuleDependencyImportOptions {
@@ -54,7 +54,7 @@ export async function* walkModuleDependencyImports(
 
   for (const filename of Array.isArray(filenames) ? filenames : [filenames]) {
     const rootModule = ts.resolveModuleName(
-      `./${pathModule.parse(filename).name}`,
+      `./${resolveModuleName(filename)}`,
       filename,
       options,
       project.getModuleResolutionHost(),
