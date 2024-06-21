@@ -1,5 +1,5 @@
-import path from 'path'
-import fs from 'fs'
+import path from 'node:path'
+import fs from 'node:fs'
 import { initializeRootDirectory } from './lib/helpers.mjs'
 import { DependencyGraphImport } from './lib/types.mjs'
 import { walkModuleDependencyImports } from './lib/walkModuleDependencyImports.mjs'

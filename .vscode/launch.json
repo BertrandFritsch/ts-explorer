@@ -17,7 +17,7 @@
       //   "${workspaceFolder}/dist/**/*.js"
       // ],
       // "runtimeArgs": [ "--experimental-specifier-resolution=node" ],
-      "args": [ "get-dependency-graph", "../pelico_front/app/app.tsx" ]
+      "args": [ "get-dependency-graph", "../pelilab/pipeline-watch/src/index.tsx" ]
     },
     {
       "type": "node",
