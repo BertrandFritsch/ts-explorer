@@ -56,6 +56,6 @@
     "dist"
   ],
   "bin": {
-    "ts-explorer": "./dist/bin/cli.mjs"
+    "ts-explorer": "dist/bin/cli.mjs"
   }
 }
