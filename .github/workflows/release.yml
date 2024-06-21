@@ -23,7 +23,7 @@ jobs:
       - name: Build
         run: pnpm -C packages/ts run build
       - name: Semantic Release
-        run:
+        run: |
           cp README.md packages/ts/README.md
           pnpm -C packages/ts run release
         env:
