@@ -1,5 +1,12 @@
 # `@bertrand.fritsch/ts-explorer`
 
+![npm](https://img.shields.io/npm/v/@bertrand.fritsch/ts-explorer)
+![npm](https://img.shields.io/npm/dw/@bertrand.fritsch/ts-explorer)
+![GitHub issues](https://img.shields.io/github/issues/bertrandfritsch/ts-explorer)
+![GitHub forks](https://img.shields.io/github/forks/bertrandfritsch/ts-explorer)
+![GitHub stars](https://img.shields.io/github/stars/bertrandfritsch/ts-explorer)
+![Release](https://github.com/bertrandfritsch/ts-explorer/actions/workflows/release.yml/badge.svg?branch=master)
+
 This is a TypeScript code exploration tool that allows you to generate a dependency graph of a set of TypeScript files and get a list of files.
 
 ## Installation

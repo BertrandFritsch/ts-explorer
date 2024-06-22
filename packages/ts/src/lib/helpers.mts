@@ -1,6 +1,6 @@
-import { spawnSync } from 'node:child_process'
 import fsModule from 'node:fs'
 import pathModule from 'node:path'
+import urlModule from 'node:url'
 import { ModuleItem } from './types.mjs'
 
 export function asserts(expr: boolean, message = 'Assertion failed!'): asserts expr {
@@ -116,25 +116,11 @@ export function parseModuleItem(item: string): ModuleItem {
   }
 }
 
-function execCommand(command: string, args: string[], shell = false) {
-  const result = spawnSync(command, args, { shell })
-
-  if (result.error) {
-    throw result.error
-  }
-
-  return result.stdout.toString().trim()
-}
-
-export function getVersion(filename: string) {
-  const pkgLocation = (() => {
-    if (process.env.NODE_ENV === 'production') {
-      const nodeModulesFolder = execCommand('npm', ['root', '-g'], true)
-      return pathModule.join(nodeModulesFolder, '@bertrand-fritsch', 'ts-explorer', 'package.json')
-    }
-
-    return lookupForFile('package.json', pathModule.dirname(filename))
-  })()
+export function getVersion() {
+  const pkgLocation = lookupForFile(
+    'package.json',
+    pathModule.dirname(urlModule.fileURLToPath(import.meta.url)),
+  )
 
   const { name, description, version } = JSON.parse(
     fsModule.readFileSync(pkgLocation, { encoding: 'utf-8' }),

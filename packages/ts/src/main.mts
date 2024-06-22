@@ -1,9 +1,12 @@
 import { Command } from 'commander'
 import { getDependencyGraph } from './get-dependency-graph.mjs'
+import { getVersion } from './lib/helpers.mjs'
 
 const program = new Command()
 
-program.version('0.0.1').description('Explores TypeScript code')
+const { description, version } = getVersion()
+
+program.name('ts-explorer').version(version).description(description)
 
 program
   .command('get-dependency-graph')
