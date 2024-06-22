@@ -2,6 +2,7 @@ import { Command, Option } from 'commander'
 import { getDependencyGraph } from './get-dependency-graph.mjs'
 import { getItemDependencyGraph } from './get-item-dependency-graph.mjs'
 import { findSymbolDefinition } from './find-symbol-definition.mjs'
+import { getItemImportedFiles } from './get-item-imported-files.mjs'
 import { getVersion } from './lib/helpers.mjs'
 
 const program = new Command()
@@ -83,6 +84,32 @@ program
           2,
         ),
       )
+    },
+  )
+
+program
+  .command('get-item-imported-files')
+  .description('Get the list of files that are importing an item')
+  .addOption(
+    new Option(
+      '-i, --item <item...>',
+      'the items to look for: <module> [ #(default | <item>) ]',
+    ).makeOptionMandatory(),
+  )
+  .argument(
+    '<input source file> | <input json file>',
+    'The source file to process or a JSON file with a list of source files',
+  )
+  .action(
+    async (
+      sourceFile: string,
+      {
+        item,
+      }: {
+        item: string[]
+      },
+    ) => {
+      console.log(JSON.stringify(await getItemImportedFiles(sourceFile, item), null, 2))
     },
   )
 

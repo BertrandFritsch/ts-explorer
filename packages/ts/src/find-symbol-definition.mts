@@ -2,8 +2,8 @@ import path from 'node:path'
 import { Project, ts } from 'ts-morph'
 import { getRelativePath, getRootDirectory, initializeRootDirectory } from './lib/helpers.mjs'
 
-export function findSymbolDefinition(projectPath: string, symbol: string) {
-  initializeRootDirectory(projectPath)
+export function findSymbolDefinition(sourceFile: string, symbol: string) {
+  initializeRootDirectory(sourceFile)
 
   const project = new Project({
     tsConfigFilePath: path.join(getRootDirectory(), 'tsconfig.json'),

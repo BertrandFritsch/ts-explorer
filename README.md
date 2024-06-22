@@ -17,6 +17,8 @@ The `@bertrand.fritsch/ts-explorer` package provides a suite of commands for Typ
 
 - **`get-item-dependency-graph`**: Offers a detailed dependency graph for a specific item, highlighting paths and dependencies related to the item.
 
+- **`get-item-imported-files`**: Get the list of files that are importing an item.
+
 - **`find-symbol-definition`**: Find the definition of a symbol in a project.
 
 These commands are designed to facilitate the analysis and visualization of TypeScript project structures, making it easier to understand and manage complex codebases.
@@ -34,7 +36,7 @@ The package can also be used with `npx`
 ## Usage
 This package provides following main commands:  
 
-[`get-dependency-graph`](command:_github.copilot.openSymbolFromReferences?%5B%7B%22%24mid%22%3A1%2C%22fsPath%22%3A%22c%3A%5C%5CUsers%5C%5CBertrand%5C%5Cwork%5C%5Cts-explorer%5C%5Cpackages%5C%5Cts%5C%5Csrc%5C%5Cget-dependency-graph.mts%22%2C%22_sep%22%3A1%2C%22external%22%3A%22file%3A%2F%2F%2Fc%253A%2FUsers%2FBertrand%2Fwork%2Fts-explorer%2Fpackages%2Fts%2Fsrc%2Fget-dependency-graph.mts%22%2C%22path%22%3A%22%2Fc%3A%2FUsers%2FBertrand%2Fwork%2Fts-explorer%2Fpackages%2Fts%2Fsrc%2Fget-dependency-graph.mts%22%2C%22scheme%22%3A%22file%22%7D%2C%7B%22line%22%3A0%2C%22character%22%3A0%7D%5D "packages/ts/src/get-dependency-graph.mts")
+[**`get-dependency-graph`**](command:_github.copilot.openSymbolFromReferences?%5B%7B%22%24mid%22%3A1%2C%22fsPath%22%3A%22c%3A%5C%5CUsers%5C%5CBertrand%5C%5Cwork%5C%5Cts-explorer%5C%5Cpackages%5C%5Cts%5C%5Csrc%5C%5Cget-dependency-graph.mts%22%2C%22_sep%22%3A1%2C%22external%22%3A%22file%3A%2F%2F%2Fc%253A%2FUsers%2FBertrand%2Fwork%2Fts-explorer%2Fpackages%2Fts%2Fsrc%2Fget-dependency-graph.mts%22%2C%22path%22%3A%22%2Fc%3A%2FUsers%2FBertrand%2Fwork%2Fts-explorer%2Fpackages%2Fts%2Fsrc%2Fget-dependency-graph.mts%22%2C%22scheme%22%3A%22file%22%7D%2C%7B%22line%22%3A0%2C%22character%22%3A0%7D%5D "packages/ts/src/get-dependency-graph.mts")
 
 This command generates the dependency graph of a set of TypeScript files.
 
@@ -48,7 +50,7 @@ The `--recursive` option allows the internal dependencies to be processed recurs
 ```bash
 npx @bertrand.fritsch/ts-explorer get-dependency-graph ./src/main.ts --recursive
 ```
-[`get-file-list`](command:_github.copilot.openSymbolFromReferences?%5B%7B%22%24mid%22%3A1%2C%22fsPath%22%3A%22c%3A%5C%5CUsers%5C%5CBertrand%5C%5Cwork%5C%5Cts-explorer%5C%5Cpackages%5C%5Cts%5C%5Csrc%5C%5Cget-file-list.mts%22%2C%22_sep%22%3A1%2C%22external%22%3A%22file%3A%2F%2F%2Fc%253A%2FUsers%2FBertrand%2Fwork%2Fts-explorer%2Fpackages%2Fts%2Fsrc%2Fget-file-list.mts%22%2C%22path%22%3A%22%2Fc%3A%2FUsers%2FBertrand%2Fwork%2Fts-explorer%2Fpackages%2Fts%2Fsrc%2Fget-file-list.mts%22%2C%22scheme%22%3A%22file%22%7D%2C%7B%22line%22%3A0%2C%22character%22%3A0%7D%5D "packages/ts/src/get-file-list.mts")
+[**`get-file-list`**](command:_github.copilot.openSymbolFromReferences?%5B%7B%22%24mid%22%3A1%2C%22fsPath%22%3A%22c%3A%5C%5CUsers%5C%5CBertrand%5C%5Cwork%5C%5Cts-explorer%5C%5Cpackages%5C%5Cts%5C%5Csrc%5C%5Cget-file-list.mts%22%2C%22_sep%22%3A1%2C%22external%22%3A%22file%3A%2F%2F%2Fc%253A%2FUsers%2FBertrand%2Fwork%2Fts-explorer%2Fpackages%2Fts%2Fsrc%2Fget-file-list.mts%22%2C%22path%22%3A%22%2Fc%3A%2FUsers%2FBertrand%2Fwork%2Fts-explorer%2Fpackages%2Fts%2Fsrc%2Fget-file-list.mts%22%2C%22scheme%22%3A%22file%22%7D%2C%7B%22line%22%3A0%2C%22character%22%3A0%7D%5D "packages/ts/src/get-file-list.mts")
 
 Get the list of files from a project starting from a source file.
 
@@ -61,7 +63,7 @@ npx @bertrand.fritsch/ts-explorer get-file-list <input source file> | <input jso
 npx @bertrand.fritsch/ts-explorer get-file-list ./src/main.ts
 ```
 
-[`get-item-dependency-graph`](command:_github.copilot.openSymbolFromReferences?%5B%7B%22%24mid%22%3A1%2C%22fsPath%22%3A%22c%3A%5C%5CUsers%5C%5CBertrand%5C%5Cwork%5C%5Cts-explorer%5C%5Cpackages%5C%5Cts%5C%5Csrc%5C%5Cget-dependency-graph.mts%22%2C%22_sep%22%3A1%2C%22external%22%3A%22file%3A%2F%2F%2Fc%253A%2FUsers%2FBertrand%2Fwork%2Fts-explorer%2Fpackages%2Fts%2Fsrc%2Fget-dependency-graph.mts%22%2C%22path%22%3A%22%2Fc%3A%2FUsers%2FBertrand%2Fwork%2Fts-explorer%2Fpackages%2Fts%2Fsrc%2Fget-dependency-graph.mts%22%2C%22scheme%22%3A%22file%22%7D%2C%7B%22line%22%3A0%2C%22character%22%3A0%7D%5D "packages/ts/src/get-dependency-graph.mts")
+[**`get-item-dependency-graph`**](command:_github.copilot.openSymbolFromReferences?%5B%7B%22%24mid%22%3A1%2C%22fsPath%22%3A%22c%3A%5C%5CUsers%5C%5CBertrand%5C%5Cwork%5C%5Cts-explorer%5C%5Cpackages%5C%5Cts%5C%5Csrc%5C%5Cget-dependency-graph.mts%22%2C%22_sep%22%3A1%2C%22external%22%3A%22file%3A%2F%2F%2Fc%253A%2FUsers%2FBertrand%2Fwork%2Fts-explorer%2Fpackages%2Fts%2Fsrc%2Fget-dependency-graph.mts%22%2C%22path%22%3A%22%2Fc%3A%2FUsers%2FBertrand%2Fwork%2Fts-explorer%2Fpackages%2Fts%2Fsrc%2Fget-dependency-graph.mts%22%2C%22scheme%22%3A%22file%22%7D%2C%7B%22line%22%3A0%2C%22character%22%3A0%7D%5D "packages/ts/src/get-dependency-graph.mts")
 
 This command provides a detailed dependency graph for a specific item within a set of TypeScript files, highlighting the paths and dependencies related to the specified item. It offers a focused view of its connections within the project, useful for understanding the structure and dependencies of complex items.
 
@@ -106,7 +108,23 @@ This structured output can be directly used in web applications to render intera
 
 This JSON structure allows developers to easily integrate the dependency graph into applications or tools that support Cytoscape.js or similar graph visualization libraries, facilitating a deeper understanding of item dependencies and project architecture.
 
-[`find-symbol-definition`](command:_github.copilot.openSymbolFromReferences?%5B%7B%22%24mid%22%3A1%2C%22fsPath%22%3A%22c%3A%5C%5CUsers%5C%5CBertrand%5C%5Cwork%5C%5Cts-explorer%5C%5Cpackages%5C%5Cts%5C%5Csrc%5C%5Cfind-symbol-definition.mts%22%2C%22_sep%22%3A1%2C%22external%22%3A%22file%3A%2F%2F%2Fc%253A%2FUsers%2FBertrand%2Fwork%2Fts-explorer%2Fpackages%2Fts%2Fsrc%2Ffind-symbol-definition.mts%22%2C%22path%22%3A%22%2Fc%3A%2FUsers%2FBertrand%2Fwork%2Fts-explorer%2Fpackages%2Fts%2Fsrc%2Ffind-symbol-definition.mts%22%2C%22scheme%22%3A%22file%22%7D%2C%7B%22line%22%3A0%2C%22character%22%3A0%7D%5D "packages/ts/src/find-symbol-definition.mts")
+[**`get-item-imported-files`**](command:_github.copilot.openSymbolFromReferences?%5B%7B%22%24mid%22%3A1%2C%22fsPath%22%3A%22c%3A%5C%5CUsers%5C%5CBertrand%5C%5Cwork%5C%5Cts-explorer%5C%5Cpackages%5C%5Cts%5C%5Csrc%5C%5Cget-item-imported-files.mts%22%2C%22_sep%22%3A1%2C%22external%22%3A%22file%3A%2F%2F%2Fc%253A%2FUsers%2FBertrand%2Fwork%2Fts-explorer%2Fpackages%2Fts%2Fsrc%2Fget-item-imported-files.mts%22%2C%22path%22%3A%22%2Fc%3A%2FUsers%2FBertrand%2Fwork%2Fts-explorer%2Fpackages%2Fts%2Fsrc%2Fget-item-imported-files.mts%22%2C%22scheme%22%3A%22file%22%7D%2C%7B%22line%22%3A0%2C%22character%22%3A0%7D%5D "packages/ts/src/get-item-imported-files.mts")
+
+Get the list of files that are importing an item.
+
+```bash
+npx @bertrand.fritsch/ts-explorer get-item-imported-files <input source file> | <input json file> -i <item...>
+```
+
+* `-i, --item <item...>`: Specifies the items to look for. The format is `<module> [ #(default | <item>) ]`. This option is mandatory.
+
+**Example**
+
+```bash
+npx @bertrand.fritsch/ts-explorer get-item-imported-files ./src/main.ts -i "myModule#myFunction"
+```
+
+[**`find-symbol-definition`**](command:_github.copilot.openSymbolFromReferences?%5B%7B%22%24mid%22%3A1%2C%22fsPath%22%3A%22c%3A%5C%5CUsers%5C%5CBertrand%5C%5Cwork%5C%5Cts-explorer%5C%5Cpackages%5C%5Cts%5C%5Csrc%5C%5Cfind-symbol-definition.mts%22%2C%22_sep%22%3A1%2C%22external%22%3A%22file%3A%2F%2F%2Fc%253A%2FUsers%2FBertrand%2Fwork%2Fts-explorer%2Fpackages%2Fts%2Fsrc%2Ffind-symbol-definition.mts%22%2C%22path%22%3A%22%2Fc%3A%2FUsers%2FBertrand%2Fwork%2Fts-explorer%2Fpackages%2Fts%2Fsrc%2Ffind-symbol-definition.mts%22%2C%22scheme%22%3A%22file%22%7D%2C%7B%22line%22%3A0%2C%22character%22%3A0%7D%5D "packages/ts/src/find-symbol-definition.mts")
 
 This command locates the definition of a specified symbol within a set of TypeScript files, providing precise information about where the symbol is defined. It is particularly useful for navigating large codebases and understanding the source of specific functionalities or types.
 

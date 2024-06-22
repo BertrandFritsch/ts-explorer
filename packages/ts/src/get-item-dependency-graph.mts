@@ -60,10 +60,10 @@ export async function getItemDependencyGraph(
   }
 
   function extractFilenameUserName(filename: string) {
-    const FileNameRE = /^.*?(?<name>[^/]+)(?:\/index\.(?:tsx|ts|js))?$/
+    const FileNameRE = /^.*?(?<name>[^/]+)(?:\/index\.(?:tsx|ts|js|mts|mjs))?$/
     const matches = FileNameRE.exec(filename)
     if (!matches) {
-      throw new Error(`Cound not extract the name from '${name}'!`)
+      throw new Error(`Cound not extract the name from '${filename}'!`)
     }
 
     return matches.groups!.name
