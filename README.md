@@ -19,6 +19,8 @@ The `@bertrand.fritsch/ts-explorer` package provides a suite of commands for Typ
 
 - **`get-item-imported-files`**: Get the list of files that are importing an item.
 
+- **`get-external-imports`**: Get external imports of a set of TypeScript files.
+
 - **`find-symbol-definition`**: Find the definition of a symbol in a project.
 
 These commands are designed to facilitate the analysis and visualization of TypeScript project structures, making it easier to understand and manage complex codebases.
@@ -50,6 +52,7 @@ The `--recursive` option allows the internal dependencies to be processed recurs
 ```bash
 npx @bertrand.fritsch/ts-explorer get-dependency-graph ./src/main.ts --recursive
 ```
+
 [**`get-file-list`**](command:_github.copilot.openSymbolFromReferences?%5B%7B%22%24mid%22%3A1%2C%22fsPath%22%3A%22c%3A%5C%5CUsers%5C%5CBertrand%5C%5Cwork%5C%5Cts-explorer%5C%5Cpackages%5C%5Cts%5C%5Csrc%5C%5Cget-file-list.mts%22%2C%22_sep%22%3A1%2C%22external%22%3A%22file%3A%2F%2F%2Fc%253A%2FUsers%2FBertrand%2Fwork%2Fts-explorer%2Fpackages%2Fts%2Fsrc%2Fget-file-list.mts%22%2C%22path%22%3A%22%2Fc%3A%2FUsers%2FBertrand%2Fwork%2Fts-explorer%2Fpackages%2Fts%2Fsrc%2Fget-file-list.mts%22%2C%22scheme%22%3A%22file%22%7D%2C%7B%22line%22%3A0%2C%22character%22%3A0%7D%5D "packages/ts/src/get-file-list.mts")
 
 Get the list of files from a project starting from a source file.
@@ -122,6 +125,21 @@ npx @bertrand.fritsch/ts-explorer get-item-imported-files <input source file> | 
 
 ```bash
 npx @bertrand.fritsch/ts-explorer get-item-imported-files ./src/main.ts -i "myModule#myFunction"
+```
+
+[**`get-external-imports`**](command:_github.copilot.openSymbolFromReferences?%5B%7B%22%24mid%22%3A1%2C%22fsPath%22%3A%22c%3A%5C%5CUsers%5C%5CBertrand%5C%5Cwork%5C%5Cts-explorer%5C%5Cpackages%5C%5Cts%5C%5Csrc%5C%5Cget-external-imports.mts%22%2C%22_sep%22%3A1%2C%22external%22%3A%22file%3A%2F%2F%2Fc%253A%2FUsers%2FBertrand%2Fwork%2Fts-explorer%2Fpackages%2Fts%2Fsrc%2Fget-external-imports.mts%22%2C%22path%22%3A%22%2Fc%3A%2FUsers%2FBertrand%2Fwork%2Fts-explorer%2Fpackages%2Fts%2Fsrc%2Fget-external-imports.mts%22%2C%22scheme%22%3A%22file%22%7D%2C%7B%22line%22%3A0%2C%22character%22%3A0%7D%5D "packages/ts/src/get-external-imports.mts")
+
+Get external imports of a set of TypeScript files.
+
+```bash
+npx @bertrand.fritsch/ts-explorer get-external-imports <input source file> | <input json file> [--recursive]
+```
+The `--recursive` option allows the internal dependencies to be processed recursively.
+
+**Example**
+
+```bash
+npx @bertrand.fritsch/ts-explorer get-external-imports ./src/main.ts --recursive
 ```
 
 [**`find-symbol-definition`**](command:_github.copilot.openSymbolFromReferences?%5B%7B%22%24mid%22%3A1%2C%22fsPath%22%3A%22c%3A%5C%5CUsers%5C%5CBertrand%5C%5Cwork%5C%5Cts-explorer%5C%5Cpackages%5C%5Cts%5C%5Csrc%5C%5Cfind-symbol-definition.mts%22%2C%22_sep%22%3A1%2C%22external%22%3A%22file%3A%2F%2F%2Fc%253A%2FUsers%2FBertrand%2Fwork%2Fts-explorer%2Fpackages%2Fts%2Fsrc%2Ffind-symbol-definition.mts%22%2C%22path%22%3A%22%2Fc%3A%2FUsers%2FBertrand%2Fwork%2Fts-explorer%2Fpackages%2Fts%2Fsrc%2Ffind-symbol-definition.mts%22%2C%22scheme%22%3A%22file%22%7D%2C%7B%22line%22%3A0%2C%22character%22%3A0%7D%5D "packages/ts/src/find-symbol-definition.mts")

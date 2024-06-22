@@ -3,6 +3,7 @@ import { getDependencyGraph } from './get-dependency-graph.mjs'
 import { getItemDependencyGraph } from './get-item-dependency-graph.mjs'
 import { findSymbolDefinition } from './find-symbol-definition.mjs'
 import { getItemImportedFiles } from './get-item-imported-files.mjs'
+import { getExternalDependencyImports } from './get-external-imports.mjs'
 import { getVersion } from './lib/helpers.mjs'
 
 const program = new Command()
@@ -112,6 +113,28 @@ program
       console.log(JSON.stringify(await getItemImportedFiles(sourceFile, item), null, 2))
     },
   )
+
+program
+  .command('get-external-imports')
+  .description('Get external imports of a set of TypeScript files')
+  .option(
+    '-r, --recursive',
+    'Whether the internal dependencies have to be processed recursively',
+    false,
+  )
+  .argument(
+    '<input source file> | <input json file>',
+    'The source file to process or a JSON file with a list of source files',
+  )
+  .action(async (sourceFile: string, { recursive }: { recursive: boolean }) => {
+    console.log(
+      JSON.stringify(
+        Array.from((await getExternalDependencyImports(sourceFile, recursive)).values()),
+        null,
+        2,
+      ),
+    )
+  })
 
 program
   .command('find-symbol-definition')

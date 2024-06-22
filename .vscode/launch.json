@@ -32,6 +32,16 @@
     {
       "type": "node",
       "request": "launch",
+      "name": "get-external-imports",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "program": "${workspaceFolder}/packages/ts/src/main.mts",
+      "args": [ "get-external-imports", "./packages/ts/src/main.mts", "-r" ]
+    },
+    {
+      "type": "node",
+      "request": "launch",
       "name": "Clean unused dependencies",
       "skipFiles": [
         "<node_internals>/**"
