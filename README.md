@@ -104,6 +104,41 @@ This structured output can be directly used in web applications to render intera
 
 This JSON structure allows developers to easily integrate the dependency graph into applications or tools that support Cytoscape.js or similar graph visualization libraries, facilitating a deeper understanding of item dependencies and project architecture.
 
+[`find-symbol-definition`](command:_github.copilot.openSymbolFromReferences?%5B%7B%22%24mid%22%3A1%2C%22fsPath%22%3A%22c%3A%5C%5CUsers%5C%5CBertrand%5C%5Cwork%5C%5Cts-explorer%5C%5Cpackages%5C%5Cts%5C%5Csrc%5C%5Cfind-symbol-definition.mts%22%2C%22_sep%22%3A1%2C%22external%22%3A%22file%3A%2F%2F%2Fc%253A%2FUsers%2FBertrand%2Fwork%2Fts-explorer%2Fpackages%2Fts%2Fsrc%2Ffind-symbol-definition.mts%22%2C%22path%22%3A%22%2Fc%3A%2FUsers%2FBertrand%2Fwork%2Fts-explorer%2Fpackages%2Fts%2Fsrc%2Ffind-symbol-definition.mts%22%2C%22scheme%22%3A%22file%22%7D%2C%7B%22line%22%3A0%2C%22character%22%3A0%7D%5D "packages/ts/src/find-symbol-definition.mts")
+
+This command locates the definition of a specified symbol within a set of TypeScript files, providing precise information about where the symbol is defined. It is particularly useful for navigating large codebases and understanding the source of specific functionalities or types.
+
+```bash
+npx @bertrand.fritsch/ts-explorer find-symbol-definition <input source file> [--symbol <symbol>] [--output-format <format>]
+```
+
+* `--symbol <symbol>`: Specifies the symbol to find. This option is mandatory.
+* `--output-format <format>`: Specifies the output format. The default format is plain, which provides a simple text output. Other formats, such as json, may provide more structured information.
+
+**Example**
+
+```bash
+npx @bertrand.fritsch/ts-explorer find-symbol-definition ./src/utils.ts --symbol "MyUtilFunction"
+```
+
+This example searches for the definition of `MyUtilFunction` within the `./src/utils.ts` file. It outputs the file path, line number, and character position where `MyUtilFunction` is defined, facilitating quick navigation to the symbol's definition in the codebase.
+
+**Output format**
+
+The default output of the [`find-symbol-definition`](command:_github.copilot.openSymbolFromReferences?%5B%7B%22%24mid%22%3A1%2C%22fsPath%22%3A%22c%3A%5C%5CUsers%5C%5CBertrand%5C%5Cwork%5C%5Cts-explorer%5C%5Cpackages%5C%5Cts%5C%5Csrc%5C%5Cfind-symbol-definition.mts%22%2C%22_sep%22%3A1%2C%22external%22%3A%22file%3A%2F%2F%2Fc%253A%2FUsers%2FBertrand%2Fwork%2Fts-explorer%2Fpackages%2Fts%2Fsrc%2Ffind-symbol-definition.mts%22%2C%22path%22%3A%22%2Fc%3A%2FUsers%2FBertrand%2Fwork%2Fts-explorer%2Fpackages%2Fts%2Fsrc%2Ffind-symbol-definition.mts%22%2C%22scheme%22%3A%22file%22%7D%2C%7B%22line%22%3A0%2C%22character%22%3A0%7D%5D "packages/ts/src/find-symbol-definition.mts") command is a JSON array of items of following types:
+
+```ts
+type SymbolDeclaration = {
+  name: string;
+  type: string;
+  sourceFile: string;
+  startLine: number;
+  endLine: number;
+};
+```
+
+The `sourceFile` contains the name of the source file defining the symbol. It is relative to the root of the project.
+
 ## License
 
 This project is licensed under the MIT license.

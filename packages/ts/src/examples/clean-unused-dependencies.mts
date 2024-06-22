@@ -1,7 +1,7 @@
-import { asserts, initializeRootDirectory, NNU, startsWithUppercaseLetter } from './lib/helpers.mjs'
+import { asserts, initializeRootDirectory, NNU, startsWithUppercaseLetter } from '../lib/helpers.mjs'
 import path from 'path'
 import fs from 'fs'
-import { walkModuleDependencyImports } from './lib/walkModuleDependencyImports.mjs'
+import { walkModuleDependencyImports } from '../lib/walkModuleDependencyImports.mjs'
 import { SyntaxKind, ts } from 'ts-morph'
 import { Command } from 'commander'
 

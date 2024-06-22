@@ -1,5 +1,6 @@
 import {build} from 'esbuild'
 import copy from 'esbuild-plugin-copy'
+import packageJson from './package.json' with {type: 'json'}
 
 await build({
   entryPoints: ['src/main.mts'],
@@ -15,6 +16,7 @@ await build({
   format: 'esm',
   target: 'esnext',
   platform: 'node',
+  external: Object.keys(packageJson.dependencies),
   plugins: [
     copy({
       assets: [{ from: 'src/cli.mjs', to: './' }],

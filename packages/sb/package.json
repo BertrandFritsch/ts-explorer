@@ -21,13 +21,13 @@
     "@storybook/react": "^8.1.10",
     "@storybook/react-vite": "^8.1.10",
     "@types/cytoscape": "^3.21.4",
-    "@types/node": "^20.14.6",
+    "@types/node": "^20.14.8",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "prettier": "^3.3.2",
     "require-from-string": "^2.0.2",
     "storybook": "^8.1.10",
-    "typescript": "^5.4.5",
+    "typescript": "^5.5.2",
     "vite": "^5.3.1"
   }
 }

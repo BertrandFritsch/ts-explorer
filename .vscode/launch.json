@@ -22,6 +22,16 @@
     {
       "type": "node",
       "request": "launch",
+      "name": "find-symbol-definition",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "program": "${workspaceFolder}/packages/ts/src/main.mts",
+      "args": [ "find-symbol-definition", "./packages/ts/tsconfig.json", "findSymbol" ]
+    },
+    {
+      "type": "node",
+      "request": "launch",
       "name": "Clean unused dependencies",
       "skipFiles": [
         "<node_internals>/**"

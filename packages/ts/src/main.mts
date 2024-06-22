@@ -1,6 +1,7 @@
 import { Command, Option } from 'commander'
 import { getDependencyGraph } from './get-dependency-graph.mjs'
 import { getItemDependencyGraph } from './get-item-dependency-graph.mjs'
+import { findSymbolDefinition } from './find-symbol-definition.mjs'
 import { getVersion } from './lib/helpers.mjs'
 
 const program = new Command()
@@ -84,5 +85,19 @@ program
       )
     },
   )
+
+program
+  .command('find-symbol-definition')
+  .description('Find the definition of a symbol in a project')
+  .addOption(
+    new Option(
+      '-s, --symbol, <symbol name>',
+      'The name of the symbol to look for',
+    ).makeOptionMandatory(),
+  )
+  .argument('<source file>', 'The path to the project or the path to a source file')
+  .action((sourceFile: string, { symbol }: { symbol: string }) => {
+    console.log(JSON.stringify(findSymbolDefinition(sourceFile, symbol), null, 2))
+  })
 
 program.parse(process.argv)
