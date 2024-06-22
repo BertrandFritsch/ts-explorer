@@ -17,6 +17,8 @@ The `@bertrand.fritsch/ts-explorer` package provides a suite of commands for Typ
 
 - **`get-item-dependency-graph`**: Offers a detailed dependency graph for a specific item, highlighting paths and dependencies related to the item.
 
+- **`find-symbol-definition`**: Find the definition of a symbol in a project.
+
 These commands are designed to facilitate the analysis and visualization of TypeScript project structures, making it easier to understand and manage complex codebases.
 
 ## Installation
@@ -109,7 +111,7 @@ This JSON structure allows developers to easily integrate the dependency graph i
 This command locates the definition of a specified symbol within a set of TypeScript files, providing precise information about where the symbol is defined. It is particularly useful for navigating large codebases and understanding the source of specific functionalities or types.
 
 ```bash
-npx @bertrand.fritsch/ts-explorer find-symbol-definition <input source file> [--symbol <symbol>] [--output-format <format>]
+npx @bertrand.fritsch/ts-explorer find-symbol-definition <input source file> [--symbol <symbol>]
 ```
 
 * `--symbol <symbol>`: Specifies the symbol to find. This option is mandatory.
