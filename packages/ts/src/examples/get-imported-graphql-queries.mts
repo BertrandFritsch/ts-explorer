@@ -1,6 +1,6 @@
 import { CallExpression, Identifier, Node, SyntaxKind, ts } from 'ts-morph'
-import { asserts, getRelativePath, initializeRootDirectory, NNU } from './lib/helpers.mjs'
-import { walkModuleDependencyImports } from './lib/walkModuleDependencyImports.mjs'
+import { asserts, getRelativePath, initializeRootDirectory, NNU } from '../lib/helpers.mjs'
+import { walkModuleDependencyImports } from '../lib/walkModuleDependencyImports.mjs'
 import { Command, Option } from 'commander'
 
 interface Item {

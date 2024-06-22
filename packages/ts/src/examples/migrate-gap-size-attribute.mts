@@ -1,6 +1,6 @@
 import { Node } from 'ts-morph'
-import { asserts, initializeRootDirectory } from './lib/helpers.mjs'
-import { walkModuleDependencyImports } from './lib/walkModuleDependencyImports.mjs'
+import { asserts, initializeRootDirectory } from '../lib/helpers.mjs'
+import { walkModuleDependencyImports } from '../lib/walkModuleDependencyImports.mjs'
 import { Command } from 'commander'
 
 const program = new Command()

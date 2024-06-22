@@ -1,8 +1,8 @@
 import path from 'node:path'
 import fs from 'node:fs'
 import { Node, SourceFile, SyntaxKind, ts } from 'ts-morph'
-import { asserts, initializeRootDirectory, NNU } from './lib/helpers.mjs'
-import { walkModuleDependencyImports } from './lib/walkModuleDependencyImports.mjs'
+import { asserts, initializeRootDirectory, NNU } from '../lib/helpers.mjs'
+import { walkModuleDependencyImports } from '../lib/walkModuleDependencyImports.mjs'
 import { Command } from 'commander'
 
 interface Item {
