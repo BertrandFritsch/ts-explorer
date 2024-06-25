@@ -201,18 +201,24 @@ ts-explorer get-external-imports ./src/main.ts --recursive
 This command helps locate the definition of a TypeScript symbol in your project files. Note that there may be multiple results if the symbol is defined in multiple places.
 
 ```bash
-ts-explorer find-symbol-definition <input source file> --symbol <symbol>
+ts-explorer find-symbol-definition <project or source file> --symbol <symbol>
 ```
 
-* `<input source file>`: can be either a single source file, or a JSON file containing a list of source files
+* `<project or source file>`: can be either any source file of the project, or a `tsconfig.json` file
 * `--symbol <symbol>`: Specifies the symbol to find. This option is mandatory.
 
 **Example**
 
-To look for the file defining the `Dialog` symbol, starting the search from file `./src/main.ts`, use:
+To look for the file defining the `Dialog` symbol, on the project the source file `./src/main.ts` belongs to, use:
 
 ```bash
 ts-explorer find-symbol-definition ./src/main.ts --symbol Dialog
+```
+
+To look for the file defining the `Dialog` symbol, on the project configured by `./tsconfig.json`, use:
+
+```bash
+ts-explorer find-symbol-definition ./tsconfig.json --symbol Dialog
 ```
 
 **Output format**
