@@ -237,6 +237,12 @@ type SymbolDeclaration = {
 
 The `sourceFile` contains the name of the source file defining the symbol. It is relative to the nearest `tsconfig.json` file.
 
+## Error Handling
+
+`@bertrand.fritsch/ts-explorer` follows standard command line tool conventions for error handling. When a command is executed successfully, it returns an exit code of `0`. In case of an error, it returns an exit code different from `0`, indicating that an error has occurred.
+
+In addition to the exit code, the tool outputs an error message to the standard error output channel (`stderr`). This message provides details about the nature of the error, which can be used for debugging purposes or for displaying a user-friendly error message.
+
 ## License
 
 This project is licensed under the MIT license.
