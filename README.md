@@ -38,57 +38,92 @@ The package can also be used with `npx`
 ## Usage
 This package provides following main commands:  
 
-[**`get-dependency-graph`**](command:_github.copilot.openSymbolFromReferences?%5B%7B%22%24mid%22%3A1%2C%22fsPath%22%3A%22c%3A%5C%5CUsers%5C%5CBertrand%5C%5Cwork%5C%5Cts-explorer%5C%5Cpackages%5C%5Cts%5C%5Csrc%5C%5Cget-dependency-graph.mts%22%2C%22_sep%22%3A1%2C%22external%22%3A%22file%3A%2F%2F%2Fc%253A%2FUsers%2FBertrand%2Fwork%2Fts-explorer%2Fpackages%2Fts%2Fsrc%2Fget-dependency-graph.mts%22%2C%22path%22%3A%22%2Fc%3A%2FUsers%2FBertrand%2Fwork%2Fts-explorer%2Fpackages%2Fts%2Fsrc%2Fget-dependency-graph.mts%22%2C%22scheme%22%3A%22file%22%7D%2C%7B%22line%22%3A0%2C%22character%22%3A0%7D%5D "packages/ts/src/get-dependency-graph.mts")
+**`get-dependency-graph`**
 
-This command generates the dependency graph of a set of TypeScript files.
+This command provides a detailed mapping of the import statements in a set of TypeScript files.
+It includes the following information for each import:
+
+1. **Module Specifier**: The path or name of the module being imported.
+2. **Import Type**:
+   - **External Library Import**: Indicates if the import is from an external library.
+   - **Local Import**: Indicates if the import is from a local file.
+3. **Resolved File Name**: The full path to the imported file, especially useful for local imports.
+4. **Import Details**:
+   - **Default Import**: The default import name, if applicable.
+   - **Named Imports**: The list of named imports, if any.
+   - **Type-Only Import**: Indicates if the import is for type definitions only.
+
+The JSON structure effectively categorizes each import, whether it's from an external library or a local file within the project. It also captures specifics about the import type (default or named) and whether it's used for type definitions only. This structured representation helps in understanding the dependencies and their sources in the TypeScript file.
 
 ```bash
 ts-explorer get-dependency-graph <input source file> | <input json file> [--recursive]
 ```
-The `--recursive` option allows the internal dependencies to be processed recursively.
+
+- `<input source file> | <input json file>`: represents the source file or JSON file containing a list of source files from which to retrieve the imports. If a JSON file is provided, it should contain the list of source files.
+- `--recursive`: processes the internal imports recursevely.
+
+The paths to the local files provided in the result are relative to the nearest `tsconfig.json` file.
+
 
 **Example**
+
+Get the imports of the `./src/main.ts` file, use:
+
+```bash
+ts-explorer get-dependency-graph ./src/main.ts
+```
+
+Get the imports ofd the `./src/main.ts` file and all the imports from the files imported by `./src/main.ts` file, use:
 
 ```bash
 ts-explorer get-dependency-graph ./src/main.ts --recursive
 ```
 
-[**`get-file-list`**](command:_github.copilot.openSymbolFromReferences?%5B%7B%22%24mid%22%3A1%2C%22fsPath%22%3A%22c%3A%5C%5CUsers%5C%5CBertrand%5C%5Cwork%5C%5Cts-explorer%5C%5Cpackages%5C%5Cts%5C%5Csrc%5C%5Cget-file-list.mts%22%2C%22_sep%22%3A1%2C%22external%22%3A%22file%3A%2F%2F%2Fc%253A%2FUsers%2FBertrand%2Fwork%2Fts-explorer%2Fpackages%2Fts%2Fsrc%2Fget-file-list.mts%22%2C%22path%22%3A%22%2Fc%3A%2FUsers%2FBertrand%2Fwork%2Fts-explorer%2Fpackages%2Fts%2Fsrc%2Fget-file-list.mts%22%2C%22scheme%22%3A%22file%22%7D%2C%7B%22line%22%3A0%2C%22character%22%3A0%7D%5D "packages/ts/src/get-file-list.mts")
+**`get-file-list`**
 
 Get the list of files from a project starting from a source file.
 
 ```bash
 ts-explorer get-file-list <input source file> | <input json file>
 ```
+
+- `<input source file> | <input json file>`: represents the source file or JSON file containing a list of source files to start looking for the files.
+
+The result is a JSON array containing the list of files from the project.
+
+The paths to the files provided in the result are relative to the nearest `tsconfig.json` file.
+
 **Example**
+
+Get the list of files recursively imported by `./src/main.ts`, use:
 
 ```bash
 ts-explorer get-file-list ./src/main.ts
 ```
 
-[**`get-item-dependency-graph`**](command:_github.copilot.openSymbolFromReferences?%5B%7B%22%24mid%22%3A1%2C%22fsPath%22%3A%22c%3A%5C%5CUsers%5C%5CBertrand%5C%5Cwork%5C%5Cts-explorer%5C%5Cpackages%5C%5Cts%5C%5Csrc%5C%5Cget-dependency-graph.mts%22%2C%22_sep%22%3A1%2C%22external%22%3A%22file%3A%2F%2F%2Fc%253A%2FUsers%2FBertrand%2Fwork%2Fts-explorer%2Fpackages%2Fts%2Fsrc%2Fget-dependency-graph.mts%22%2C%22path%22%3A%22%2Fc%3A%2FUsers%2FBertrand%2Fwork%2Fts-explorer%2Fpackages%2Fts%2Fsrc%2Fget-dependency-graph.mts%22%2C%22scheme%22%3A%22file%22%7D%2C%7B%22line%22%3A0%2C%22character%22%3A0%7D%5D "packages/ts/src/get-dependency-graph.mts")
+**`get-item-dependency-graph`**
 
-This command provides a detailed dependency graph for a specific item within a set of TypeScript files, highlighting the paths and dependencies related to the specified item. It offers a focused view of its connections within the project, useful for understanding the structure and dependencies of complex items.
+This command provides a detailed dependency graph for a specific import within a set of TypeScript files, highlighting the paths and dependencies related to the specified import.
 
 ```bash
-ts-explorer get-item-dependency-graph <input source file> | <input json file> [--item <item...>] [--highlight-paths-to <item...>] [--keep-full-path] [--output-format <format>] [--depth <depth>]
+ts-explorer get-item-dependency-graph <input source file> | <input json file> [--item <item...>] [--highlight-paths-to <item...>] [--keep-full-path]
 ```
 
-- `--item <item...>`: Specifies the items to look for in the format `<module> [ #(default | <item>) ]`. This option is mandatory.
+- `--item <item...>`: Specifies the imports to look for in the format `<module> [ #(default | <item>) ]`. This option is mandatory.
 - `--highlight-paths-to <item...>`: Highlights the path to intermediate internal items in the format `<module> [ #(default | <item>) ]`, providing a clear visual representation of how the items are integrated within the project.
 - `--keep-full-path`: When set, the full path of the module will be kept in the output, otherwise, a simplified path or identifier may be used.
 
 **Example**
 
 ```bash
-ts-explorer get-item-dependency-graph ./src/utils.ts --item "MyModule#MyUtilFunction" --highlight-paths-to "MyModule#MyOtherFunction" --keep-full-path
+ts-explorer get-item-dependency-graph ./src/utils.ts --item "MyModule#MyUtilFunction" --highlight-paths-to "#/MyOtherFunction" --keep-full-path
 ```
 
-This example generates a dependency graph for the `./src/utils.ts` file, focusing on `MyUtilFunction` within `MyModule`, highlighting paths leading to `MyOtherFunction` within the same module, keeping the full path of the module in the output, limiting the analysis to dependencies up to two levels deep, and outputs the graph in a format compatible with Cytoscape.js.
+This example generates a dependency graph for the `./src/utils.ts` file, focusing on `MyUtilFunction` within `MyModule`, highlighting paths leading to `MyOtherFunction`, keeping the full path of the module in the output, and outputs the graph in a format compatible with Cytoscape.js.
 
 **Output Format**
 
-The default output of the [`get-item-dependency-graph`](command:_github.copilot.openSymbolFromReferences?%5B%7B%22%24mid%22%3A1%2C%22fsPath%22%3A%22c%3A%5C%5CUsers%5C%5CBertrand%5C%5Cwork%5C%5Cts-explorer%5C%5Cpackages%5C%5Cts%5C%5Csrc%5C%5Cget-dependency-graph.mts%22%2C%22_sep%22%3A1%2C%22external%22%3A%22file%3A%2F%2F%2Fc%253A%2FUsers%2FBertrand%2Fwork%2Fts-explorer%2Fpackages%2Fts%2Fsrc%2Fget-dependency-graph.mts%22%2C%22path%22%3A%22%2Fc%3A%2FUsers%2FBertrand%2Fwork%2Fts-explorer%2Fpackages%2Fts%2Fsrc%2Fget-dependency-graph.mts%22%2C%22scheme%22%3A%22file%22%7D%2C%7B%22line%22%3A0%2C%22character%22%3A0%7D%5D "packages/ts/src/get-dependency-graph.mts") command is formatted as an array of [`ElementDefinition`](https://js.cytoscape.org/#notation/elements-json) objects, compatible with [Cytoscape.js](https://js.cytoscape.org/), a popular graph visualization library. This format includes nodes and edges, where nodes represent files or items, and edges represent dependencies between them.
+The output of the `get-item-dependency-graph` command is formatted as an array of [`ElementDefinition`](https://js.cytoscape.org/#notation/elements-json) objects, compatible with [Cytoscape.js](https://js.cytoscape.org/), a popular graph visualization library. This format includes nodes and edges, where nodes represent files or items, and edges represent dependencies between them.
 
 - **Nodes** are defined with an `id`, `label` (for the file or item name), and other optional properties for visualization.
 - **Edges** are defined with a `source` and `target` property, indicating the direction from dependent to dependency.
@@ -111,7 +146,7 @@ This structured output can be directly used in web applications to render intera
 
 This JSON structure allows developers to easily integrate the dependency graph into applications or tools that support Cytoscape.js or similar graph visualization libraries, facilitating a deeper understanding of item dependencies and project architecture.
 
-[**`get-item-imported-files`**](command:_github.copilot.openSymbolFromReferences?%5B%7B%22%24mid%22%3A1%2C%22fsPath%22%3A%22c%3A%5C%5CUsers%5C%5CBertrand%5C%5Cwork%5C%5Cts-explorer%5C%5Cpackages%5C%5Cts%5C%5Csrc%5C%5Cget-item-imported-files.mts%22%2C%22_sep%22%3A1%2C%22external%22%3A%22file%3A%2F%2F%2Fc%253A%2FUsers%2FBertrand%2Fwork%2Fts-explorer%2Fpackages%2Fts%2Fsrc%2Fget-item-imported-files.mts%22%2C%22path%22%3A%22%2Fc%3A%2FUsers%2FBertrand%2Fwork%2Fts-explorer%2Fpackages%2Fts%2Fsrc%2Fget-item-imported-files.mts%22%2C%22scheme%22%3A%22file%22%7D%2C%7B%22line%22%3A0%2C%22character%22%3A0%7D%5D "packages/ts/src/get-item-imported-files.mts")
+**`get-item-imported-files`**
 
 Get the list of files that are importing an item.
 
@@ -119,7 +154,10 @@ Get the list of files that are importing an item.
 ts-explorer get-item-imported-files <input source file> | <input json file> -i <item...>
 ```
 
-* `-i, --item <item...>`: Specifies the items to look for. The format is `<module> [ #(default | <item>) ]`. This option is mandatory.
+- `<input source file> | <input json file>`: represents the source file or JSON file containing a list of source files.
+- `-i, --item <item...>`: Specifies the items to look for. The format is `<module> [ #(default | <item>) ]`. This option is mandatory.
+
+The result is an JSON array of the the paths to the files relative to the nearest `tsconfig.json` file.
 
 **Example**
 
@@ -141,14 +179,16 @@ If you want to get the list of files using the React `useState` hook or the `use
 ts-explorer get-item-imported-files ./src/main.ts -i "react#useState" "react#useEffect"
 ```
 
-[**`get-external-imports`**](command:_github.copilot.openSymbolFromReferences?%5B%7B%22%24mid%22%3A1%2C%22fsPath%22%3A%22c%3A%5C%5CUsers%5C%5CBertrand%5C%5Cwork%5C%5Cts-explorer%5C%5Cpackages%5C%5Cts%5C%5Csrc%5C%5Cget-external-imports.mts%22%2C%22_sep%22%3A1%2C%22external%22%3A%22file%3A%2F%2F%2Fc%253A%2FUsers%2FBertrand%2Fwork%2Fts-explorer%2Fpackages%2Fts%2Fsrc%2Fget-external-imports.mts%22%2C%22path%22%3A%22%2Fc%3A%2FUsers%2FBertrand%2Fwork%2Fts-explorer%2Fpackages%2Fts%2Fsrc%2Fget-external-imports.mts%22%2C%22scheme%22%3A%22file%22%7D%2C%7B%22line%22%3A0%2C%22character%22%3A0%7D%5D "packages/ts/src/get-external-imports.mts")
+**`get-external-imports`**
 
 Get external imports of a set of TypeScript files.
 
 ```bash
 ts-explorer get-external-imports <input source file> | <input json file> [--recursive]
 ```
-The `--recursive` option allows the internal dependencies to be processed recursively.
+
+- `<input source file> | <input json file>`: represents the source file or JSON file containing a list of source files.
+- `--recursive`: processes the internal imports recursevely.
 
 **Example**
 
@@ -156,12 +196,12 @@ The `--recursive` option allows the internal dependencies to be processed recurs
 ts-explorer get-external-imports ./src/main.ts --recursive
 ```
 
-[**`find-symbol-definition`**](command:_github.copilot.openSymbolFromReferences?%5B%7B%22%24mid%22%3A1%2C%22fsPath%22%3A%22c%3A%5C%5CUsers%5C%5CBertrand%5C%5Cwork%5C%5Cts-explorer%5C%5Cpackages%5C%5Cts%5C%5Csrc%5C%5Cfind-symbol-definition.mts%22%2C%22_sep%22%3A1%2C%22external%22%3A%22file%3A%2F%2F%2Fc%253A%2FUsers%2FBertrand%2Fwork%2Fts-explorer%2Fpackages%2Fts%2Fsrc%2Ffind-symbol-definition.mts%22%2C%22path%22%3A%22%2Fc%3A%2FUsers%2FBertrand%2Fwork%2Fts-explorer%2Fpackages%2Fts%2Fsrc%2Ffind-symbol-definition.mts%22%2C%22scheme%22%3A%22file%22%7D%2C%7B%22line%22%3A0%2C%22character%22%3A0%7D%5D "packages/ts/src/find-symbol-definition.mts")
+**`find-symbol-definition`**
 
-This command helps locate the definition of a symbol in TypeScript files. Note that there may be multiple results.
+This command helps locate the definition of a TypeScript symbol in your project files. Note that there may be multiple results if the symbol is defined in multiple places.
 
 ```bash
-ts-explorer find-symbol-definition <input source file> [--symbol <symbol>]
+ts-explorer find-symbol-definition <input source file> --symbol <symbol>
 ```
 
 * `<input source file>`: can be either a single source file, or a JSON file containing a list of source files
@@ -169,13 +209,15 @@ ts-explorer find-symbol-definition <input source file> [--symbol <symbol>]
 
 **Example**
 
+To look for the file defining the `Dialog` symbol, starting the search from file `./src/main.ts`, use:
+
 ```bash
-ts-explorer find-symbol-definition ./src/utils.ts --symbol "MyUtilFunction"
+ts-explorer find-symbol-definition ./src/main.ts --symbol Dialog
 ```
 
 **Output format**
 
-The default output of the [`find-symbol-definition`](command:_github.copilot.openSymbolFromReferences?%5B%7B%22%24mid%22%3A1%2C%22fsPath%22%3A%22c%3A%5C%5CUsers%5C%5CBertrand%5C%5Cwork%5C%5Cts-explorer%5C%5Cpackages%5C%5Cts%5C%5Csrc%5C%5Cfind-symbol-definition.mts%22%2C%22_sep%22%3A1%2C%22external%22%3A%22file%3A%2F%2F%2Fc%253A%2FUsers%2FBertrand%2Fwork%2Fts-explorer%2Fpackages%2Fts%2Fsrc%2Ffind-symbol-definition.mts%22%2C%22path%22%3A%22%2Fc%3A%2FUsers%2FBertrand%2Fwork%2Fts-explorer%2Fpackages%2Fts%2Fsrc%2Ffind-symbol-definition.mts%22%2C%22scheme%22%3A%22file%22%7D%2C%7B%22line%22%3A0%2C%22character%22%3A0%7D%5D "packages/ts/src/find-symbol-definition.mts") command is a JSON array of items of following types:
+The default output of the `find-symbol-definition` command is a JSON array of items of following types:
 
 ```ts
 type SymbolDeclaration = {
@@ -187,7 +229,7 @@ type SymbolDeclaration = {
 };
 ```
 
-The `sourceFile` contains the name of the source file defining the symbol. It is relative to the root of the project.
+The `sourceFile` contains the name of the source file defining the symbol. It is relative to the nearest `tsconfig.json` file.
 
 ## License
 
