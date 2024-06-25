@@ -150,4 +150,14 @@ program
     console.log(JSON.stringify(findSymbolDefinition(sourceFile, symbol), null, 2))
   })
 
+process.on('uncaughtException', error => {
+  console.error('Error:', error.message)
+  process.exit(1)
+})
+
+process.on('unhandledRejection', reason => {
+  console.error('Error:', reason instanceof Error ? reason.message : reason)
+  process.exit(1)
+})
+
 program.parse(process.argv)
