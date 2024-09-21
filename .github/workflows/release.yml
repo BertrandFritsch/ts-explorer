@@ -21,8 +21,8 @@ jobs:
       - name: Install pnpm
         uses: pnpm/action-setup@v4.0.0
         with:
-            version: latest
-            standalone: true
+          version: latest
+          standalone: true
 
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile
@@ -31,6 +31,9 @@ jobs:
         id: changesets
         uses: changesets/action@v1
         with:
+          version: |
+            pnpm exec changeset version
+            pnpm install # update the lockfile
           publish: pnpm publish -r
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
