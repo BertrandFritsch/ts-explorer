@@ -25,14 +25,16 @@ jobs:
           standalone: true
 
       - name: Install Dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install
 
       - name: Create Release Pull Request or Publish to npm
         id: changesets
         uses: changesets/action@v1
         with:
-          version: pnpm -q ci:version
+          title: "chore(release): version packages 🦋"
+          version: pnpm changeset version && pnpm install --lockfile-only
           publish: pnpm publish -r
+          commit: "chore(release): version packages 🦋 [skip ci]"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
