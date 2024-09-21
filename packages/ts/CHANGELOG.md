@@ -1,5 +1,16 @@
 # @bertrand.fritsch/ts-explorer
 
+## 2.1.0
+
+### Minor Changes
+
+- ef9fe28: Rename ts-explorer-lib to ts-lib
+
+### Patch Changes
+
+- Updated dependencies [ef9fe28]
+  - @bertrand.fritsch/ts-lib@2.1.0
+
 ## 2.0.6
 
 ### Patch Changes
