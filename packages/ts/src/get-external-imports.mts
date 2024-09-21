@@ -1,4 +1,4 @@
-import { initializeRootDirectory, walkModuleDependencyImports, } from '@bertrand.fritsch/ts-explorer-lib'
+import { initializeRootDirectory, walkModuleDependencyImports, } from '@bertrand.fritsch/ts-lib'
 
 export async function getExternalDependencyImports(sourceFiles: string[], isRecursive: boolean) {
   initializeRootDirectory(sourceFiles[0])

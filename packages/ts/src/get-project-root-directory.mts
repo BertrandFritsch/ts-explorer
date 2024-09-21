@@ -1,5 +1,5 @@
 import pathModule from 'node:path'
-import { getRootDirectory, initializeRootDirectory } from "@bertrand.fritsch/ts-explorer-lib"
+import { getRootDirectory, initializeRootDirectory } from "@bertrand.fritsch/ts-lib"
 
 export function getProjectRootDirectory(sourceFile: string) {
   initializeRootDirectory(sourceFile)

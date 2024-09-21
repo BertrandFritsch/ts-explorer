@@ -5,7 +5,7 @@ import {
   ModuleItem,
   parseModuleItem,
   walkModuleDependencyImports,
-} from '@bertrand.fritsch/ts-explorer-lib'
+} from '@bertrand.fritsch/ts-lib'
 import { ElementDefinition } from 'cytoscape'
 
 export async function getItemDependencyGraph(

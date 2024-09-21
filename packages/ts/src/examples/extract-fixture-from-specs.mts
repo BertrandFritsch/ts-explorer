@@ -7,7 +7,7 @@ import {
   initializeRootDirectory,
   isExternalModule,
   walkModuleDependencyImports,
-} from '@bertrand.fritsch/ts-explorer-lib'
+} from '@bertrand.fritsch/ts-lib'
 import { CallExpression, Identifier, Node, SyntaxKind, VariableDeclaration } from 'ts-morph'
 
 const program = new Command()

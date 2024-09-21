@@ -1,9 +1,7 @@
 {
   "scripts": {
     "changeset": "changeset",
-    "ci:publish": "pnpm -C packages/ts build && pnpm publish -r",
-    "tsc:check": "tsc --noEmit",
-    "tsc:watch": "tsc -w"
+    "ci:publish": "pnpm -C packages/ts-lib build && pnpm -C packages/ts build && pnpm publish -r"
   },
   "devDependencies": {
     "@changesets/cli": "^2.27.8"

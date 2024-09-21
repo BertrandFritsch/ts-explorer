@@ -27,7 +27,7 @@
     "url": "https://github.com/BertrandFritsch/ts-explorer/issues"
   },
   "dependencies": {
-    "@bertrand.fritsch/ts-explorer-lib": "workspace:*",
+    "@bertrand.fritsch/ts-lib": "workspace:*",
     "commander": "^12.1.0",
     "fast-glob": "^3.3.2",
     "ts-morph": "^23.0.0",

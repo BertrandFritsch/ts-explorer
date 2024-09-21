@@ -86,9 +86,9 @@ importers:
 
   packages/ts:
     dependencies:
-      '@bertrand.fritsch/ts-explorer-lib':
+      '@bertrand.fritsch/ts-lib':
         specifier: workspace:*
-        version: link:../ts-explorer-lib
+        version: link:../ts-lib
       commander:
         specifier: ^12.1.0
         version: 12.1.0
@@ -115,7 +115,7 @@ importers:
         specifier: ^3.3.3
         version: 3.3.3
 
-  packages/ts-explorer-lib:
+  packages/ts-lib:
     dependencies:
       fast-glob:
         specifier: ^3.3.2

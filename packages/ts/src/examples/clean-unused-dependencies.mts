@@ -4,7 +4,7 @@ import {
   NNU,
   startsWithUppercaseLetter,
   walkModuleDependencyImports,
-} from '@bertrand.fritsch/ts-explorer-lib'
+} from '@bertrand.fritsch/ts-lib'
 import path from 'node:path'
 import fs from 'node:fs'
 import { SyntaxKind, ts } from 'ts-morph'

@@ -2,7 +2,7 @@ import {
   initializeRootDirectory,
   parseModuleItem,
   walkModuleDependencyImports,
-} from '@bertrand.fritsch/ts-explorer-lib'
+} from '@bertrand.fritsch/ts-lib'
 
 export async function getItemImportedFiles(sourceFiles: string[], items: string[]) {
   initializeRootDirectory(sourceFiles[0])

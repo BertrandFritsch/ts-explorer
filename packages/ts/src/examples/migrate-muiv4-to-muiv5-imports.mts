@@ -8,7 +8,7 @@ import {
   NNU,
   startsWithUppercaseLetter,
   walkModuleDependencyImports,
-} from '@bertrand.fritsch/ts-explorer-lib'
+} from '@bertrand.fritsch/ts-lib'
 import { Command } from 'commander'
 
 const program = new Command()
