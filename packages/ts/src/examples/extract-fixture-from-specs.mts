@@ -1,8 +1,13 @@
 import { Command } from 'commander'
 import path from 'node:path'
 import fs from 'node:fs'
-import { asserts, getRelativePath, initializeRootDirectory, isExternalModule, } from '../lib/helpers.mjs'
-import { walkModuleDependencyImports } from '../lib/walkModuleDependencyImports.mjs'
+import {
+  asserts,
+  getRelativePath,
+  initializeRootDirectory,
+  isExternalModule,
+  walkModuleDependencyImports,
+} from '@bertrand.fritsch/ts-explorer-lib'
 import { CallExpression, Identifier, Node, SyntaxKind, VariableDeclaration } from 'ts-morph'
 
 const program = new Command()

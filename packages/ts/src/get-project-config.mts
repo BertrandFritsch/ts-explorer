@@ -1,5 +1,5 @@
 import ts from 'typescript'
-import { initializeRootDirectory } from './lib/helpers.mjs'
+import { initializeRootDirectory } from '@bertrand.fritsch/ts-explorer-lib'
 
 export function getProjectConfig(
   sourceFile: string
