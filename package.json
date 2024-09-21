@@ -1,6 +1,7 @@
 {
   "scripts": {
     "changeset": "changeset",
+    "ci:version": "pnpm install && changeset version",
     "tsc:check": "tsc --noEmit",
     "tsc:watch": "tsc -w"
   },
