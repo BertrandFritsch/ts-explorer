@@ -6,7 +6,7 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
-    "cytoscape": "^3.29.2",
+    "cytoscape": "^3.30.2",
     "cytoscape-klay": "^3.1.4",
     "global": "^4.4.0",
     "react": "^18.3.1",
@@ -15,19 +15,19 @@
   },
   "devDependencies": {
     "@mdx-js/react": "^3.0.1",
-    "@storybook/addon-actions": "^8.1.10",
-    "@storybook/addon-essentials": "^8.1.10",
-    "@storybook/addon-links": "^8.1.10",
-    "@storybook/react": "^8.1.10",
-    "@storybook/react-vite": "^8.1.10",
-    "@types/cytoscape": "^3.21.4",
-    "@types/node": "^20.14.8",
-    "@types/react": "^18.3.3",
+    "@storybook/addon-actions": "^8.3.2",
+    "@storybook/addon-essentials": "^8.3.2",
+    "@storybook/addon-links": "^8.3.2",
+    "@storybook/react": "^8.3.2",
+    "@storybook/react-vite": "^8.3.2",
+    "@types/cytoscape": "^3.21.8",
+    "@types/node": "^22.5.5",
+    "@types/react": "^18.3.8",
     "@types/react-dom": "^18.3.0",
-    "prettier": "^3.3.2",
+    "prettier": "^3.3.3",
     "require-from-string": "^2.0.2",
-    "storybook": "^8.1.10",
-    "typescript": "^5.5.2",
-    "vite": "^5.3.1"
+    "storybook": "^8.3.2",
+    "typescript": "^5.6.2",
+    "vite": "^5.4.7"
   }
 }

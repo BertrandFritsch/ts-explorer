@@ -1,15 +1,8 @@
-import path from 'node:path'
-import fs from 'node:fs'
 import { initializeRootDirectory } from './lib/helpers.mjs'
 import { DependencyGraphImport } from './lib/types.mjs'
 import { walkModuleDependencyImports } from './lib/walkModuleDependencyImports.mjs'
 
-export async function getDependencyGraph(sourceFile: string, isRecursive: boolean) {
-  const sourceFiles =
-    path.extname(sourceFile) === '.json'
-      ? JSON.parse(fs.readFileSync(sourceFile, 'utf-8'))
-      : [sourceFile]
-
+export async function getDependencyGraph(sourceFiles: string[], isRecursive: boolean) {
   initializeRootDirectory(sourceFiles[0])
   return getModuleDependencies()
 

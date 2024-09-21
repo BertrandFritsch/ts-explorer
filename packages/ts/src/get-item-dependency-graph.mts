@@ -2,20 +2,13 @@ import { initializeRootDirectory, parseModuleItem } from './lib/helpers.mjs'
 import { assertDependencyGraphImportResolved, DependencyGraphImport, ModuleItem, } from './lib/types.mjs'
 import { walkModuleDependencyImports } from './lib/walkModuleDependencyImports.mjs'
 import { ElementDefinition } from 'cytoscape'
-import path from 'node:path'
-import fs from 'node:fs'
 
 export async function getItemDependencyGraph(
-  sourceFile: string,
+  sourceFiles: string[],
   items: string[],
   highlightPathsTo: string[] | undefined,
   keepFullPath: boolean,
 ) {
-  const sourceFiles =
-    path.extname(sourceFile) === '.json'
-      ? JSON.parse(fs.readFileSync(sourceFile, 'utf-8'))
-      : [sourceFile]
-
   initializeRootDirectory(sourceFiles[0])
 
   return Array.from((await getModuleDependencies()).values())

@@ -29,6 +29,17 @@
       "program": "${workspaceFolder}/packages/ts/src/main.mts",
       "args": [ "find-symbol-definition", "./packages/ts/tsconfig.json", "findSymbol" ]
     },
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "get-item-imported-files",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "program": "${workspaceFolder}/packages/ts/src/main.mts",
+      "args": [ "get-item-imported-files", "./packages/ts/tsconfig.json", "--item", "XXX" ]
+    },
     {
       "type": "node",
       "request": "launch",

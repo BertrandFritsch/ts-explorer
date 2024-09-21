@@ -4,6 +4,9 @@ import { getItemDependencyGraph } from './get-item-dependency-graph.mjs'
 import { findSymbolDefinition } from './find-symbol-definition.mjs'
 import { getItemImportedFiles } from './get-item-imported-files.mjs'
 import { getExternalDependencyImports } from './get-external-imports.mjs'
+import { getProjectConfig } from './get-project-config.mjs'
+import { getProjectFiles } from './get-project-file-list.mjs'
+import { getProjectRootDirectory } from './get-project-root-directory.mjs'
 import { getVersion } from './lib/helpers.mjs'
 
 const program = new Command()
@@ -13,37 +16,57 @@ const { description, version } = getVersion()
 program.name('ts-explorer').version(version).description(description)
 
 program
+  .command('get-project-root-directory')
+  .description('Get the absolute path to the root directory of a project')
+  .argument('<source file>', 'The path to the project or the path to a source file')
+  .action(async (sourceFile: string) => {
+    console.log(getProjectRootDirectory(sourceFile))
+  })
+
+program
+  .command('get-project-config')
+  .description('Get the project configuration')
+  .argument('<source file>', 'The path to the project or the path to a source file')
+  .action((sourceFile: string) => {
+    console.log(JSON.stringify(getProjectConfig(sourceFile), null, 2))
+  })
+
+program
+  .command('get-project-file-list')
+  .description('Get the list of files from a project')
+  .argument('<source file>', 'The path to the project or the path to a source file')
+  .action(async (sourceFile: string) => {
+    console.log(JSON.stringify(getProjectFiles(sourceFile), null, 2))
+  })
+
+program
+  .command('get-file-list')
+  .description('Get the list of files recursevely included in a set of source files')
+  .argument('<input source file...>', 'The paths to the source files to process')
+  .action(async (sourceFiles: string[]) => {
+    console.log(
+      JSON.stringify(Array.from((await getDependencyGraph(sourceFiles, true)).keys()), null, 2),
+    )
+  })
+
+program
   .command('get-dependency-graph')
-  .description('Get the dependency graph of a set of TypeScript files')
+  .description('Get the dependency graph of a set of source files')
   .option(
     '-r, --recursive',
     'Whether the internal dependencies have to be processed recursively',
     false,
   )
-  .argument(
-    '<input source file> | <input json file>',
-    'The source file to process or a JSON file with a list of source files',
-  )
-  .action(async (sourceFile: string, { recursive }: { recursive: boolean }) => {
+  .argument('<input source file...>', 'The paths to the source files to process')
+  .action(async (sourceFiles: string[], { recursive }: { recursive: boolean }) => {
     console.log(
       JSON.stringify(
-        Object.fromEntries(Array.from((await getDependencyGraph(sourceFile, recursive)).entries())),
+        Object.fromEntries(
+          Array.from((await getDependencyGraph(sourceFiles, recursive)).entries()),
+        ),
         null,
         2,
       ),
-    )
-  })
-
-program
-  .command('get-file-list')
-  .description('Get the list of files from a project starting from a source file')
-  .argument(
-    '<input source file> | <input json file>',
-    'The source file to process or a JSON file with a list of source files',
-  )
-  .action(async (sourceFile: string) => {
-    console.log(
-      JSON.stringify(Array.from((await getDependencyGraph(sourceFile, true)).keys()), null, 2),
     )
   })
 
@@ -61,13 +84,10 @@ program
     'highlights the path to intermediate internal items: <module> [ #(default | <item>) ]',
   )
   .option('-k, --keep-full-path', 'whether the full path of the module will be kept', false)
-  .argument(
-    '<input source file> | <input json file>',
-    'The source file to process or a JSON file with a list of source files',
-  )
+  .argument('<input source file...>', 'The paths to the source files to process')
   .action(
     async (
-      sourceFile: string,
+      sourceFiles: string[],
       {
         item,
         highlightPathsTo,
@@ -80,7 +100,7 @@ program
     ) => {
       console.log(
         JSON.stringify(
-          await getItemDependencyGraph(sourceFile, item, highlightPathsTo, keepFullPath),
+          await getItemDependencyGraph(sourceFiles, item, highlightPathsTo, keepFullPath),
           null,
           2,
         ),
@@ -97,39 +117,33 @@ program
       'the items to look for: <module> [ #(default | <item>) ]',
     ).makeOptionMandatory(),
   )
-  .argument(
-    '<input source file> | <input json file>',
-    'The source file to process or a JSON file with a list of source files',
-  )
+  .argument('<input source file...>', 'The paths to the source files to process')
   .action(
     async (
-      sourceFile: string,
+      sourceFiles: string[],
       {
         item,
       }: {
         item: string[]
       },
     ) => {
-      console.log(JSON.stringify(await getItemImportedFiles(sourceFile, item), null, 2))
+      console.log(JSON.stringify(await getItemImportedFiles(sourceFiles, item), null, 2))
     },
   )
 
 program
   .command('get-external-imports')
-  .description('Get external imports of a set of TypeScript files')
+  .description('Get external imports of a set of source files')
   .option(
     '-r, --recursive',
     'Whether the internal dependencies have to be processed recursively',
     false,
   )
-  .argument(
-    '<input source file> | <input json file>',
-    'The source file to process or a JSON file with a list of source files',
-  )
-  .action(async (sourceFile: string, { recursive }: { recursive: boolean }) => {
+  .argument('<input source file...>', 'The paths to the source files to process')
+  .action(async (sourceFiles: string[], { recursive }: { recursive: boolean }) => {
     console.log(
       JSON.stringify(
-        Array.from((await getExternalDependencyImports(sourceFile, recursive)).values()),
+        Array.from((await getExternalDependencyImports(sourceFiles, recursive)).values()),
         null,
         2,
       ),

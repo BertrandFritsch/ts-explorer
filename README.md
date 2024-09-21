@@ -1,248 +1,125 @@
 # `@bertrand.fritsch/ts-explorer`
 
-![npm](https://img.shields.io/npm/v/@bertrand.fritsch/ts-explorer)
-![npm](https://img.shields.io/npm/dw/@bertrand.fritsch/ts-explorer)
-![GitHub issues](https://img.shields.io/github/issues/bertrandfritsch/ts-explorer)
-![GitHub forks](https://img.shields.io/github/forks/bertrandfritsch/ts-explorer)
-![GitHub stars](https://img.shields.io/github/stars/bertrandfritsch/ts-explorer)
-![Release](https://github.com/bertrandfritsch/ts-explorer/actions/workflows/release.yml/badge.svg?branch=master)
+![npm](https://img.shields.io/npm/v/@bertrand.fritsch/ts-explorer) ![npm](https://img.shields.io/npm/dw/@bertrand.fritsch/ts-explorer) ![GitHub issues](https://img.shields.io/github/issues/bertrandfritsch/ts-explorer) ![GitHub forks](https://img.shields.io/github/forks/bertrandfritsch/ts-explorer) ![GitHub stars](https://img.shields.io/github/stars/bertrandfritsch/ts-explorer) ![Release](https://github.com/bertrandfritsch/ts-explorer/actions/workflows/release.yml/badge.svg?branch=master)
 
-## Overview of Commands
+## Overview
 
-The `@bertrand.fritsch/ts-explorer` package provides a suite of commands for TypeScript code analysis, including generating dependency graphs and listing files within a project. Here's a quick overview:
+`@bertrand.fritsch/ts-explorer` is a CLI tool for analyzing TypeScript code. The commands include:
 
-- **`get-dependency-graph`**: Generates a dependency graph for a set of TypeScript files.
+### Commands
 
-- **`get-file-list`**: Get the list of files from a project starting from a source file.
+| Command | Description | Input Type |
+| --- | --- | --- |
+| `get-project-root-directory` | Get the project's root directory path. | `tsconfig.json` file or source file |
+| `get-project-config` | Retrieve the project configuration. | source file |
+| `get-project-file-list` | List all files in a project. | `tsconfig.json` file or source file |
+| `get-file-list` | Recursively list files from provided source files. | one or more souce files |
+| `get-dependency-graph` | Generate a dependency graph for TypeScript files. | one or more souce files |
+| `get-item-dependency-graph` | Generate a detailed dependency graph for a specific item. | one or more souce files |
+| `get-item-imported-files` | List files that import a specific item. | one or more souce files |
+| `get-external-imports` | List external imports (npm packages) in TypeScript files. | one or more souce files |
+| `find-symbol-definition` | Find the definition of a symbol in a project. | `tsconfig.json` file or source file |
 
-- **`get-item-dependency-graph`**: Offers a detailed dependency graph for a specific item, highlighting paths and dependencies related to the item.
+### Usage
 
-- **`get-item-imported-files`**: Get the list of files that are importing an item.
+#### `get-project-root-directory`
 
-- **`get-external-imports`**: Get external imports of a set of TypeScript files.
-
-- **`find-symbol-definition`**: Find the definition of a symbol in a project.
-
-These commands are designed to facilitate the analysis and visualization of TypeScript project structures, making it easier to understand and manage complex codebases.
-
-## Installation
-
-You can install this package via npm:
-
+Get the absolute path to the project's root directory.
 ```bash
-npm install --global @bertrand.fritsch/ts-explorer
+ts-explorer get-project-root-directory <tsconfig.json file or source file>
 ```
 
-The package can also be used with `npx`
+#### `get-project-config`
 
-## Usage
-This package provides following main commands:  
-
-**`get-dependency-graph`**
-
-This command provides a detailed mapping of the import statements in a set of TypeScript files.
-It includes the following information for each import:
-
-1. **Module Specifier**: The path or name of the module being imported.
-2. **Import Type**:
-   - **External Library Import**: Indicates if the import is from an external library.
-   - **Local Import**: Indicates if the import is from a local file.
-3. **Resolved File Name**: The full path to the imported file, especially useful for local imports.
-4. **Import Details**:
-   - **Default Import**: The default import name, if applicable.
-   - **Named Imports**: The list of named imports, if any.
-   - **Type-Only Import**: Indicates if the import is for type definitions only.
-
-The JSON structure effectively categorizes each import, whether it's from an external library or a local file within the project. It also captures specifics about the import type (default or named) and whether it's used for type definitions only. This structured representation helps in understanding the dependencies and their sources in the TypeScript file.
-
+Retrieve the project configuration.
 ```bash
-ts-explorer get-dependency-graph <input source file> | <input json file> [--recursive]
+ts-explorer get-project-config <source file>
 ```
 
-- `<input source file> | <input json file>`: represents the source file or JSON file containing a list of source files from which to retrieve the imports. If a JSON file is provided, it should contain the list of source files.
-- `--recursive`: processes the internal imports recursevely.
+#### `get-project-file-list`
 
-The paths to the local files provided in the result are relative to the nearest `tsconfig.json` file.
-
-
-**Example**
-
-Get the imports of the `./src/main.ts` file, use:
-
+List all files in a project.
 ```bash
-ts-explorer get-dependency-graph ./src/main.ts
+ts-explorer get-project-file-list <tsconfig.json file or source file>
 ```
 
-Get the imports ofd the `./src/main.ts` file and all the imports from the files imported by `./src/main.ts` file, use:
+#### `get-file-list`
 
+Recursively list files accessible from provided source files.
 ```bash
-ts-explorer get-dependency-graph ./src/main.ts --recursive
+ts-explorer get-file-list <source file...>
 ```
 
-**`get-file-list`**
+#### `get-dependency-graph`
 
-Get the list of files from a project starting from a source file.
-
+Generate a dependency graph for TypeScript files.
 ```bash
-ts-explorer get-file-list <input source file> | <input json file>
+ts-explorer get-dependency-graph <source file...> [--recursive]
 ```
 
-- `<input source file> | <input json file>`: represents the source file or JSON file containing a list of source files to start looking for the files.
+#### `get-item-dependency-graph`
 
-The result is a JSON array containing the list of files from the project.
-
-The paths to the files provided in the result are relative to the nearest `tsconfig.json` file.
-
-**Example**
-
-Get the list of files recursively imported by `./src/main.ts`, use:
-
+Generate a detailed dependency graph for a specific item.
 ```bash
-ts-explorer get-file-list ./src/main.ts
+ts-explorer get-item-dependency-graph <source file...> --item <item...> [--highlight-paths-to <item...>] [--keep-full-path]
 ```
 
-**`get-item-dependency-graph`**
+* `--highlight-paths-to` option: Highlight paths to specific internal imports.
+* `--keep-full-path` option: Keep absolute paths in the output.
 
-This command provides a detailed dependency graph for a specific import within a set of TypeScript files, highlighting the paths and dependencies related to the specified import.
+#### `get-item-imported-files`
 
+Get the source files that import a specific item.
+Walk recursively through the imports of the specified source files.
 ```bash
-ts-explorer get-item-dependency-graph <input source file> | <input json file> [--item <item...>] [--highlight-paths-to <item...>] [--keep-full-path]
+ts-explorer get-item-imported-files <source file...> --item <item...>
 ```
 
-- `--item <item...>`: Specifies the imports to look for in the format `<module> [ #(default | <item>) ]`. This option is mandatory.
-- `--highlight-paths-to <item...>`: Highlights the path to intermediate internal items in the format `<module> [ #(default | <item>) ]`, providing a clear visual representation of how the items are integrated within the project.
-- `--keep-full-path`: When set, the full path of the module will be kept in the output, otherwise, a simplified path or identifier may be used.
+#### `get-external-imports`
 
-**Example**
-
+Get the list of external imports (npm packages) imported by the specified source files.
 ```bash
-ts-explorer get-item-dependency-graph ./src/utils.ts --item "MyModule#MyUtilFunction" --highlight-paths-to "#/MyOtherFunction" --keep-full-path
+ts-explorer get-external-imports <source file...> [--recursive]
 ```
 
-This example generates a dependency graph for the `./src/utils.ts` file, focusing on `MyUtilFunction` within `MyModule`, highlighting paths leading to `MyOtherFunction`, keeping the full path of the module in the output, and outputs the graph in a format compatible with Cytoscape.js.
+#### `find-symbol-definition`
 
-**Output Format**
+Find the definition of a symbol in a project.
+```bash
+ts-explorer find-symbol-definition <tsconfig.json file or source file> --symbol <symbol>
+```
 
-The output of the `get-item-dependency-graph` command is formatted as an array of [`ElementDefinition`](https://js.cytoscape.org/#notation/elements-json) objects, compatible with [Cytoscape.js](https://js.cytoscape.org/), a popular graph visualization library. This format includes nodes and edges, where nodes represent files or items, and edges represent dependencies between them.
-
-- **Nodes** are defined with an `id`, `label` (for the file or item name), and other optional properties for visualization.
-- **Edges** are defined with a `source` and `target` property, indicating the direction from dependent to dependency.
-
-This structured output can be directly used in web applications to render interactive dependency graphs, providing a powerful tool for visualizing and analyzing the structure of TypeScript projects.
-
-```json
+Returns a stringified JSON array of objects for each instance of the symbol found in the project, with the following structure:
+```json5
 [
   {
-    "data": { "id": "node1", "label": "Item1" }
-  },
-  {
-    "data": { "id": "node2", "label": "Item2" }
-  },
-  {
-    "data": { "source": "node1", "target": "node2", "label": "depends on" }
+    "name": "<symbol>",
+    "type": "<type>",
+    "sourceFile": "<source file>", // path of the source file relative to the nearest tsconfig.json
+    "startLine": <start line>,     // start line of the definition of the symbol in the source file
+    "endLine": <end line>          // end line of the definition of the symbol in the source file
   }
 ]
 ```
 
-This JSON structure allows developers to easily integrate the dependency graph into applications or tools that support Cytoscape.js or similar graph visualization libraries, facilitating a deeper understanding of item dependencies and project architecture.
+### Notes
 
-**`get-item-imported-files`**
+* Some commands accept multiple source files separated by a space: `<source file...>`. Glob patterns are not supported.
+* Some commands accept either the project `tsconfig.json` file or any source file from the project. It will be used to retrieve the closest `tsconfig.json` file.
+* `ts-explorer` does not support input pipes.
+* **Important**: If only a `tsconfig.json` file is provided, only commands that explicitly support `tsconfig.json` files as input can be used. Commands that require one or more source files as input will not work with a `tsconfig.json` file alone.
+* Output paths are relative to the nearest `tsconfig.json`.
+* `--item` options can specify one of the following kind of items:
+  - An external library (e.g., `react`).
+  - A specific item from an external library (e.g., `react#useMemo`).
+  - A project file (e.g., `app/dir/helper`).
+  - A specific item from a project file (e.g., `app/dir/helper#convertToString`).
 
-Get the list of files that are importing an item.
+### Error Handling
 
-```bash
-ts-explorer get-item-imported-files <input source file> | <input json file> -i <item...>
-```
+* Exit code `0`: Success
+* Non-zero exit codes: Errors, with messages output to `stderr`.
 
-- `<input source file> | <input json file>`: represents the source file or JSON file containing a list of source files.
-- `-i, --item <item...>`: Specifies the items to look for. The format is `<module> [ #(default | <item>) ]`. This option is mandatory.
+### License
 
-The result is an JSON array of the the paths to the files relative to the nearest `tsconfig.json` file.
-
-**Example**
-
-If you want to know whitch files import the `react` library, regardless of the item of the library, use:
-
-```bash
-ts-explorer get-item-imported-files ./src/main.ts -i react
-```
-
-If you want to get the list of files using the React `useState` hook, use: 
-
-```bash
-ts-explorer get-item-imported-files ./src/main.ts -i "react#useState"
-```
-
-If you want to get the list of files using the React `useState` hook or the `useEffect` hook, use: 
-
-```bash
-ts-explorer get-item-imported-files ./src/main.ts -i "react#useState" "react#useEffect"
-```
-
-**`get-external-imports`**
-
-Get external imports of a set of TypeScript files.
-
-```bash
-ts-explorer get-external-imports <input source file> | <input json file> [--recursive]
-```
-
-- `<input source file> | <input json file>`: represents the source file or JSON file containing a list of source files.
-- `--recursive`: processes the internal imports recursevely.
-
-**Example**
-
-```bash
-ts-explorer get-external-imports ./src/main.ts --recursive
-```
-
-**`find-symbol-definition`**
-
-This command helps locate the definition of a TypeScript symbol in your project files. Note that there may be multiple results if the symbol is defined in multiple places.
-
-```bash
-ts-explorer find-symbol-definition <project or source file> --symbol <symbol>
-```
-
-* `<project or source file>`: can be either any source file of the project, or a `tsconfig.json` file
-* `--symbol <symbol>`: Specifies the symbol to find. This option is mandatory.
-
-**Example**
-
-To look for the file defining the `Dialog` symbol, on the project the source file `./src/main.ts` belongs to, use:
-
-```bash
-ts-explorer find-symbol-definition ./src/main.ts --symbol Dialog
-```
-
-To look for the file defining the `Dialog` symbol, on the project configured by `./tsconfig.json`, use:
-
-```bash
-ts-explorer find-symbol-definition ./tsconfig.json --symbol Dialog
-```
-
-**Output format**
-
-The default output of the `find-symbol-definition` command is a JSON array of items of following types:
-
-```ts
-type SymbolDeclaration = {
-  name: string;
-  type: string;
-  sourceFile: string;
-  startLine: number;
-  endLine: number;
-};
-```
-
-The `sourceFile` contains the name of the source file defining the symbol. It is relative to the nearest `tsconfig.json` file.
-
-## Error Handling
-
-`@bertrand.fritsch/ts-explorer` follows standard command line tool conventions for error handling. When a command is executed successfully, it returns an exit code of `0`. In case of an error, it returns an exit code different from `0`, indicating that an error has occurred.
-
-In addition to the exit code, the tool outputs an error message to the standard error output channel (`stderr`). This message provides details about the nature of the error, which can be used for debugging purposes or for displaying a user-friendly error message.
-
-## License
-
-This project is licensed under the MIT license.
+Licensed under the MIT License.

@@ -1,14 +1,7 @@
-import path from 'node:path'
-import fs from 'node:fs'
 import { initializeRootDirectory, parseModuleItem } from './lib/helpers.mjs'
 import { walkModuleDependencyImports } from './lib/walkModuleDependencyImports.mjs'
 
-export async function getItemImportedFiles(sourceFile: string, items: string[]) {
-  const sourceFiles =
-    path.extname(sourceFile) === '.json'
-      ? JSON.parse(fs.readFileSync(sourceFile, 'utf-8'))
-      : [sourceFile]
-
+export async function getItemImportedFiles(sourceFiles: string[], items: string[]) {
   initializeRootDirectory(sourceFiles[0])
 
   return Array.from((await getModuleDependencies()).values())
