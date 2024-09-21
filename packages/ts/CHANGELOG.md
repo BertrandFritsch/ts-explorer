@@ -1,5 +1,12 @@
 # @bertrand.fritsch/ts-explorer
 
+## 2.0.4
+
+### Patch Changes
+
+- Updated dependencies [c0003db]
+  - @bertrand.fritsch/ts-explorer-lib@2.0.5
+
 ## 2.0.3
 
 ### Patch Changes

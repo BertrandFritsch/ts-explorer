@@ -1,5 +1,11 @@
 # @bertrand.fritsch/ts-explorer-lib
 
+## 2.0.5
+
+### Patch Changes
+
+- c0003db: Move README.md file to the root of the package
+
 ## 2.0.4
 
 ### Patch Changes
