@@ -33,7 +33,6 @@ jobs:
         with:
           title: "chore(release): version packages 🦋"
           publish: pnpm publish -r
-          commit: "chore(release): version packages 🦋 [skip ci]"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
