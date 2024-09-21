@@ -1,5 +1,13 @@
 # @bertrand.fritsch/ts-explorer-lib
 
+## 2.0.2
+
+### Patch Changes
+
+- 3480729: Update lockfile after versionning
+- 3d6049e: Use single command for CI versioning
+- 5110ced: Sync lockfile
+
 ## 2.0.1
 
 ### Patch Changes
