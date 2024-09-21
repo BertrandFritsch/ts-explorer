@@ -1,7 +1,6 @@
 {
   "scripts": {
     "changeset": "changeset",
-    "ci:version": "changeset version && pnpm install --lockfile-only",
     "tsc:check": "tsc --noEmit",
     "tsc:watch": "tsc -w"
   },
