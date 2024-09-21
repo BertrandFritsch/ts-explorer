@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -19,48 +19,18 @@ jobs:
           node-version: '22.x'
 
       - name: Install pnpm
-        run: npm install -g pnpm
+        uses: pnpm/action-setup@v4.0.0
+        with:
+            standalone: true
 
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Check for Changes in ts-explorer
-        id: ts-explorer-changes
+      - name: Create Release Pull Request or Publish to npm
+        id: changesets
         uses: changesets/action@v1
         with:
-          path: packages/ts
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Check for Changes in ts-explorer-lib
-        id: ts-explorer-lib-changes
-        uses: changesets/action@v1
-        with:
-          path: packages/ts-explorer-lib
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Build ts-explorer
-        if: steps.ts-explorer-changes.outputs.changed == 'true'
-        run: pnpm -C packages/ts run build
-
-      - name: Build ts-explorer-lib
-        if: steps.ts-explorer-lib-changes.outputs.changed == 'true'
-        run: pnpm -C packages/ts-explorer-lib run build
-
-      - name: Semantic Release ts-explorer
-        if: steps.ts-explorer-changes.outputs.changed == 'true'
-        run: |
-          cp README.md packages/ts/README.md
-          pnpm -C packages/ts run release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      - name: Semantic Release ts-explorer-lib
-        if: steps.ts-explorer-lib-changes.outputs.changed == 'true'
-        run: |
-          pnpm -C packages/ts-explorer-lib run release
+          publish: pnpm publish -r
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
