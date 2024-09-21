@@ -1,5 +1,14 @@
 # @bertrand.fritsch/ts-explorer-lib
 
+## 2.0.3
+
+### Patch Changes
+
+- 907105c: Fix lockfile
+- 968e339: Use workspace links
+- 0d03894: Update chore commit message
+- 22151ca: Upodate lockfile after versioning
+
 ## 2.0.2
 
 ### Patch Changes
