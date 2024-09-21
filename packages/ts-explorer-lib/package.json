@@ -1,0 +1,54 @@
+{
+  "name": "@bertrand.fritsch/ts-explorer-lib",
+  "version": "1.0.0",
+  "description": "Shared lib for ts-explorer plugins",
+  "module": "dist/main.mjs",
+  "scripts": {
+    "build": "tsc",
+    "release": "semantic-release"
+  },
+  "dependencies": {
+    "fast-glob": "^3.3.2",
+    "ts-morph": "^23.0.0",
+    "typescript": "^5.6.2"
+  },
+  "devDependencies": {
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/commit-analyzer": "^13.0.0",
+    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/github": "^10.3.5",
+    "@semantic-release/npm": "^12.0.1",
+    "@semantic-release/release-notes-generator": "^14.0.1",
+    "esbuild": "^0.23.1",
+    "esbuild-plugin-copy": "^2.1.1",
+    "prettier": "^3.3.3",
+    "semantic-release": "^24.1.1"
+  },
+  "keywords": [
+    "typescript",
+    "explorer",
+    "dependency",
+    "graph",
+    "file",
+    "list"
+  ],
+  "author": "Bertrand Fritsch",
+  "license": "MIT",
+  "homepage": "https://github.com/BertrandFritsch/ts-explorer#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BertrandFritsch/ts-explorer.git"
+  },
+  "bugs": {
+    "url": "https://github.com/BertrandFritsch/ts-explorer/issues"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist"
+  ]
+}
