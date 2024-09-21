@@ -1,6 +1,6 @@
 import pathModule from 'node:path'
 import { Project } from 'ts-morph'
-import { getRelativePath, getRootDirectory, initializeRootDirectory } from '@bertrand.fritsch/ts-explorer-lib'
+import { getRelativePath, getRootDirectory, initializeRootDirectory } from '@bertrand.fritsch/ts-lib'
 
 export function getProjectFiles(sourceFile: string) {
   initializeRootDirectory(sourceFile)

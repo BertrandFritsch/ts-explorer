@@ -2,7 +2,7 @@ import {
   DependencyGraphImport,
   initializeRootDirectory,
   walkModuleDependencyImports,
-} from '@bertrand.fritsch/ts-explorer-lib'
+} from '@bertrand.fritsch/ts-lib'
 
 export async function getDependencyGraph(sourceFiles: string[], isRecursive: boolean) {
   initializeRootDirectory(sourceFiles[0])

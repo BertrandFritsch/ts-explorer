@@ -7,7 +7,7 @@ import { getExternalDependencyImports } from './get-external-imports.mjs'
 import { getProjectConfig } from './get-project-config.mjs'
 import { getProjectFiles } from './get-project-file-list.mjs'
 import { getProjectRootDirectory } from './get-project-root-directory.mjs'
-import { getVersion } from '@bertrand.fritsch/ts-explorer-lib'
+import { getVersion } from '@bertrand.fritsch/ts-lib'
 
 const program = new Command()
 

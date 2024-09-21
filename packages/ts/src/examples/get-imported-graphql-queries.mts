@@ -4,7 +4,7 @@ import {
   initializeRootDirectory,
   NNU,
   walkModuleDependencyImports,
-} from '@bertrand.fritsch/ts-explorer-lib'
+} from '@bertrand.fritsch/ts-lib'
 import { CallExpression, Identifier, Node, SyntaxKind, ts } from 'ts-morph'
 import { Command, Option } from 'commander'
 

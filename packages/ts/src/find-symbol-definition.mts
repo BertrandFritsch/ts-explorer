@@ -1,6 +1,6 @@
 import path from 'node:path'
 import { Project, ts } from 'ts-morph'
-import { getRelativePath, getRootDirectory, initializeRootDirectory } from '@bertrand.fritsch/ts-explorer-lib'
+import { getRelativePath, getRootDirectory, initializeRootDirectory } from '@bertrand.fritsch/ts-lib'
 
 export function findSymbolDefinition(sourceFile: string, symbol: string) {
   initializeRootDirectory(sourceFile)
