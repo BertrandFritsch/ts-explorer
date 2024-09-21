@@ -1,5 +1,11 @@
 # @bertrand.fritsch/ts-explorer
 
+## 2.0.5
+
+### Patch Changes
+
+- b1d12fd: Add CI build step
+
 ## 2.0.4
 
 ### Patch Changes
