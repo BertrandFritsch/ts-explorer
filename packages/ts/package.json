@@ -6,7 +6,8 @@
   "scripts": {
     "tsc:watch": "tsc -w",
     "tsc:check": "tsc --noEmit",
-    "build": "node esbuild.config.mjs"
+    "build": "node esbuild.config.mjs",
+    "ci:publish": "pnpm build && pnpm publish -r"
   },
   "keywords": [
     "typescript",
