@@ -3,10 +3,8 @@
   "version": "2.0.0",
   "description": "Shared lib for ts-explorer plugins",
   "module": "dist/main.mjs",
-  "scripts": {
-    "build": "tsc",
-    "release": "semantic-release"
-  },
+  "type": "module",
+  "typings": "dist/main.d.mjs",
   "dependencies": {
     "fast-glob": "^3.3.2",
     "ts-morph": "^23.0.0",
@@ -36,12 +34,21 @@
     "url": "https://github.com/BertrandFritsch/ts-explorer/issues"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=22"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/main.mjs",
+      "types": "./dist/main.d.mjs"
+    }
   },
   "publishConfig": {
     "access": "public"
   },
   "files": [
     "dist"
-  ]
+  ],
+  "scripts": {
+    "build": "tsc"
+  }
 }

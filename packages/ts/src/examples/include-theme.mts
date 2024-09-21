@@ -7,8 +7,7 @@ import {
   ts,
   VariableDeclarationKind,
 } from 'ts-morph'
-import { asserts, initializeRootDirectory } from '../lib/helpers.mjs'
-import { walkModuleDependencyImports } from '../lib/walkModuleDependencyImports.mjs'
+import { asserts, initializeRootDirectory, walkModuleDependencyImports, } from '@bertrand.fritsch/ts-explorer-lib'
 import { Command } from 'commander'
 
 const program = new Command()

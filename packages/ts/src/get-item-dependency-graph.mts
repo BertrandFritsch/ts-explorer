@@ -1,6 +1,11 @@
-import { initializeRootDirectory, parseModuleItem } from './lib/helpers.mjs'
-import { assertDependencyGraphImportResolved, DependencyGraphImport, ModuleItem, } from './lib/types.mjs'
-import { walkModuleDependencyImports } from './lib/walkModuleDependencyImports.mjs'
+import {
+  assertDependencyGraphImportResolved,
+  DependencyGraphImport,
+  initializeRootDirectory,
+  ModuleItem,
+  parseModuleItem,
+  walkModuleDependencyImports,
+} from '@bertrand.fritsch/ts-explorer-lib'
 import { ElementDefinition } from 'cytoscape'
 
 export async function getItemDependencyGraph(

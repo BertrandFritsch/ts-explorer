@@ -1,6 +1,6 @@
 import fs from 'node:fs'
 import { Command } from 'commander'
-import { DependencyGraphImport } from '../lib/types.mjs'
+import { DependencyGraphImport } from '@bertrand.fritsch/ts-explorer-lib'
 
 const program = new Command()
 

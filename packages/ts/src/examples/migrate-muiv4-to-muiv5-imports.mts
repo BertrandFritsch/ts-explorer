@@ -1,10 +1,15 @@
 import path from 'node:path'
 import fs from 'node:fs'
 import { ImportDeclaration, SourceFile } from 'ts-morph'
-import { asserts, initializeRootDirectory, NNU, startsWithUppercaseLetter, } from '../lib/helpers.mjs'
-import { walkModuleDependencyImports } from '../lib/walkModuleDependencyImports.mjs'
+import {
+  asserts,
+  DependencyGraphImport,
+  initializeRootDirectory,
+  NNU,
+  startsWithUppercaseLetter,
+  walkModuleDependencyImports,
+} from '@bertrand.fritsch/ts-explorer-lib'
 import { Command } from 'commander'
-import { DependencyGraphImport } from '../lib/types.mjs'
 
 const program = new Command()
 

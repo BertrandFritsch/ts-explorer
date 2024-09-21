@@ -1,6 +1,8 @@
-import { initializeRootDirectory } from './lib/helpers.mjs'
-import { DependencyGraphImport } from './lib/types.mjs'
-import { walkModuleDependencyImports } from './lib/walkModuleDependencyImports.mjs'
+import {
+  DependencyGraphImport,
+  initializeRootDirectory,
+  walkModuleDependencyImports,
+} from '@bertrand.fritsch/ts-explorer-lib'
 
 export async function getDependencyGraph(sourceFiles: string[], isRecursive: boolean) {
   initializeRootDirectory(sourceFiles[0])

@@ -1,5 +1,8 @@
-import { initializeRootDirectory, parseModuleItem } from './lib/helpers.mjs'
-import { walkModuleDependencyImports } from './lib/walkModuleDependencyImports.mjs'
+import {
+  initializeRootDirectory,
+  parseModuleItem,
+  walkModuleDependencyImports,
+} from '@bertrand.fritsch/ts-explorer-lib'
 
 export async function getItemImportedFiles(sourceFiles: string[], items: string[]) {
   initializeRootDirectory(sourceFiles[0])
