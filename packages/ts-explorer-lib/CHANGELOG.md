@@ -1,5 +1,11 @@
 # @bertrand.fritsch/ts-explorer-lib
 
+## 2.0.4
+
+### Patch Changes
+
+- a0816ad: Don't skip the CI on package versioning
+
 ## 2.0.3
 
 ### Patch Changes
