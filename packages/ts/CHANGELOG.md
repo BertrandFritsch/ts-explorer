@@ -1,5 +1,11 @@
 # @bertrand.fritsch/ts-explorer
 
+## 2.0.6
+
+### Patch Changes
+
+- bc6ae0a: Move CI publish script
+
 ## 2.0.5
 
 ### Patch Changes
