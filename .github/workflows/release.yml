@@ -31,9 +31,7 @@ jobs:
         id: changesets
         uses: changesets/action@v1
         with:
-          version: |
-            pnpm exec changeset version
-            pnpm install # update the lockfile
+          version: pnpm -q ci:version
           publish: pnpm publish -r
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
