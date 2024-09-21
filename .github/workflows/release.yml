@@ -32,7 +32,7 @@ jobs:
         uses: changesets/action@v1
         with:
           title: "chore(release): version packages 🦋"
-          version: pnpm changeset version && pnpm install --lockfile-only
+          version: pnpm -q ci:version
           publish: pnpm publish -r
           commit: "chore(release): version packages 🦋 [skip ci]"
         env:
