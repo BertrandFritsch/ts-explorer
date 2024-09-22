@@ -39,3 +39,5 @@ export type ModuleItem = {
 }
 
 export type PluginOptions = Record<string, string | undefined>
+
+export type PluginFunction = (options: PluginOptions) => Promise<void>

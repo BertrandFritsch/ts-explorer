@@ -7,7 +7,12 @@ import { getExternalDependencyImports } from './get-external-imports.mjs'
 import { getProjectConfig } from './get-project-config.mjs'
 import { getProjectFiles } from './get-project-file-list.mjs'
 import { getProjectRootDirectory } from './get-project-root-directory.mjs'
-import { getVersion } from '@bertrand.fritsch/ts-lib'
+import {
+  convertToAbsolutePathWithFileProtocol,
+  getVersion,
+  PluginFunction,
+  PluginOptions
+} from '@bertrand.fritsch/ts-lib'
 
 const program = new Command()
 
@@ -162,6 +167,25 @@ program
   .argument('<source file>', 'The path to the project or the path to a source file')
   .action((sourceFile: string, { symbol }: { symbol: string }) => {
     console.log(JSON.stringify(findSymbolDefinition(sourceFile, symbol), null, 2))
+  })
+
+program
+  .command('run-plugin')
+  .description('Execute a plugin')
+  .requiredOption('-p, --plugin <plugin>', 'Path to the compiled plugin file')
+  .option('-o, --option <key=value>', 'Optional named argument', (value, previous) => {
+    const [key, val] = value.split('=')
+    return { ...previous, [key]: val }
+  }, {})
+  .action(async (options: { plugin: string; option: PluginOptions }) => {
+    const plugin = await import(convertToAbsolutePathWithFileProtocol(options.plugin))
+
+    if (plugin.executePlugin === undefined) {
+      throw new Error("Cannot run the plugin. It seems the plugin does not export a function named 'executePlugin'")
+    }
+
+    const executePlugin: PluginFunction = plugin.executePlugin
+    await executePlugin(options.option)
   })
 
 process.on('uncaughtException', error => {
