@@ -1,5 +1,16 @@
 # @bertrand.fritsch/ts-explorer
 
+## 2.2.0
+
+### Minor Changes
+
+- 8ef4555: Add plugin command
+
+### Patch Changes
+
+- Updated dependencies [8ef4555]
+  - @bertrand.fritsch/ts-lib@2.2.0
+
 ## 2.1.0
 
 ### Minor Changes
