@@ -129,6 +129,17 @@ export function getVersion() {
   return { name, description, version }
 }
 
+export function convertToAbsolutePathWithFileProtocol(relativePath: string): string {
+  if (!fsModule.existsSync(relativePath)) {
+    throw new Error(`The file has not been found: ${relativePath}`)
+  }
+
+  const absolutePath = pathModule.resolve(relativePath)
+  const fileUrl = urlModule.pathToFileURL(absolutePath)
+  return fileUrl.href
+}
+
+
 export function expectStringPluginOption(options: PluginOptions, name: string): string
 export function expectStringPluginOption(options: PluginOptions, name: string, optional: true): string | null
 export function expectStringPluginOption(options: PluginOptions, name: string, optional?: boolean): string | null {

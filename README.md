@@ -19,6 +19,7 @@
 | `get-item-imported-files` | List files that import a specific item. | one or more souce files |
 | `get-external-imports` | List external imports (npm packages) in TypeScript files. | one or more souce files |
 | `find-symbol-definition` | Find the definition of a symbol in a project. | `tsconfig.json` file or source file |
+| `run-plugin` | Execute a plugin. | compiled plugin file |
 
 ### Usage
 
@@ -101,6 +102,26 @@ Returns a stringified JSON array of objects for each instance of the symbol foun
   }
 ]
 ```
+
+#### `run-plugin`
+
+Execute a plugin.
+
+```bash
+ts-explorer run-plugin --plugin <compiled plugin file> [--option <key=value>...]
+```
+
+* `--plugin` option: Path to the compiled plugin file.
+* `--option` option: Optional named arguments in the form of key-value pairs.
+
+The plugin must export a function named `executePlugin` with following signature:
+
+```typescript
+type PluginOptions = Record<string, string | undefined>
+type PluginFunction = (options: PluginOptions) => Promise<void>
+```
+
+The plugin is responsible for parsing options, which are provided as strings. The companion library includes helper functions to parse string, numerical, and boolean options. A boolean option without a value is considered true.
 
 ### Notes
 
