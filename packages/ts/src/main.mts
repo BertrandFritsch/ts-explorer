@@ -46,7 +46,7 @@ program
 
 program
   .command('get-file-list')
-  .description('Get the list of files recursevely included in a set of source files')
+  .description('Get the list of files recursively included in a set of source files')
   .argument('<input source file...>', 'The paths to the source files to process')
   .action(async (sourceFiles: string[]) => {
     console.log(
