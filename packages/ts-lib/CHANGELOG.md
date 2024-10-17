@@ -1,5 +1,11 @@
 # @bertrand.fritsch/ts-explorer-lib
 
+## 2.2.2
+
+### Patch Changes
+
+- adbfcfd: Update peer dependencies
+
 ## 2.2.1
 
 ### Patch Changes
