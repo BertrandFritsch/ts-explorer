@@ -1,5 +1,12 @@
 # @bertrand.fritsch/ts-explorer
 
+## 2.2.2
+
+### Patch Changes
+
+- Updated dependencies [adbfcfd]
+  - @bertrand.fritsch/ts-lib@2.2.2
+
 ## 2.2.1
 
 ### Patch Changes
