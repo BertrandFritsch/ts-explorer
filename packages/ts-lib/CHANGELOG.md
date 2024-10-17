@@ -1,5 +1,11 @@
 # @bertrand.fritsch/ts-explorer-lib
 
+## 2.2.1
+
+### Patch Changes
+
+- 80ac95b: Upgrade node dependencies
+
 ## 2.2.0
 
 ### Minor Changes
