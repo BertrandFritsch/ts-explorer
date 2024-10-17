@@ -12,8 +12,8 @@
   },
   "peerDependencies": {
     "fast-glob": "^3.3.2",
-    "ts-morph": "^23.0.0",
-    "typescript": "^5.6.2"
+    "ts-morph": "^24.0.0",
+    "typescript": "^5.6.3"
   },
   "devDependencies": {
     "esbuild": "^0.24.0",
