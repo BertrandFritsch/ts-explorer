@@ -1,5 +1,11 @@
 # @bertrand.fritsch/ts-explorer-lib
 
+## 2.3.0
+
+### Minor Changes
+
+- fb76d47: Update dependencies
+
 ## 2.2.2
 
 ### Patch Changes
