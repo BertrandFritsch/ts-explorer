@@ -4,7 +4,7 @@
     "ci:publish": "pnpm -C packages/ts-lib build && pnpm -C packages/ts build && pnpm publish -r"
   },
   "devDependencies": {
-    "@changesets/cli": "^2.27.9"
+    "@changesets/cli": "^2.27.11"
   },
   "pnpm": {
     "peerDependencyRules": {

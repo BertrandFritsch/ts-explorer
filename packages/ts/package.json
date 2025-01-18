@@ -28,16 +28,16 @@
   },
   "dependencies": {
     "@bertrand.fritsch/ts-lib": "workspace:*",
-    "commander": "^12.1.0",
-    "fast-glob": "^3.3.2",
-    "ts-morph": "^24.0.0",
-    "typescript": "^5.6.3"
+    "commander": "^13.0.0",
+    "fast-glob": "^3.3.3",
+    "ts-morph": "^25.0.0",
+    "typescript": "^5.7.3"
   },
   "devDependencies": {
-    "@types/node": "^22.7.6",
-    "esbuild": "^0.24.0",
+    "@types/node": "^22.10.7",
+    "esbuild": "^0.24.2",
     "esbuild-plugin-copy": "^2.1.1",
-    "prettier": "^3.3.3"
+    "prettier": "^3.4.2"
   },
   "engines": {
     "node": ">=18"
