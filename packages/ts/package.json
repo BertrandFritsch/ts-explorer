@@ -1,6 +1,6 @@
 {
   "name": "@bertrand.fritsch/ts-explorer",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "description": "Explore TypeScript code",
   "module": "dist/main.mjs",
   "scripts": {

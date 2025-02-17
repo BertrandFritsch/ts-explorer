@@ -1,6 +1,6 @@
 {
   "name": "@bertrand.fritsch/ts-lib",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "description": "Shared lib for ts-explorer plugins",
   "module": "dist/main.mjs",
   "type": "module",
