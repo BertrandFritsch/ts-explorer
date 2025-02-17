@@ -1,5 +1,14 @@
 # @bertrand.fritsch/ts-explorer
 
+## 2.3.2
+
+### Patch Changes
+
+- ec3493e: Update pnpm lock file
+- Updated dependencies [772d018]
+- Updated dependencies [ec3493e]
+  - @bertrand.fritsch/ts-lib@2.3.2
+
 ## 2.3.1
 
 ### Patch Changes
