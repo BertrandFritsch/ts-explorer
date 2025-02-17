@@ -1,5 +1,13 @@
 # @bertrand.fritsch/ts-explorer-lib
 
+## 2.3.1
+
+### Patch Changes
+
+- 78c4f24: Update dependencies
+- 81fb09f: Update dependencies
+- cdaaeed: Freeze pnpm version
+
 ## 2.3.0
 
 ### Minor Changes
