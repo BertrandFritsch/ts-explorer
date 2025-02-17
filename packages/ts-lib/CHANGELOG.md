@@ -1,5 +1,12 @@
 # @bertrand.fritsch/ts-explorer-lib
 
+## 2.3.2
+
+### Patch Changes
+
+- 772d018: Update ts-morph peer dependency
+- ec3493e: Update pnpm lock file
+
 ## 2.3.1
 
 ### Patch Changes
